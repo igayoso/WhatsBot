@@ -1,0 +1,5 @@
+{
+  "name":"echo",
+  "version":1,
+  "code":"$this->WhatsBot->sendMessage($Info['from'], $Params[1]);"
+}
