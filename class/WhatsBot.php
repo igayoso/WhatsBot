@@ -75,6 +75,3 @@
 			$this->Whatsapp->disconnect();
 		}
 	}
-
-	$W = new WhatsBot();
-	$W->Listen();
