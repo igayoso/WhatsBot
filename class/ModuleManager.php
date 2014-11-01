@@ -25,7 +25,7 @@
 
 		private function Load($Name)
 		{ // Test if module is already loaded
-			$Filename = "modules/{$Name}.json";
+			$Filename = "class/modules/{$Name}.json";
 
 			if(is_file($Filename))
 			{
@@ -48,7 +48,10 @@
 		public function CallModule($Name, $Params, $Original, $Data)
 		{
 			if(isset($this->Modules[$Name]))
+			{
 				eval($this->Modules[$Name]['code']);
+				return true;
+			}
 			else
 				return false;
 		}

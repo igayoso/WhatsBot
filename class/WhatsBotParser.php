@@ -17,7 +17,7 @@
 				$Parsed = trim($Text, '!');
 				$Parsed = explode(' ', $Parsed);
 
-				$this->ModuleManager->CallModule
+				$R = $this->ModuleManager->CallModule
 				(
 					$Parsed[0],
 					$Parsed,
@@ -33,6 +33,9 @@
 						'name' => $Name
 					)
 				);
+
+				if($R == false)
+					$this->Whatsapp->sendMessage(($FromG != null) ? $FromG : $FromU, 'Ese módulo no existe...');
 			}
 			else
 			{
