@@ -3,6 +3,11 @@
   [
   	"echo",
   	"md5",
-  	"setstatus"
+  	"setstatus",
+  	"wiki"
+  ],
+  "includes":
+  [
+  	"class/APIs/Wikipedia.php"
   ]
 }
