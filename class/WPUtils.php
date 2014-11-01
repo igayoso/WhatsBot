@@ -6,6 +6,11 @@
 
 		}
 
+		public function isAdmin($From)
+		{
+
+		}
+
 		public static function getUserFromGroup($From)
 		{
 
