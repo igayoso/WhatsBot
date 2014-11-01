@@ -1,0 +1,8 @@
+{
+  "modules":
+  [
+  	"echo",
+  	"md5",
+  	"setstatus"
+  ]
+}
