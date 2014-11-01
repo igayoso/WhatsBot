@@ -1,0 +1,5 @@
+{
+  "name":"echo",
+  "version":1,
+  "code":"$this->Whatsapp->sendMessage(($Data['fromg'] != null) ? $Data['fromg'] : $Data['from'], (substr($Original, 6) != false) ? substr($Original, 6) : 'Escribí algo, tarado C:');"
+}
