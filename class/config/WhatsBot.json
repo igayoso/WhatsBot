@@ -1,0 +1,19 @@
+{
+  "database":
+  [
+    "localhost",
+    "root",
+    "",
+    "whatsbot"
+  ],
+  "whatsapp":
+  [
+    "numero",
+    "indentity",
+    "password",
+    "nickname",
+    [
+      "admin1"
+    ]
+  ]
+}
