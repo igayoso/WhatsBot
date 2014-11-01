@@ -1,0 +1,5 @@
+{
+  "name":"setstatus",
+  "version":1,
+  "code":"if(substr($Original, 11) != false) { $this->Whatsapp->sendStatusUpdate(substr($Original, 11)); $this->Whatsapp->sendMessage(($Data['fromg'] != null) ? $Data['fromg'] : $Data['from'], 'Estado seteado a ' . substr($Original, 11)); } else $this->Whatsapp->sendMessage(($Data['fromg'] != null) ? $Data['fromg'] : $Data['from'], 'Escribe un estado...');"
+}
