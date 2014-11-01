@@ -1,5 +1,0 @@
-{
-  "name":"shutdown",
-  "version":1,
-  "code":"if($this->WhatsBot->Utils_isAdmin($Info['from'])) { $this->WhatsBot->sendMessage($Info['from'],'Apagando...'); exit('Apagado por el usuario...'); } else $this->WhatsBot->sendMessage($Info['from'], 'No tienes los permisos suficientes para apagar el bot...');"
-}
