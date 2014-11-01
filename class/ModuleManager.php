@@ -60,7 +60,7 @@
 		{
 			if(isset($this->Modules[strtolower($Name)]))
 			{
-				eval($this->Modules[$Name]['code']);
+				eval($this->Modules[strtolower($Name)]['code']);
 				return true;
 			}
 			else
