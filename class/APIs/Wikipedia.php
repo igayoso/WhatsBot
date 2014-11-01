@@ -5,6 +5,8 @@
 
 		public function Search($Title)
 		{
+			$Title = urlencode($Title);
+
 			$URL = "{$this->Endpoint}?action=query&list=search&srwhat=text&format=json&srsearch={$Title}&continue=";
 
 			$Data = file_get_contents($URL);
