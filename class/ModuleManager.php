@@ -23,6 +23,17 @@
 			}
 		}
 
+		public function LoadIncludes()
+		{
+			$Includes = file_get_contents('config/Modules.json');
+			$Includes = json_decode($Includes, true)['includes'];
+
+			foreach($Includes as $Include)
+			{
+				include($Include);
+			}
+		}
+
 		private function Load($Name)
 		{ // Test if module is already loaded
 			$Filename = "class/modules/{$Name}.json";
@@ -47,7 +58,7 @@
 
 		public function CallModule($Name, $Params, $Original, $Data)
 		{
-			if(isset($this->Modules[$Name]))
+			if(isset($this->Modules[strtolower($Name)]))
 			{
 				eval($this->Modules[$Name]['code']);
 				return true;

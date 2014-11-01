@@ -31,6 +31,7 @@
 			);
 
 			$this->ModuleManager = new ModuleManager($this->Whatsapp);
+			$this->ModuleManager->LoadIncludes();
 			$this->ModuleManager->LoadModules();
 
 			$this->Parser = new WhatsBotParser($this->Whatsapp, $this->ModuleManager);
