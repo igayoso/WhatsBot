@@ -4,9 +4,9 @@
 		private $Whatsapp = null;
 		private $ModuleManager = null;
 
-		public function __construct(WhatsProt &$Whatsapp, ModuleManager &$ModuleManager)
+		public function __construct(WhatsappBridge &$WhatsappBridge, ModuleManager &$ModuleManager)
 		{
-			$this->Whatsapp = &$Whatsapp;
+			$this->Whatsapp = &$WhatsappBridge;
 			$this->ModuleManager = &$ModuleManager;
 		}
 
