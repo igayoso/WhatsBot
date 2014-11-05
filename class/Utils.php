@@ -9,6 +9,15 @@
 				return $FromData['u'];
 		}
 
+		public function getParams($Module, $Original, $Else)
+		{
+			$Length = strlen($Module) + 2; // Example '! echo $PARAMS' 1 + 4 + 1 - $PARAMS
+
+			$D = substr($Original, $Length);
+
+			return ($D != false) ? $D : $Else; // Agregar constante con la respuesta específica de !help para este comando
+		}
+
 		public function isGroup($From)
 		{
 			return substr($From, -strlen('@g.us')) === '@g.us';
