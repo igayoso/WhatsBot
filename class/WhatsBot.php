@@ -41,7 +41,7 @@
 			$this->ModuleManager->LoadIncludes();
 			$this->ModuleManager->LoadModules();
 
-			$this->Parser = new WhatsBotParser($this->Caller, $this->ModuleManager);
+			$this->Parser = new WhatsBotParser($this->Bridge, $this->ModuleManager);
 
 			$this->Listener = new WhatsBotListener
 			(
