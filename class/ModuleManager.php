@@ -56,7 +56,7 @@
 
 		}
 
-		public function CallModule($Name, $Params, $Original, $Data)
+		public function CallModule($Name, $Params, $From, $Original, $Data)
 		{
 			if(isset($this->Modules[strtolower($Name)]))
 				return $this->Caller->CallModule($this->Modules[strtolower($Name)]['code'], $Params, $Original, $Data);

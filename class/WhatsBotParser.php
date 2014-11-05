@@ -36,10 +36,10 @@
 					$Parsed[0],
 					$Parsed,
 					$Text,
+					$From,
 					array
 					(
 						'me' => $Me,
-						'from' => $From
 						'id' => $ID,
 						'type' => $Type,
 						'time' => $Time,
