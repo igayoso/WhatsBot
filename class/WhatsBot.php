@@ -35,6 +35,7 @@
 			);
 
 			$this->Bridge = new WhatsappBridge($this->Whatsapp);
+
 			$this->Caller = new WhatsBotCaller($this->ModuleManager, $this->Bridge); // No interesa que lo inicializemos después, está pasado por referencia
 
 			$this->ModuleManager = new ModuleManager($this->Caller);
@@ -55,6 +56,8 @@
 
 		public function Listen()
 		{
+			echo 'Listening...';
+
 			$i = 0;
 
 			while(true)
