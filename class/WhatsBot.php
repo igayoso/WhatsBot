@@ -3,7 +3,8 @@
 	require_once 'WhatsBotListener.php';
 	require_once 'WhatsBotParser.php';
 	require_once 'ModuleManager.php';
-	require_once 'WPUtils.php';
+	require_once 'WhatsBotCaller.php';
+	require_once 'WhatsappBridge.php';
 
 	final class WhatsBot
 	{
@@ -11,8 +12,11 @@
 		private $Password = null;
 
 		private $Listener = null;
-		private $Parser = null;
+
 		private $ModuleManager = null;
+		private $Parser = null;
+		private $Caller = null;
+		private $Bridge = null;
 
 		public function __construct($Debug = false)
 		{
@@ -30,7 +34,10 @@
 				$Debug
 			);
 
-			$this->ModuleManager = new ModuleManager($this->Whatsapp);
+			$this->Bridge = new WhatsappBridge($this->Whatsapp);
+			$this->Caller = new WhatsBotCaller($this->Bridge);
+
+			$this->ModuleManager = new ModuleManager($this->Caller);
 			$this->ModuleManager->LoadIncludes();
 			$this->ModuleManager->LoadModules();
 

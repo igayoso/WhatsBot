@@ -1,13 +1,13 @@
 <?php
 	class ModuleManager
 	{
-		private $Whatsapp = null;
+		private $Caller = null;
 
 		private $Modules = null;
 
-		public function __construct(WhatsProt &$Whatsapp)
+		public function __construct(WhatsBotCaller &$Caller) //WhatsProt &$Whatsapp)
 		{
-			$this->Whatsapp = &$Whatsapp;
+			$this->Caller = &$Caller;
 
 			$this->Modules = array();
 		}
@@ -35,7 +35,7 @@
 		}
 
 		private function Load($Name)
-		{ // Test if module is already loaded
+		{
 			$Filename = "class/modules/{$Name}.json";
 
 			if(is_file($Filename))
@@ -59,10 +59,7 @@
 		public function CallModule($Name, $Params, $Original, $Data)
 		{
 			if(isset($this->Modules[strtolower($Name)]))
-			{
-				eval($this->Modules[strtolower($Name)]['code']);
-				return true;
-			}
+				return $this->Caller->CallModule($this->Modules[strtolower($Name)]['code'], $Params, $Original, $Data);
 			else
 				return false;
 		}
