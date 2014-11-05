@@ -11,7 +11,7 @@
 		}
 
 		public function ParseTextMessage($Me, $FromG, $FromU, $ID, $Type, $Time, $Name, $Text)
-		{
+		{ // Testear si el módulo necesita argumentos o no con explode y strlen...
 			if($FromG != null)
 				$From = array
 				(
