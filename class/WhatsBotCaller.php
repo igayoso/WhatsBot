@@ -12,7 +12,7 @@
 			$this->Utils = new Utils();
 		}
 
-		public function CallModule($Code, $Params, $From, $Original, $Data)
+		public function CallModule($Code, $Name, $Params, $From, $Original, $Data)
 		{
 			try
 			{
