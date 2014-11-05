@@ -56,7 +56,7 @@
 
 		public function Listen()
 		{
-			echo 'Listening...';
+			echo 'Listening...'; // . NL
 
 			$i = 0;
 
@@ -75,7 +75,7 @@
 			}
 		}
 
-		public function connect()
+		private function connect()
 		{
 			$this->Whatsapp->connect();
 			$this->Whatsapp->loginWithPassword($this->Password);
