@@ -1,6 +1,14 @@
 <?php
 	class Utils
 	{
+		public function getOrigin($FromData)
+		{
+			if($FromData['from'] == 'group')
+				return $FromData['g'];
+			else
+				return $FromData['u'];
+		}
+
 		public function isGroup($From)
 		{
 			return substr($From, -strlen('@g.us')) === '@g.us';
