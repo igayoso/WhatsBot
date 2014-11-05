@@ -28,7 +28,7 @@
 
 			if($Text[0] == '!')
 			{
-				$Parsed = trim($Text, '!'); // Use substr to only delete first char (!)
+				$Parsed = trim($Text, '!'); // Use substr to only delete first char (!) // Trimmear para espacios, tabs, etc...
 				$Parsed = explode(' ', $Parsed);
 
 				$R = $this->ModuleManager->CallModule
