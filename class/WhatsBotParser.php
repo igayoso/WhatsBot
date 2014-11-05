@@ -35,8 +35,8 @@
 				(
 					$Parsed[0],
 					$Parsed,
-					$Text,
 					$From,
+					$Text,
 					array
 					(
 						'me' => $Me,
