@@ -1,5 +1,1 @@
-{
-  "name":"echo",
-  "version":1,
-  "code":"$this->Whatsapp->sendMessage(($Data['fromg'] != null) ? $Data['fromg'] : $Data['from'], (substr($Original, 6) != false) ? substr($Original, 6) : 'Escribí algo, tarado C:');"
-}
+{"name":"echo","version":"2","code":"$this-\u003eWhatsapp-\u003esendMessage($this-\u003eUtils-\u003egetOrigin($From), $this-\u003eUtils-\u003egetParams(\u0027echo\u0027, $Original, \u0027Debes ingresar un texto...\u0027));"}
