@@ -45,10 +45,14 @@
 
 				$this->Modules[$Name] = array
 				(
+					'help' => $Data['help'],
 					'version' => $Data['version'],
 					'code' => $Data['code']
 				);
+				return true;
 			}
+
+			return false;
 		}
 
 		private function UpdateModule($Name)
@@ -62,5 +66,23 @@
 				return $this->Caller->CallModule($this->Modules[strtolower($Name)]['code'], $Name, $Params, $From, $Original, $Data);
 			else
 				return false;
+		}
+
+		public function ModuleExists($Name)
+		{
+			return isset($this->Modules[$Name]);
+		}
+
+		public function GetModules()
+		{
+			return array_keys($this->Modules);
+		}
+
+		public function GetModuleHelp($Name)
+		{
+			if(isset($this->Modules[$Name]))
+				return $this->Modules[$Name]['help'];
+
+			return false;
 		}
 	}
