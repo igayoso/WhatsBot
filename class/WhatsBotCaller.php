@@ -10,7 +10,6 @@
 		{
 			$this->Whatsapp = &$WPB;
 			$this->Utils = new Utils();
-			$this->Utils->isAdmin('asd');
 		}
 
 		public function CallModule($Code, $Params, $Original, $Data)
