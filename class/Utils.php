@@ -3,7 +3,7 @@
 	{
 		public function isGroup($From)
 		{
-			
+			return substr($From, -strlen('@g.us')) === '@g.us';
 		}
 
 		public function isAdmin($From)
