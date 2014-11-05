@@ -35,7 +35,7 @@
 			);
 
 			$this->Bridge = new WhatsappBridge($this->Whatsapp);
-			$this->Caller = new WhatsBotCaller($this->Bridge);
+			$this->Caller = new WhatsBotCaller($this->ModuleManager, $this->Bridge); // No interesa que lo inicializemos después, está pasado por referencia
 
 			$this->ModuleManager = new ModuleManager($this->Caller);
 			$this->ModuleManager->LoadIncludes();

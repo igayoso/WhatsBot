@@ -3,11 +3,16 @@
 
 	class WhatsBotCaller
 	{
+		private $ModuleManager = null;
 		private $Whatsapp = null;
 		private $Utils = null;
 
-		public function __construct(WhatsappBridge &$WPB)
+		public function __construct(&$MDLM, WhatsappBridge &$WPB)
 		{
+			if($MDLM != null && !($MDLM instanceof ModuleManager))
+				trigger_error('You must pass a ModuleManager to WhatsBotCaller', E_USER_ERROR);
+				
+			$this->ModuleManager = &$MDLM;
 			$this->Whatsapp = &$WPB;
 			$this->Utils = new Utils();
 		}
