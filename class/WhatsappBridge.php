@@ -13,7 +13,7 @@
 			return $this->Whatsapp->SendMessage($To, $Message);
 		}
 
-		public function sendStatusUpdate($Status)
+		public function SetStatus($Status)
 		{
 			return $this->Whatsapp->sendStatusUpdate($Status);
 		}
