@@ -23,18 +23,7 @@
 			}
 		}
 
-		public function LoadIncludes()
-		{
-			$Includes = file_get_contents('config/Modules.json');
-			$Includes = json_decode($Includes, true)['includes'];
-
-			foreach($Includes as $Include)
-			{
-				include($Include);
-			}
-		}
-
-		private function LoadModule($Name)
+		private function LoadModule($Name) // public for !load or !reload
 		{
 			$Filename = "class/modules/{$Name}.json";
 
@@ -83,6 +72,29 @@
 		{
 			if(isset($this->Modules[$Name]))
 				return $this->Modules[$Name]['help'];
+
+			return false;
+		}
+
+		public function LoadIncludes()
+		{
+			$Includes = file_get_contents('config/Modules.json');
+			$Includes = json_decode($Includes, true)['includes'];
+
+			foreach($Includes as $Include)
+			{
+				$this->LoadInclude($Include);
+			}
+		}
+
+		private function LoadInclude($Path)
+		{
+			if(is_file($Path))
+			{
+				include($Path);
+
+				return true;
+			}
 
 			return false;
 		}
