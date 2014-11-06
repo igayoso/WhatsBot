@@ -1,13 +1,28 @@
 {
   "modules":
-  [
-  	"echo",
-  	"md5",
-  	"setstatus",
-  	"wiki"
-  ],
+  {
+    "commands":
+    [
+      "echo",
+      "md5",
+      "setstatus",
+      "wiki",
+      "help"
+    ],
+    "plain":
+    {
+      "domains":
+      [
+        
+      ],
+      "exts":
+      [
+        
+      ]
+    }
+  },
   "includes":
   [
-  	"class/APIs/Wikipedia.php"
+    "class/APIs/Wikipedia.php"
   ]
 }

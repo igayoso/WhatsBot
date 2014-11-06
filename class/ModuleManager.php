@@ -15,7 +15,7 @@
 		public function LoadModules()
 		{
 			$Modules = file_get_contents('config/Modules.json');
-			$Modules = json_decode($Modules, true)['modules'];
+			$Modules = json_decode($Modules, true)['modules']['commands'];
 
 			foreach($Modules as $Module)
 			{
