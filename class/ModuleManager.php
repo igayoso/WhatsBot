@@ -19,7 +19,7 @@
 
 			foreach($Modules as $Module)
 			{
-				$this->Load($Module);
+				$this->LoadModule($Module);
 			}
 		}
 
@@ -34,7 +34,7 @@
 			}
 		}
 
-		private function Load($Name)
+		private function LoadModule($Name)
 		{
 			$Filename = "class/modules/{$Name}.json";
 
@@ -49,6 +49,7 @@
 					'version' => $Data['version'],
 					'code' => $Data['code']
 				);
+
 				return true;
 			}
 
