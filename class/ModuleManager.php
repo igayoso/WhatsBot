@@ -2,7 +2,6 @@
 	class ModuleManager
 	{
 		private $Caller = null;
-
 		private $Modules = null;
 
 		public function __construct(WhatsBotCaller &$Caller) //WhatsProt &$Whatsapp)
@@ -43,11 +42,6 @@
 			}
 
 			return false;
-		}
-
-		private function UpdateModule($Name)
-		{
-
 		}
 
 		public function CallModule($Name, $Params, $From, $Original, $Data)
@@ -99,3 +93,14 @@
 			return false;
 		}
 	}
+
+	/*
+	 * To do: 
+	 * 
+	 * UpdateModules
+	 * UpdateModule
+	 * 
+	 * GetModule_* (all)
+	 * GetModuleCode
+	 * GetModuleVersion
+	 */
