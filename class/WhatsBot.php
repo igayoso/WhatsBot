@@ -41,6 +41,7 @@
 			$this->ModuleManager = new ModuleManager($this->Caller);
 			$this->ModuleManager->LoadIncludes();
 			$this->ModuleManager->LoadModules();
+			$this->ModuleManager->LoadPlainModules();
 
 			$this->Parser = new WhatsBotParser($this->Bridge, $this->ModuleManager);
 
