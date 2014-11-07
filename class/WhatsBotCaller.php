@@ -21,8 +21,7 @@
 		{
 			try
 			{
-				eval($Code); // return eval();
-				return true;
+				return eval($Code);
 			}
 			catch (Exception $E)
 			{
@@ -35,8 +34,7 @@
 		{
 			try
 			{
-				eval($Code); // return eval();
-				return true;
+				return eval($Code);
 			}
 			catch (Exception $E)
 			{

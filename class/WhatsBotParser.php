@@ -31,23 +31,27 @@
 				$Parsed = substr($Text, 1);
 				$Parsed = explode(' ', $Parsed);
 
-				$R = $this->ModuleManager->CallModule
-				(
-					$Parsed[0],
-					$Parsed,
-					$From,
-					$Text,
-					array
+				if($this->ModuleManager->ModuleExists($Parsed[0]))
+				{
+					$R = $this->ModuleManager->CallModule
 					(
-						'me' => $Me,
-						'id' => $ID,
-						'type' => $Type,
-						'time' => $Time,
-						'name' => $Name
-					)
-				);
+						$Parsed[0],
+						$Parsed,
+						$From,
+						$Text,
+						array
+						(
+							'me' => $Me,
+							'id' => $ID,
+							'type' => $Type,
+							'time' => $Time,
+							'name' => $Name
+						)
+					);
 
-				if($R == false) // moduleExists() - False es error del eval, en todo caso tambie del isset(Module), pero podemo evitar esto testeando adicionalmente...
+					if($R == false); // Error del eval
+				}
+				else
 					$this->Whatsapp->sendMessage(($FromG != null) ? $FromG : $FromU, 'Ese módulo no existe...');
 			}
 			else
