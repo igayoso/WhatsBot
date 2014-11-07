@@ -59,6 +59,32 @@
 				{
 					foreach($URLs as $URL)
 					{
+						$P = parse_url($URL);
+
+						if($P !== false)
+						{
+							$R = $this->ModuleManager->CallDomainPlainModule
+							(
+								$P['host'],
+								$URL,
+								$P
+							);
+						}
+						else
+						{
+
+						}
+					}
+				}
+				else
+				{
+					// Parse for AI?
+				}
+
+				/*if($URLs !== array())
+				{
+					foreach($URLs as $URL)
+					{
 						$Extension = explode('.', $URL);
 						$Extension = end($Extension);
 
@@ -72,7 +98,7 @@
 	# Look up validity
 	if (isset($data['Content-Length']))
 		# Return file size
-		return (int) $data['Content-Length'];*/
+		return (int) $data['Content-Length'];
 								$Filename = tempnam('.', 'tmp');
 								$Filename2 = $Filename . '.' . $Extension;
 
@@ -90,7 +116,7 @@
 						// OTHER MEDIA TYPES
 					}
 				}
-				// Parse for SC URLs and others...
+				// Parse for SC URLs and others...*/
 			}
 		}
 	}
