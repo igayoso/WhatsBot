@@ -2,7 +2,13 @@
 	class ModuleManager
 	{
 		private $Caller = null;
+
 		private $Modules = null;
+		private $PlainModules = array
+		(
+			'domains' => array(),
+			'exts' => array()
+		);
 
 		public function __construct(WhatsBotCaller &$Caller) //WhatsProt &$Whatsapp)
 		{
@@ -33,7 +39,7 @@
 
 				$this->Modules[$Name] = array
 				(
-					'help' => $Data['help'],
+					'help' => (isset($Data['help'])) ? $Data['help'] : null,
 					'version' => $Data['version'],
 					'code' => $Data['code']
 				);
@@ -46,7 +52,7 @@
 
 		public function CallModule($Name, $Params, $From, $Original, $Data)
 		{
-			if(isset($this->Modules[strtolower($Name)]))
+			if(isset($this->Modules[strtolower($Name)])) // Only one strtolower
 				return $this->Caller->CallModule($this->Modules[strtolower($Name)]['code'], $Name, $Params, $From, $Original, $Data);
 			else
 				return false;
@@ -64,10 +70,61 @@
 
 		public function GetModuleHelp($Name)
 		{
-			if(isset($this->Modules[$Name]))
+			if(isset($this->Modules[$Name]) && isset($this->Modules[$Name]['help']) && $this->Modules[$Name]['help'] != null)
 				return $this->Modules[$Name]['help'];
 
 			return false;
+		}
+
+		public function LoadPlainModules()
+		{
+			$Modules = file_get_contents('config/Modules.json');
+			$Modules = json_decode($Modules, true)['modules']['plain'];
+
+			$Domains = $Modules['domains'];
+			$Extensions = $Modules['exts'];
+
+			foreach($Domains as $Domain)
+			{
+				$this->LoadDomainPlainModule($Domain);
+			}
+
+			//foreach($Extensions as $Extension)
+			//	$this->LoadExtensionPlainModule($Extension);
+		}
+
+		private function LoadDomainPlainModule($Name)
+		{
+			$Filename = "class/modules/plain/domain_{$Name}.json";
+
+			if(is_file($Filename))
+			{
+				$Data = file_get_contents($Filename);
+				$Data = json_decode($Data, true);
+
+				$this->PlainModules['domains'][$Name] = array
+				(
+					'version' => $Data['version'],
+					'code' => $Data['code']
+				);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		public function CallDomainPlainModule($Name, $URL, $ParsedURL)
+		{
+			if(isset($this->PlainModules['domains'][strtolower($Name)])) // Only one strtolower
+				return $this->Caller->CallDomainPlainModule
+				(
+					$this->PlainModules['domains'][strtolower($Name)]['code'],
+					$URL,
+					$ParsedURL
+				);
+			else
+				return false;
 		}
 
 		public function LoadIncludes()
@@ -103,4 +160,6 @@
 	 * GetModule_* (all)
 	 * GetModuleCode
 	 * GetModuleVersion
+	 * 
+	 * LoadDomain/ExtensionsModules instead LoadPlainModules?
 	 */
