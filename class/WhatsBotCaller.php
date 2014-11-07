@@ -30,4 +30,18 @@
 				return false;
 			}
 		}
+
+		public function CallDomainPlainModule($Code, $URL, $ParsedURL)
+		{
+			try
+			{
+				eval($Code); // return eval();
+				return true;
+			}
+			catch (Exception $E)
+			{
+				throw new Exception($E->getMessage());
+				return false;
+			}
+		}
 	}
