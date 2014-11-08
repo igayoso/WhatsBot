@@ -20,6 +20,7 @@
 		public function CallModule($ModuleName, $Code, $Me, $ID, $Time, $From, $Name, $Text)
 		{
 			$Whatsapp = &$this->Whatsapp;
+			$Utils = &$this->Utils;
 
 			return eval($Code);
 		}
@@ -27,6 +28,7 @@
 		public function CallDomainPlainModule($Code, $From, $Data, $URL, $ParsedURL) // cambiar orden, data al final
 		{
 			$Whatsapp = &$this->Whatsapp;
+			$Utils = &$this->Utils;
 
 			return eval($Code);
 		}
