@@ -37,10 +37,11 @@
 						$Text
 					);
 
-					if($R === false); // Error del eval
+					if($R === false)
+						$this->Whatsapp->SendMessage($this->Utils->getOrigin($From), 'Ha ocurido un error interno. Si eres el administrador del bot, ¡revisa los logs!');
 				}
 				else
-					$this->Whatsapp->sendMessage($this->Utils->getOrigin($From), 'Ese módulo no existe...');
+					$this->Whatsapp->SendMessage($this->Utils->getOrigin($From), 'Ese módulo no existe...');
 			}
 			else
 			{
