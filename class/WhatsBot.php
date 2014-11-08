@@ -41,7 +41,7 @@
 			$this->ModuleManager = new ModuleManager($this->Caller);
 			$this->ModuleManager->LoadIncludes();
 			$this->ModuleManager->LoadModules();
-			$this->ModuleManager->LoadPlainModules();
+			//$this->ModuleManager->LoadPlainModules();
 
 			$this->Parser = new WhatsBotParser($this->Bridge, $this->ModuleManager);
 
@@ -87,3 +87,7 @@
 			$this->Whatsapp->disconnect();
 		}
 	}
+
+	/* To do: 
+	 * Make an parser for modules (With https://github.com/nikic/PHP-Parser ?)
+	 */

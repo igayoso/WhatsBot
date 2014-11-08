@@ -60,7 +60,7 @@
 			}
 			else
 			{
-				preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs);
+				/*preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs);
 				$URLs = $URLs[0];
 
 				if($URLs !== array())
