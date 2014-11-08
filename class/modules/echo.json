@@ -1,1 +1,1 @@
-{"name":"echo","version":"3","code":"$this-\u003eWhatsapp-\u003eSendMessage($this-\u003eUtils-\u003egetOrigin($From), $this-\u003eUtils-\u003egetParams(\u0027echo\u0027, $Text, \u0027Debes ingresar un texto...\u0027));"}
+{"name":"echo","version":"3"}
