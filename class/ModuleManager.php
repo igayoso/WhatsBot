@@ -80,6 +80,7 @@
 		public function GetModuleHelp($Name)
 		{
 			$Name = strtolower($Name);
+
 			if(isset($this->Modules[$Name]) && isset($this->Modules[$Name]['help']) && $this->Modules[$Name]['help'] != null)
 				return $this->Modules[$Name]['help'];
 
@@ -172,4 +173,6 @@
 	 * LoadDomain/ExtensionsModules instead LoadPlainModules?
 	 * 
 	 * Retornar modulos e includes cargados, como array
+	 * 
+	 * Buscar strtolowers olvidados xD
 	 */
