@@ -1,6 +1,25 @@
 <?php
 	class Utils
 	{
+		public function makeFrom($FromG, $FromU)
+		{
+			if($FromG != null)
+				$From = array
+				(
+					'from' => 'group',
+					'g' => $FromG,
+					'u' => $FromU
+				);
+			else
+				$From = array
+				(
+					'from' => 'privmsg',
+					'u' => $FromU
+				);
+
+			return $From;
+		}
+
 		public function getOrigin($FromData)
 		{
 			if($FromData['from'] == 'group')
@@ -15,7 +34,7 @@
 
 			$D = substr($Original, $Length);
 
-			return ($D != false) ? $D : $Else; // Agregar constante con la respuesta específica de !help para este comando
+			return ($D !== false) ? $D : $Else; // Agregar constante con la respuesta específica de !help para este comando
 		}
 
 		public function isGroup($From)
