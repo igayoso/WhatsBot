@@ -26,18 +26,23 @@
 
 		private function LoadModule($Name) // public for !load or !reload
 		{
-			$Filename = "class/modules/{$Name}.json";
+			/*
+			 * Por qué no cargar el code desde un php y luego hacer eval? Porque eval tira error con <?php. Entonces, hacemos un include cada vez que queramos llamar al módulo
+			 */
 
-			if(is_file($Filename))
+			$JsonFile = "class/modules/{$Name}.json";
+			$PHPFile = "class/modules/{$Name}.php";
+
+			if(is_file($JsonFile) && is_file($PHPFile))
 			{
-				$Data = file_get_contents($Filename);
+				$Data = file_get_contents($JsonFile);
 				$Data = json_decode($Data, true);
 
 				$this->Modules[strtolower($Name)] = array
 				(
 					'help' => (isset($Data['help'])) ? $Data['help'] : null,
 					'version' => $Data['version'],
-					'code' => $Data['code']
+					'file' => $PHPFile
 				);
 
 				return true;
@@ -54,7 +59,7 @@
 				return $this->Caller->CallModule
 				(
 					$ModuleName,
-					$this->Modules[$ModuleName]['code'],
+					$this->Modules[$ModuleName]['file'],
 
 					$Me,
 					$ID,
