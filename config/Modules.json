@@ -22,6 +22,6 @@
   },
   "includes":
   [
-    "class/APIs/Wikipedia.php"
+    
   ]
 }
