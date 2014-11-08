@@ -21,9 +21,7 @@
 			$Modules = json_decode($Modules, true)['modules']['commands'];
 
 			foreach($Modules as $Module)
-			{
 				$this->LoadModule($Module);
-			}
 		}
 
 		private function LoadModule($Name) // public for !load or !reload
@@ -35,7 +33,7 @@
 				$Data = file_get_contents($Filename);
 				$Data = json_decode($Data, true);
 
-				$this->Modules[$Name] = array
+				$this->Modules[strtolower($Name)] = array
 				(
 					'help' => (isset($Data['help'])) ? $Data['help'] : null,
 					'version' => $Data['version'],
@@ -48,17 +46,30 @@
 			return false;
 		}
 
-		public function CallModule($Name, $Params, $From, $Original, $Data)
+		public function CallModule($ModuleName, $Me, $ID, $Time, $From, $Name, $Text)
 		{
-			if(isset($this->Modules[strtolower($Name)])) // Only one strtolower
-				return $this->Caller->CallModule($this->Modules[strtolower($Name)]['code'], $Name, $Params, $From, $Original, $Data);
+			$ModuleName = strtolower($ModuleName);
+
+			if(isset($this->Modules[$ModuleName]))
+				return $this->Caller->CallModule
+				(
+					$ModuleName,
+					$this->Modules[$ModuleName]['code'],
+
+					$Me,
+					$ID,
+					$Time,
+					$From,
+					$Name,
+					$Text
+				);
 			else
 				return false;
 		}
 
 		public function ModuleExists($Name)
 		{
-			return isset($this->Modules[$Name]);
+			return isset($this->Modules[strtolower($Name)]);
 		}
 
 		public function GetModules()
@@ -127,7 +138,7 @@
 				return false;
 		}
 
-		public function LoadIncludes()
+		public function LoadIncludes() // están disponibles fuera del ambito local? D:
 		{
 			$Includes = file_get_contents('config/Modules.json');
 			$Includes = json_decode($Includes, true)['includes'];
@@ -162,4 +173,6 @@
 	 * GetModuleVersion
 	 * 
 	 * LoadDomain/ExtensionsModules instead LoadPlainModules?
+	 * 
+	 * Retornar modulos e includes cargados, como array
 	 */

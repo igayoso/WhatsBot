@@ -14,21 +14,9 @@
 			$this->Utils = new Utils();
 		}
 
-		public function ParseTextMessage($Me, $FromG, $FromU, $ID, $Type, $Time, $Name, $Text)
-		{ // Testear si el módulo necesita argumentos o no con explode y strlen...
-			if($FromG != null)
-				$From = array
-				(
-					'from' => 'group',
-					'g' => $FromG,
-					'u' => $FromU
-				);
-			else
-				$From = array
-				(
-					'from' => 'privmsg',
-					'u' => $FromU
-				);
+		public function ParseTextMessage($Me, $FromG, $FromU, $ID, $Type, $Time, $Name, $Text) // Testear si el módulo necesita argumentos o no con explode y strlen...
+		{
+			$From = $this->Utils->makeFrom($FromG, $FromU);
 
 			if($Text[0] == '!')
 			{
@@ -40,20 +28,16 @@
 					$R = $this->ModuleManager->CallModule
 					(
 						$Parsed[0],
-						$Parsed,
+
+						$Me,
+						$ID,
+						$Time,
 						$From,
-						$Text,
-						array
-						(
-							'me' => $Me,
-							'id' => $ID,
-							'type' => $Type,
-							'time' => $Time,
-							'name' => $Name
-						)
+						$Name,
+						$Text
 					);
 
-					if($R == false); // Error del eval
+					if($R === false); // Error del eval
 				}
 				else
 					$this->Whatsapp->sendMessage($this->Utils->getOrigin($From), 'Ese módulo no existe...');
@@ -137,3 +121,4 @@
 			}
 		}
 	}
+
