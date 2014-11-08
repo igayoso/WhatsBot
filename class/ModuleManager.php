@@ -79,6 +79,7 @@
 
 		public function GetModuleHelp($Name)
 		{
+			$Name = strtolower($Name);
 			if(isset($this->Modules[$Name]) && isset($this->Modules[$Name]['help']) && $this->Modules[$Name]['help'] != null)
 				return $this->Modules[$Name]['help'];
 
@@ -94,9 +95,7 @@
 			$Extensions = $Modules['exts'];
 
 			foreach($Domains as $Domain)
-			{
 				$this->LoadDomainPlainModule($Domain);
-			}
 
 			//foreach($Extensions as $Extension)
 			//	$this->LoadExtensionPlainModule($Extension);
@@ -123,7 +122,7 @@
 			return false;
 		}
 
-		public function CallDomainPlainModule($Name, $From, $Data, $URL, $ParsedURL)
+		public function CallDomainPlainModule($Name, $From, $Data, $URL, $ParsedURL) // add info and change order
 		{
 			if(isset($this->PlainModules['domains'][strtolower($Name)])) // Only one strtolower
 				return $this->Caller->CallDomainPlainModule
@@ -144,9 +143,7 @@
 			$Includes = json_decode($Includes, true)['includes'];
 
 			foreach($Includes as $Include)
-			{
 				$this->LoadInclude($Include);
-			}
 		}
 
 		private function LoadInclude($Path)
