@@ -3,11 +3,7 @@
   {
     "commands":
     [
-      "echo",
-      "md5",
-      "setstatus",
-      "wiki",
-      "help"
+      "echo"
     ],
     "plain":
     {
