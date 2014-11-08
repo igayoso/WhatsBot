@@ -17,12 +17,12 @@
 			$this->Utils = new Utils();
 		}
 
-		public function CallModule($ModuleName, $Code, $Me, $ID, $Time, $From, $Name, $Text)
+		public function CallModule($ModuleName, $Filename, $Me, $ID, $Time, $From, $Name, $Text)
 		{
 			$Whatsapp = &$this->Whatsapp;
 			$Utils = &$this->Utils;
 
-			return eval($Code);
+			return include $Filename;
 		}
 
 		public function CallDomainPlainModule($Code, $From, $Data, $URL, $ParsedURL) // cambiar orden, data al final
