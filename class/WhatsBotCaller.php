@@ -19,27 +19,11 @@
 
 		public function CallModule($Code, $Name, $Params, $From, $Original, $Data)
 		{
-			try // delete try. Eval returns false if error
-			{
-				return eval($Code);
-			}
-			catch (Exception $E)
-			{
-				throw new Exception($E->getMessage());
-				return false;
-			}
+			return eval($Code);
 		}
 
 		public function CallDomainPlainModule($Code, $From, $Data, $URL, $ParsedURL) // cambiar orden, data al final
 		{
-			try // delete try. Eval returns false if error
-			{
-				return eval($Code);
-			}
-			catch (Exception $E)
-			{
-				throw new Exception($E->getMessage());
-				return false;
-			}
+			return eval($Code);
 		}
 	}
