@@ -28,7 +28,7 @@
 				return $FromData['u'];
 		}
 
-		public function getParams($Module, $Original, $Else)
+		public function getParams($Module, $Original, $Else) // Tal vez llamar a la ayuda en lugar de devolver $Else
 		{
 			$Length = strlen($Module) + 2; // Example '! echo $PARAMS' 1 + 4 + 1 - $PARAMS
 
