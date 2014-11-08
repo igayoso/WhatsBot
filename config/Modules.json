@@ -3,7 +3,8 @@
   {
     "commands":
     [
-      "echo"
+      "echo",
+      "md5"
     ],
     "plain":
     {
