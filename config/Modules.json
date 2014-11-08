@@ -4,6 +4,7 @@
     "commands":
     [
       "echo",
+      "help",
       "md5"
     ],
     "plain":
