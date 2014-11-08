@@ -28,6 +28,7 @@
 					$R = $this->ModuleManager->CallModule
 					(
 						$Parsed[0],
+						$Parsed,
 
 						$Me,
 						$ID,

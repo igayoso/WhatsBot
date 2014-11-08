@@ -3,7 +3,10 @@
   {
     "commands":
     [
-      "echo"
+      "echo",
+      "help",
+      "md5",
+      "setstatus"
     ],
     "plain":
     {

@@ -51,7 +51,7 @@
 			return false;
 		}
 
-		public function CallModule($ModuleName, $Me, $ID, $Time, $From, $Name, $Text)
+		public function CallModule($ModuleName, $Params, $Me, $ID, $Time, $From, $Name, $Text)
 		{
 			$ModuleName = strtolower($ModuleName);
 
@@ -60,6 +60,7 @@
 				(
 					$ModuleName,
 					$this->Modules[$ModuleName]['file'],
+					$Params,
 
 					$Me,
 					$ID,

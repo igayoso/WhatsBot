@@ -17,8 +17,9 @@
 			$this->Utils = new Utils();
 		}
 
-		public function CallModule($ModuleName, $Filename, $Me, $ID, $Time, $From, $Name, $Text)
+		public function CallModule($ModuleName, $Filename, $Params, $Me, $ID, $Time, $From, $Name, $Text)
 		{
+			$ModuleManager = &$this->ModuleManager;
 			$Whatsapp = &$this->Whatsapp;
 			$Utils = &$this->Utils;
 
