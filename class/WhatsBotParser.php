@@ -4,10 +4,14 @@
 		private $Whatsapp = null;
 		private $ModuleManager = null;
 
+		private $Utils = null;
+
 		public function __construct(WhatsappBridge &$WhatsappBridge, ModuleManager &$ModuleManager)
 		{
 			$this->Whatsapp = &$WhatsappBridge;
 			$this->ModuleManager = &$ModuleManager;
+
+			$this->Utils = new Utils();
 		}
 
 		public function ParseTextMessage($Me, $FromG, $FromU, $ID, $Type, $Time, $Name, $Text)
@@ -52,7 +56,7 @@
 					if($R == false); // Error del eval
 				}
 				else
-					$this->Whatsapp->sendMessage(($FromG != null) ? $FromG : $FromU, 'Ese módulo no existe...');
+					$this->Whatsapp->sendMessage($this->Utils->getOrigin($From), 'Ese módulo no existe...');
 			}
 			else
 			{
@@ -70,6 +74,15 @@
 							$R = $this->ModuleManager->CallDomainPlainModule
 							(
 								$P['host'],
+								$From,
+								array
+								(
+									'me' => $Me,
+									'id' => $ID,
+									'type' => $Type,
+									'time' => $Time,
+									'name' => $Name
+								),
 								$URL,
 								$P
 							);

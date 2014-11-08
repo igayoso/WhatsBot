@@ -3,7 +3,7 @@
 	{
 		private $Caller = null;
 
-		private $Modules = null;
+		private $Modules = array();
 		private $PlainModules = array
 		(
 			'domains' => array(),
@@ -13,8 +13,6 @@
 		public function __construct(WhatsBotCaller &$Caller) //WhatsProt &$Whatsapp)
 		{
 			$this->Caller = &$Caller;
-
-			$this->Modules = array();
 		}
 
 		public function LoadModules()
@@ -114,12 +112,14 @@
 			return false;
 		}
 
-		public function CallDomainPlainModule($Name, $URL, $ParsedURL)
+		public function CallDomainPlainModule($Name, $From, $Data, $URL, $ParsedURL)
 		{
 			if(isset($this->PlainModules['domains'][strtolower($Name)])) // Only one strtolower
 				return $this->Caller->CallDomainPlainModule
 				(
 					$this->PlainModules['domains'][strtolower($Name)]['code'],
+					$From,
+					$Data,
 					$URL,
 					$ParsedURL
 				);

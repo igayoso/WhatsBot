@@ -19,7 +19,7 @@
 
 		public function CallModule($Code, $Name, $Params, $From, $Original, $Data)
 		{
-			try
+			try // delete try. Eval returns false if error
 			{
 				return eval($Code);
 			}
@@ -30,9 +30,9 @@
 			}
 		}
 
-		public function CallDomainPlainModule($Code, $URL, $ParsedURL)
+		public function CallDomainPlainModule($Code, $From, $Data, $URL, $ParsedURL) // cambiar orden, data al final
 		{
-			try
+			try // delete try. Eval returns false if error
 			{
 				return eval($Code);
 			}
