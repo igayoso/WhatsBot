@@ -13,8 +13,8 @@
 
 		private $Listener = null;
 
-		private $ModuleManager = null;
 		private $Parser = null;
+		private $ModuleManager = null;
 		private $Caller = null;
 		private $Bridge = null;
 
