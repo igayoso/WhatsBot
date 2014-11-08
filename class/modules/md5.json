@@ -1,5 +1,0 @@
-{
-  "name":"md5",
-  "version":1,
-  "code":"$this->Whatsapp->sendMessage(($Data['fromg'] != null) ? $Data['fromg'] : $Data['from'], (substr($Original, 5) != false) ? md5(substr($Original, 5)) : 'Escribí algo C:');"
-}

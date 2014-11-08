@@ -1,5 +1,0 @@
-{
-  "name":"wiki",
-  "version":1,
-  "code":"if(substr($Original, strlen($Params[0]) + 2) != false) { $Wikipedia = new Wikipedia(); $R = $Wikipedia->Search(substr($Original, strlen($Params[0]) + 2)); if($R == false) $this->Whatsapp->sendMessage(($Data['fromg'] != null) ? $Data['fromg'] : $Data['from'], 'No hay resultados para esa búsqueda...'); else $this->Whatsapp->sendMessage(($Data['fromg'] != null) ? $Data['fromg'] : $Data['from'], $R['title'] . ': ' . html_entity_decode(strip_tags($R['content'])) . '...'); } else $this->Whatsapp->sendMessage(($Data['fromg'] != null) ? $Data['fromg'] : $Data['from'], 'Escribí algo C:');"
-}
