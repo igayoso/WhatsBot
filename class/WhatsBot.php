@@ -20,7 +20,7 @@
 
 		public function __construct($Debug = false)
 		{
-			$Config = file_get_contents('config/WhatsBot.json');
+			$Config = file_get_contents('config/WhatsBot.json'); // use getConfig or getJson
 			$Config = json_decode($Config, true);
 
 

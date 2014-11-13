@@ -7,11 +7,8 @@
 		private $Utils = null;
 
 		private $Modules = array();
-		private $PlainModules = array
-		(
-			'domains' => array(),
-			'exts' => array()
-		);
+		private $DomainModules = array();
+		private $ExtModules = array();
 
 		public function __construct(WhatsBotCaller &$Caller) //WhatsProt &$Whatsapp)
 		{
@@ -25,28 +22,25 @@
 
 			if($Modules !== false)
 			{
-				if(isset($Modules['modules']['commands']))
-				{
-					$Modules = $Modules['modules']['commands'];
+				$Commands = $Modules['modules']['commands'];
+				$Domains = $Modules['modules']['domains'];
+				$Extensions = $Modules['modules']['exts'];
 
-					foreach($Modules as $Module)
-						$this->LoadModule($Module);
+				foreach($Commands as $Command)
+					$this->LoadModule($Command);
 
-					return true;
-				}
+				foreach($Domains as $Domain)
+					;//$this->LoadDomainModule($Domain);
+
+				foreach($Extensions as $Extension)
+					;//$this->LoadExtensionModule($Extension);
 			}
-
-			return false;
 		}
 
 		private function LoadModule($Name) // public for !load or !reload
 		{
-			/*
-			 * Por qué no cargar el code desde un php y luego hacer eval? Porque eval tira error con <?php. Entonces, hacemos un include cada vez que queramos llamar al módulo
-			 */
-
-			$JsonFile = "class/modules/{$Name}.json";
-			$PHPFile = "class/modules/{$Name}.php";
+			$JsonFile = "class/modules/cmd_{$Name}.json";
+			$PHPFile = "class/modules/cmd_{$Name}.php";
 
 			if(is_file($JsonFile) && is_file($PHPFile))
 			{
@@ -63,6 +57,28 @@
 			}
 
 			return false;
+		}
+
+		private function LoadDomainModule($Name)
+		{
+			$Filename = "class/modules/domain_{$Name}.php";
+
+			if(is_file($Filename))
+			{
+				$this->DomainModules[strtolower($Name)] = array
+				(
+					// version,
+					'file' => $Filename
+				);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		private function LoadExtensionModule($Name)
+		{
 		}
 
 		public function CallModule($ModuleName, $Params, $Me, $ID, $Time, $From, $Name, $Text)
@@ -87,57 +103,9 @@
 				return false;
 		}
 
-		
-
-		public function LoadPlainModules()
+		public function CallDomainModule($ModuleName, $ParsedURL, $Me, $ID, $Time, $From, $Name, $Text, $URL)
 		{
-			$Modules = file_get_contents('config/Modules.json');
-			$Modules = json_decode($Modules, true)['modules']['plain'];
 
-			$Domains = $Modules['domains'];
-			$Extensions = $Modules['exts'];
-
-			foreach($Domains as $Domain)
-				$this->LoadDomainPlainModule($Domain);
-
-			//foreach($Extensions as $Extension)
-			//	$this->LoadExtensionPlainModule($Extension);
-		}
-
-		private function LoadDomainPlainModule($Name)
-		{
-			$Filename = "class/modules/plain/domain_{$Name}.json";
-
-			if(is_file($Filename))
-			{
-				$Data = file_get_contents($Filename);
-				$Data = json_decode($Data, true);
-
-				$this->PlainModules['domains'][$Name] = array
-				(
-					'version' => $Data['version'],
-					'code' => $Data['code']
-				);
-
-				return true;
-			}
-
-			return false;
-		}
-
-		public function CallDomainPlainModule($Name, $From, $Data, $URL, $ParsedURL) // add info and change order
-		{
-			if(isset($this->PlainModules['domains'][strtolower($Name)])) // Only one strtolower
-				return $this->Caller->CallDomainPlainModule
-				(
-					$this->PlainModules['domains'][strtolower($Name)]['code'],
-					$From,
-					$Data,
-					$URL,
-					$ParsedURL
-				);
-			else
-				return false;
 		}
 
 		public function LoadIncludes() // están disponibles fuera del ambito local? D:

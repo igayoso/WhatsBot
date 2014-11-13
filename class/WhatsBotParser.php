@@ -59,7 +59,7 @@
 						{
 							$R = $this->ModuleManager->CallDomainPlainModule
 							(
-								$P['host'],
+								$P['host'], // strtolower (no porque ya lo hacemos en el manejador)
 								$From,
 								array
 								(

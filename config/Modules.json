@@ -8,17 +8,14 @@
       "md5",
       "setstatus"
     ],
-    "plain":
-    {
-      "domains":
-      [
-        
-      ],
-      "exts":
-      [
-        
-      ]
-    }
+    "domains":
+    [
+      
+    ],
+    "exts":
+    [
+      
+    ]
   },
   "includes":
   [
