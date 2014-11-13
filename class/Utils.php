@@ -1,6 +1,24 @@
 <?php
 	class Utils
 	{
+		public function getJson($Filename)
+		{
+			if(is_file($Filename))
+			{
+				$Data = file_get_contents($Filename);
+
+				if($Data !== false)
+				{
+					$Data = json_decode($Data, true);
+
+					if($Data !== false)
+						return $Data;
+				}
+			}
+
+			return false;
+		}
+
 		public function makeFrom($FromG, $FromU)
 		{
 			if($FromG != null)
