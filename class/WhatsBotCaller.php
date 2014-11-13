@@ -19,18 +19,18 @@
 
 		public function CallModule($ModuleName, $Filename, $Params, $Me, $ID, $Time, $From, $Name, $Text)
 		{
-			$ModuleManager = &$this->ModuleManager;
+			//$ModuleManager = &$this->ModuleManager; // add to !reload, !update, etc...
 			$Whatsapp = &$this->Whatsapp;
 			$Utils = &$this->Utils;
 
 			return include $Filename;
 		}
 
-		public function CallDomainPlainModule($Code, $From, $Data, $URL, $ParsedURL) // cambiar orden, data al final
+		public function CallDomainModule($ModuleName, $Filename, $ParsedURL, $URL, $Me, $ID, $Time, $From, $Name, $Text)
 		{
 			$Whatsapp = &$this->Whatsapp;
 			$Utils = &$this->Utils;
 
-			return eval($Code);
+			return include $Filename;
 		}
 	}

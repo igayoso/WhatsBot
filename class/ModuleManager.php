@@ -10,7 +10,7 @@
 		private $DomainModules = array();
 		private $ExtModules = array();
 
-		public function __construct(WhatsBotCaller &$Caller) //WhatsProt &$Whatsapp)
+		public function __construct(WhatsBotCaller &$Caller)
 		{
 			$this->Caller = &$Caller;
 			$this->Utils = new Utils();
@@ -30,7 +30,7 @@
 					$this->LoadModule($Command);
 
 				foreach($Domains as $Domain)
-					;//$this->LoadDomainModule($Domain);
+					$this->LoadDomainModule($Domain);
 
 				foreach($Extensions as $Extension)
 					;//$this->LoadExtensionModule($Extension);
@@ -81,6 +81,10 @@
 		{
 		}
 
+		private function LoadMediaModules($Name)
+		{
+		}
+
 		public function CallModule($ModuleName, $Params, $Me, $ID, $Time, $From, $Name, $Text)
 		{
 			$ModuleName = strtolower($ModuleName);
@@ -90,6 +94,7 @@
 				(
 					$ModuleName,
 					$this->Modules[$ModuleName]['file'],
+
 					$Params,
 
 					$Me,
@@ -99,13 +104,36 @@
 					$Name,
 					$Text
 				);
-			else
-				return false;
+
+			return false;
 		}
 
-		public function CallDomainModule($ModuleName, $ParsedURL, $Me, $ID, $Time, $From, $Name, $Text, $URL)
+		public function CallDomainModule($ModuleName, $ParsedURL, $URL, $Me, $ID, $Time, $From, $Name, $Text)
 		{
+			$ModuleName = strtolower($ModuleName);
 
+			if(isset($this->DomainModules[$ModuleName]))
+				return $this->Caller->CallDomainModule
+				(
+					$ModuleName,
+					$this->DomainModules[$ModuleName]['file'],
+
+					$ParsedURL,
+					$URL,
+
+					$Me,
+					$ID,
+					$Time,
+					$From,
+					$Name,
+					$Text
+				);
+
+			return false;
+		}
+
+		public function CallExtensionModule($Params)
+		{
 		}
 
 		public function LoadIncludes() // están disponibles fuera del ambito local? D:
