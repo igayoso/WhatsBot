@@ -87,25 +87,7 @@
 				return false;
 		}
 
-		public function ModuleExists($Name)
-		{
-			return isset($this->Modules[strtolower($Name)]);
-		}
-
-		public function GetModules()
-		{
-			return array_keys($this->Modules);
-		}
-
-		public function GetModuleHelp($Name)
-		{
-			$Name = strtolower($Name);
-
-			if(isset($this->Modules[$Name]) && isset($this->Modules[$Name]['help']) && $this->Modules[$Name]['help'] != null)
-				return $this->Modules[$Name]['help'];
-
-			return false;
-		}
+		
 
 		public function LoadPlainModules()
 		{
@@ -183,6 +165,26 @@
 
 				return true;
 			}
+
+			return false;
+		}
+
+		public function ModuleExists($Name)
+		{
+			return isset($this->Modules[strtolower($Name)]);
+		}
+
+		public function GetModules()
+		{
+			return array_keys($this->Modules);
+		}
+
+		public function GetModuleHelp($Name)
+		{
+			$Name = strtolower($Name);
+
+			if(isset($this->Modules[$Name]) && isset($this->Modules[$Name]['help']) && $this->Modules[$Name]['help'] != null)
+				return $this->Modules[$Name]['help'];
 
 			return false;
 		}
