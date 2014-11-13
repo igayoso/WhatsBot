@@ -25,9 +25,9 @@
 
 			if($Modules !== false)
 			{
-				if(isset($Modules['commands']))
+				if(isset($Modules['modules']['commands']))
 				{
-					$Modules = $Modules['commands'];
+					$Modules = $Modules['modules']['commands'];
 
 					foreach($Modules as $Module)
 						$this->LoadModule($Module);
@@ -50,8 +50,7 @@
 
 			if(is_file($JsonFile) && is_file($PHPFile))
 			{
-				$Data = file_get_contents($JsonFile);
-				$Data = json_decode($Data, true);
+				$Data = $this->Utils->getJson($JsonFile);
 
 				$this->Modules[strtolower($Name)] = array
 				(
@@ -161,11 +160,19 @@
 
 		public function LoadIncludes() // están disponibles fuera del ambito local? D:
 		{
-			$Includes = file_get_contents('config/Modules.json');
-			$Includes = json_decode($Includes, true)['includes'];
+			$Includes = $this->Utils->getJson('config/Modules.json');
 
-			foreach($Includes as $Include)
-				$this->LoadInclude($Include);
+			if(isset($Includes['includes']))
+			{
+				$Includes = $Includes['includes'];
+
+				foreach($Includes as $Include)
+					$this->LoadInclude($Include);
+
+				return true;
+			}
+
+			return false;
 		}
 
 		private function LoadInclude($Path)
