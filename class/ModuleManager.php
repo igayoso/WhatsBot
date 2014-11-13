@@ -1,7 +1,10 @@
 <?php
+	require_once 'Utils.php';
+
 	class ModuleManager
 	{
 		private $Caller = null;
+		private $Utils = null;
 
 		private $Modules = array();
 		private $PlainModules = array
@@ -13,15 +16,27 @@
 		public function __construct(WhatsBotCaller &$Caller) //WhatsProt &$Whatsapp)
 		{
 			$this->Caller = &$Caller;
+			$this->Utils = new Utils();
 		}
 
-		public function LoadModules()
+		public function LoadModules() // devolver lista de modulos cargados
 		{
-			$Modules = file_get_contents('config/Modules.json');
-			$Modules = json_decode($Modules, true)['modules']['commands'];
+			$Modules = $this->Utils->getJson('config/Modules.json');
 
-			foreach($Modules as $Module)
-				$this->LoadModule($Module);
+			if($Modules !== false)
+			{
+				if(isset($Modules['commands']))
+				{
+					$Modules = $Modules['commands'];
+
+					foreach($Modules as $Module)
+						$this->LoadModule($Module);
+
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private function LoadModule($Name) // public for !load or !reload
