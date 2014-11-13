@@ -2839,7 +2839,8 @@ class WhatsProt
                       );
                     break;
                 default:
-                    throw new Exception("Method $type not implemented");
+                    echo "Method $type not implemented";
+                    //throw new Exception("Method $type not implemented");
             }
             $this->sendNotificationAck($node);
         }
