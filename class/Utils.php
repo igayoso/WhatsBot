@@ -19,6 +19,14 @@
 			return false;
 		}
 
+		public function getConfig($Key)
+		{
+			$Data = file_get_contents('config/WhatsBot.json');
+			$Data = json_decode($Data, true);
+
+			return (isset($Data[$Key])) ? $Data[$Key] : false;
+		}
+
 		public function makeFrom($FromG, $FromU)
 		{
 			if($FromG != null)
