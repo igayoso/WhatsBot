@@ -39,9 +39,9 @@ class WhatsAppEvent
      *
      * @param WhatsAppEventListener $event_listener
      */
-    function addEventListener(WhatsAppEventListener &$event_listener)
+    function addEventListener(WhatsAppEventListener $event_listener)
     {
-        self::$event_listeners[] = &$event_listener;
+        array_push(self::$event_listeners, $event_listener);
     }
 
     /**
@@ -285,6 +285,17 @@ class WhatsAppEvent
     ) {
         $callbackEvent = function(WhatsAppEventListener $listener) use ($phone, $id, $error) {
             $listener->onGetError($phone, $id, $error);
+        };
+        $this->fireCallback($callbackEvent);
+    }
+
+    function fireGetFeature(
+        $phone,
+        $from,
+        $encrypt
+    ) {
+        $callbackEvent = function(WhatsAppEventListener $listener) use ($phone, $from, $encrypt) {
+            $listener->onGetFeature($phone, $from, $encrypt);
         };
         $this->fireCallback($callbackEvent);
     }
