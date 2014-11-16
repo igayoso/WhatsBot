@@ -488,7 +488,7 @@ class WhatsProt
      */
     protected function isConnected()
     {
-        if ( ! empty($this->socket) && feof($this->socket) === false)
+        if ( ! empty($this->socket) && @feof($this->socket) === false)
         {
             //Already connected.
             return true;
@@ -583,10 +583,12 @@ class WhatsProt
      */
     public function pollMessage($autoReceipt = true, $type = "read")
     {
-
-    	if(feof($this->socket)) {
-	    throw new Exception('Connection Closed!');
-	}
+        if(!$this->isConnected())
+            $this->eventManager()->fire("onDisconnect",
+                array(
+                    $this->phoneNumber,
+                    $this->socket
+                ));
 
         $stanza = $this->readStanza();
         if($stanza)
