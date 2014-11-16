@@ -50,23 +50,27 @@
 				$this->Parser
 			);
 
-			$this->Whatsapp->eventManager()->addEventListener($this->Listener);
+			$this->Whatsapp->eventManager()->bindClass($this->Listener);
 		}
 
 		public function Listen()
 		{
+			echo 'Connecting...' . PHP_EOL;
+
+			$this->connect();
+
 			echo 'Listening...' . PHP_EOL;
 
 			$i = 0;
 
 			while(true)
 			{
-				if($i == 30)
+				/*if($i == 30)
 				{
 					$this->disconnect();
 					$this->connect();
 					$i = 0;
-				}
+				}*/
 
 				$this->Whatsapp->pollMessage();
 

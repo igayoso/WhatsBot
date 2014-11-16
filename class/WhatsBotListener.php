@@ -1,7 +1,5 @@
 <?php
-	require_once 'whatsapi/events/WhatsAppEventListenerBase.php';
-
-	class WhatsBotListener extends WhatsAppEventListenerBase
+	class WhatsBotListener
 	{
 		private $Whatsapp = null;
 		private $Password = null;
