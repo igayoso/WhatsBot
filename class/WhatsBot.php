@@ -39,9 +39,7 @@
 			$this->Caller = new WhatsBotCaller($this->ModuleManager, $this->Bridge); // No interesa que lo inicializemos después, está pasado por referencia
 
 			$this->ModuleManager = new ModuleManager($this->Caller);
-			//$this->ModuleManager->LoadIncludes();
 			$this->ModuleManager->LoadModules();
-			//$this->ModuleManager->LoadPlainModules();
 
 			$this->Parser = new WhatsBotParser($this->Bridge, $this->ModuleManager);
 
@@ -57,7 +55,7 @@
 
 		public function Listen()
 		{
-			echo 'Listening...'; // . NL
+			echo 'Listening...' . PHP_EOL;
 
 			$i = 0;
 
