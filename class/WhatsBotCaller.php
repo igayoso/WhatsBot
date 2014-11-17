@@ -19,7 +19,7 @@
 
 		public function CallModule($ModuleName, $Filename, $Params, $Me, $ID, $Time, $From, $Name, $Text)
 		{
-			//$ModuleManager = &$this->ModuleManager; // add to !reload, !update, etc...
+			$ModuleManager = &$this->ModuleManager; // add to !reload, !update, etc...
 			$Whatsapp = &$this->Whatsapp;
 			$Utils = &$this->Utils;
 
