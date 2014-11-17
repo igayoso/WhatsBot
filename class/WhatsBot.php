@@ -57,36 +57,30 @@
 		{
 			echo 'Connecting...' . PHP_EOL;
 
-			$this->connect();
+			$this->Connect();
 
 			echo 'Listening...' . PHP_EOL;
 
-			$i = 0;
+			$StartTime = time();
 
 			while(true)
 			{
-				/*if($i == 30)
-				{
-					$this->disconnect();
-					$this->connect();
-					$i = 0;
-				}*/
-
 				$this->Whatsapp->pollMessage();
 
-				$i++;
+				if(time() >= $StartTime + 30)
+				{
+					$this->Whatsapp->sendPresence('active');
+					$this->Whatsapp->sendPing();
+
+					$StartTime = time();
+				}
 			}
 		}
 
-		private function connect()
+		private function Connect()
 		{
 			$this->Whatsapp->connect();
 			$this->Whatsapp->loginWithPassword($this->Password);
-		}
-
-		private function disconnect() // Where is security? xD
-		{
-			$this->Whatsapp->disconnect();
 		}
 	}
 

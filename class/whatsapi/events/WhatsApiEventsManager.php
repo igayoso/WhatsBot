@@ -10,12 +10,10 @@
 
 		public function fire($Event, Array $Params)
 		{
-			for($i = 0; $i < count($this->Classes); $i++)
-			{
-				echo $Event . PHP_EOL; // For debug - To delete
+			echo $Event . PHP_EOL; // For debug - To delete
 
+			for($i = 0; $i < count($this->Classes); $i++)
 				if(method_exists($this->Classes[$i], $Event) && is_callable(array($this->Classes[$i], $Event), true)) // To do: If method is private it returns true, fix!
 					call_user_func_array(array($this->Classes[$i], $Event), $Params);
-			}
 		}
 	}
