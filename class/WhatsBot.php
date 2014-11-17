@@ -50,6 +50,7 @@
 				$this->Parser
 			);
 
+			$this->Whatsapp->eventManager()->setDebug($Debug);
 			$this->Whatsapp->eventManager()->bindClass($this->Listener);
 		}
 
@@ -86,4 +87,5 @@
 
 	/* To do: 
 	 * Make an parser for modules (With https://github.com/nikic/PHP-Parser ?)
+	 * Flood detection / protection
 	 */
