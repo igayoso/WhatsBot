@@ -39,9 +39,7 @@
 			$this->Caller = new WhatsBotCaller($this->ModuleManager, $this->Bridge); // No interesa que lo inicializemos después, está pasado por referencia
 
 			$this->ModuleManager = new ModuleManager($this->Caller);
-			//$this->ModuleManager->LoadIncludes();
 			$this->ModuleManager->LoadModules();
-			//$this->ModuleManager->LoadPlainModules();
 
 			$this->Parser = new WhatsBotParser($this->Bridge, $this->ModuleManager);
 
@@ -52,39 +50,37 @@
 				$this->Parser
 			);
 
-			$this->Whatsapp->eventManager()->addEventListener($this->Listener);
+			$this->Whatsapp->eventManager()->bindClass($this->Listener);
 		}
 
 		public function Listen()
 		{
-			echo 'Listening...'; // . NL
+			echo 'Connecting...' . PHP_EOL;
 
-			$i = 0;
+			$this->Connect();
+
+			echo 'Listening...' . PHP_EOL;
+
+			$StartTime = time();
 
 			while(true)
 			{
-				if($i == 30)
-				{
-					$this->disconnect();
-					$this->connect();
-					$i = 0;
-				}
-
 				$this->Whatsapp->pollMessage();
 
-				$i++;
+				if(time() >= $StartTime + 30)
+				{
+					$this->Whatsapp->sendPresence('active');
+					$this->Whatsapp->sendPing();
+
+					$StartTime = time();
+				}
 			}
 		}
 
-		private function connect()
+		private function Connect()
 		{
 			$this->Whatsapp->connect();
 			$this->Whatsapp->loginWithPassword($this->Password);
-		}
-
-		private function disconnect() // Where is security? xD
-		{
-			$this->Whatsapp->disconnect();
 		}
 	}
 
