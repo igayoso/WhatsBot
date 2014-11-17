@@ -46,36 +46,35 @@
 			}
 			else
 			{
-				/*preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs);
+				preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs); // strtolower URL?
 				$URLs = $URLs[0];
 
 				if($URLs !== array())
 				{
 					foreach($URLs as $URL)
 					{
-						$P = parse_url($URL);
+						$PURL = parse_url($URL);
 
-						if($P !== false)
+						if($PURL !== false)
 						{
-							$R = $this->ModuleManager->CallDomainPlainModule
+							$R = $this->ModuleManager->CallDomainModule
 							(
-								$P['host'], // strtolower (no porque ya lo hacemos en el manejador)
-								$From,
-								array
-								(
-									'me' => $Me,
-									'id' => $ID,
-									'type' => $Type,
-									'time' => $Time,
-									'name' => $Name
-								),
+								$PURL['host'],
+
+								$PURL,
 								$URL,
-								$P
+
+								$Me,
+								$ID,
+								$Time,
+								$From,
+								$Name,
+								$Text
 							);
 						}
 						else
 						{
-
+							// SendMessage with help if is PV?
 						}
 					}
 				}
@@ -83,43 +82,6 @@
 				{
 					// Parse for AI?
 				}
-
-				/*if($URLs !== array())
-				{
-					foreach($URLs as $URL)
-					{
-						$Extension = explode('.', $URL);
-						$Extension = end($Extension);
-
-						if(in_array($Extension, array('jpg', 'png', 'gif'))) // Others
-						{
-							//if(filesize($URL) < 2097152)
-							//{
-							/*function remote_file_size($url){
-	# Get all header information
-	$data = get_headers($url, true);
-	# Look up validity
-	if (isset($data['Content-Length']))
-		# Return file size
-		return (int) $data['Content-Length'];
-								$Filename = tempnam('.', 'tmp');
-								$Filename2 = $Filename . '.' . $Extension;
-
-								file_put_contents($Filename2, file_get_contents($URL));
-
-								$this->Whatsapp->sendMessageImage(($FromG != null) ? $FromG : $FromU, $Filename2);
-
-								if(is_file($Filename))
-									unlink($Filename);
-								if(is_file($Filename2))
-									unlink($Filename2);
-							//}
-
-						}
-						// OTHER MEDIA TYPES
-					}
-				}
-				// Parse for SC URLs and others...*/
 			}
 		}
 	}
