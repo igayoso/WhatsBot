@@ -28,7 +28,7 @@
 
 		public function onGetReceipt($From, $ID, $Offline, $Retry)
 		{
-			// $this->Whatsapp->sendPong($ID) ?
+			$this->Whatsapp->sendPong($ID);
 		}
 
 		/* Events: 
