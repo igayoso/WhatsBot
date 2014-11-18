@@ -10,7 +10,9 @@
     ],
     "domains":
     [
-      "example.com"
+      "example.com",
+      "soundcloud.com",
+      "m.soundcloud.com"
     ],
     "exts":
     [

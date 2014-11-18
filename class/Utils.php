@@ -63,6 +63,17 @@
 			return ($D !== false) ? $D : $Else; // Agregar constante con la respuesta específica de !help para este comando
 		}
 
+		public function GetURLs($Text)
+		{
+			preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs);
+			$URLs = $URLs[0];
+
+			if($URLs !== array())
+				return $URLs;
+
+			return false;
+		}
+
 		public function isGroup($From)
 		{
 			return substr($From, -strlen('@g.us')) === '@g.us';

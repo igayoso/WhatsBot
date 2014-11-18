@@ -46,7 +46,7 @@
 			}
 			else
 			{
-				preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs); // strtolower URL?
+				preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs); // strtolower URL? // use $Utils->GetURLs()
 				$URLs = $URLs[0];
 
 				if($URLs !== array())
