@@ -8,17 +8,17 @@
 			$H = $ModuleManager->GetModuleHelp($Params[1]);
 
 			if($H === false)
-				$Whatsapp->SendMessage($O, 'No hay informacón sobre ese módulo...');
+				$Whatsapp->SendMessage($O, 'There is no help for that module...');
 			else
 				$Whatsapp->SendMessage($O, $H);
 		}
 		else
-			$Whatsapp->SendMessage($O, 'Ese módulo no existe. Escribe !help para ver una lista de módulos disponibles...');
+			$Whatsapp->SendMessage($O, 'That module doesn\'t exists. Write !help to see list of available modules...');
 	}
 	else
 	{
 		$H = $ModuleManager->GetModules();
-		$T = 'Módulos disponibles: ';
+		$T = 'Available modules: ';
 
 		foreach($H as $M)
 			$T .= "{$M} ";

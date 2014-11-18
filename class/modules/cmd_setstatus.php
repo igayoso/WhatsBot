@@ -9,7 +9,7 @@
 		if($R === false)
 			return false;
 		else
-			$Whatsapp->SendMessage($O, "Estado seteado a: {$P}");
+			$Whatsapp->SendMessage($O, "Status setted to: {$P}");
 	}
 	else
-		$Whatsapp->SendMessage($O, 'Debes ingresar un texto...');
+		$Whatsapp->SendMessage($O, 'You must write something...');

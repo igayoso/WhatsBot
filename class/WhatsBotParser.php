@@ -39,10 +39,10 @@
 					);
 
 					if($R === false)
-						$this->Whatsapp->SendMessage($this->Utils->getOrigin($From), 'Ha ocurido un error interno. Si eres el administrador del bot, ¡revisa los logs!');
+						$this->Whatsapp->SendMessage($this->Utils->getOrigin($From), 'Internal error... If you\'re the owner, ¡see the logs!');
 				}
 				else
-					$this->Whatsapp->SendMessage($this->Utils->getOrigin($From), 'Ese módulo no existe...');
+					$this->Whatsapp->SendMessage($this->Utils->getOrigin($From), 'That module doesn\'t exists...');
 			}
 			else
 			{
