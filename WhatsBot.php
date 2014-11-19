@@ -1,5 +1,7 @@
 <?php
 	require_once 'class/WhatsBot.php';
 
-	$W = new WhatsBot();
+	$Debug = false;
+
+	$W = new WhatsBot($Debug);
 	$W->Listen();
