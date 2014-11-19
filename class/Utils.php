@@ -90,6 +90,11 @@
 			return false;
 		}
 
+		public function GetNumberFromJID($JID)
+		{
+			return substr($JID, 0, strpos($JID, '@'));
+		}
+
 		public function getNumberFromPrivateMessage($From)
 		{
 			//return str_replace(search, replace, subject)
