@@ -3444,7 +3444,7 @@ class WhatsProt
      */
     protected function sendData($data)
     {
-        if($this->socket != null)
+        if($this->isConnected())
         {
             fwrite($this->socket, $data, strlen($data));
         }
