@@ -170,6 +170,11 @@
 			return isset($this->Modules[strtolower($Name)]);
 		}
 
+		public function DomainModuleExists($Name)
+		{
+			return isset($this->DomainModules[strtolower($Name)]);
+		}
+
 		public function GetModules()
 		{
 			return array_keys($this->Modules);

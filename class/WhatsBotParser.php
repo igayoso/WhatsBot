@@ -57,20 +57,24 @@
 
 						if($PURL !== false)
 						{
-							$R = $this->ModuleManager->CallDomainModule
-							(
-								$PURL['host'],
+							if($this->ModuleManager->DomainModuleExists($PURL['host']))
+							{
+								$R = $this->ModuleManager->CallDomainModule
+								(
+									$PURL['host'],
 
-								$PURL,
-								$URL,
+									$PURL,
+									$URL,
 
-								$Me,
-								$ID,
-								$Time,
-								$From,
-								$Name,
-								$Text
-							);
+									$Me,
+									$ID,
+									$Time,
+									$From,
+									$Name,
+									$Text
+								);
+							}
+							///*else*/if($ExtensionModuleExists)...
 						}
 						else
 						{
