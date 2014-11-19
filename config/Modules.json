@@ -6,6 +6,7 @@
       "echo",
       "help",
       "md5",
+      "search",
       "setstatus"
     ],
     "domains":
