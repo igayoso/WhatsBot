@@ -38,6 +38,31 @@
 			return $From;
 		}
 
+		public static function GetFrom($FromData)
+		{
+			if($FromData['from'] == 'group')
+				return $FromData['g'];
+			else
+				return $FromData['u'];
+		}
+
+		public static function GetNumberFromJID($JID, $Group = false)
+		{
+			return substr($JID, 0, strpos($JID, ($Group) ? '-' : '@'));
+		}
+
+		public static function GetGroupIDFromJID($JID)
+		{
+
+		}
+
+		public static function GetText($ModuleName, $OriginalText, $Else = false)
+		{
+			$Text = substr($OriginalText, strlen($ModuleName) + 2);
+
+			return ($Text !== false) ? $Text : $Else;
+		}
+
 		public static function GetURLs($Text)
 		{
 			preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs);
@@ -49,40 +74,17 @@
 			return false;
 		}
 
+		public static function Show($Text, $WithNewLine = true)
+		{
+			fwrite(SDOUT, $Text . ($WithNewLine) ? PHP_EOL : '');
+		}
 
-
-
-
-/*
-// To do. 
-fwrite stdin
-
-
-		public static function getConfig($Key)
+		/*public static function getConfig($Key)
 		{
 			$Data = file_get_contents('config/WhatsBot.json');
 			$Data = json_decode($Data, true);
 
 			return (isset($Data[$Key])) ? $Data[$Key] : false;
-		}
-
-
-
-		public static function getOrigin($FromData)
-		{
-			if($FromData['from'] == 'group')
-				return $FromData['g'];
-			else
-				return $FromData['u'];
-		}
-
-		public static function getParams($Module, $Original, $Else) // Tal vez llamar a la ayuda en lugar de devolver $Else
-		{
-			$Length = strlen($Module) + 2; // Example '! echo $PARAMS' 1 + 4 + 1 - $PARAMS
-
-			$D = substr($Original, $Length);
-
-			return ($D !== false) ? $D : $Else; // Agregar constante con la respuesta específica de !help para este comando
 		}
 
 		public static function isGroup($From)
@@ -99,22 +101,5 @@ fwrite stdin
 				return true;
 
 			return false;
-		}
-
-		public static function GetNumberFromJID($JID)
-		{
-			return substr($JID, 0, strpos($JID, '@'));
-		}
-
-		public static function getNumberFromPrivateMessage($From)
-		{
-			//return str_replace(search, replace, subject)
-			//n@s.whatsapp.net
-			//n-g@g.us
-		}
-
-		public static function getNumberFromGroup($From)
-		{
-
 		}*/
 	}
