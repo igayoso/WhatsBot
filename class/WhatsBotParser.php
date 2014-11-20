@@ -4,19 +4,15 @@
 		private $Whatsapp = null;
 		private $ModuleManager = null;
 
-		private $Utils = null;
-
 		public function __construct(WhatsappBridge &$WhatsappBridge, ModuleManager &$ModuleManager)
 		{
 			$this->Whatsapp = &$WhatsappBridge;
 			$this->ModuleManager = &$ModuleManager;
-
-			$this->Utils = new Utils();
 		}
 
-		public function ParseTextMessage($Me, $FromG, $FromU, $ID, $Type, $Time, $Name, $Text) // Testear si el módulo necesita argumentos o no con explode y strlen...
+		public function ParseTextMessage($Me, $FromGroup, $FromUser, $ID, $Type, $Time, $Name, $Text) // Testear si el módulo necesita argumentos o no con explode y strlen...
 		{
-			$From = $this->Utils->makeFrom($FromG, $FromU);
+			$From = Utils::MakeFrom($FromGroup, $FromUser);
 
 			if($Text[0] == '!')
 			{
@@ -25,7 +21,7 @@
 
 				if($this->ModuleManager->ModuleExists($Parsed[0]))
 				{
-					$R = $this->ModuleManager->CallModule
+					$Response = $this->ModuleManager->CallModule
 					(
 						$Parsed[0],
 						$Parsed,
@@ -38,7 +34,7 @@
 						$Text
 					);
 
-					if($R === false)
+					if($Response === false)
 						$this->Whatsapp->SendMessage($this->Utils->getOrigin($From), 'Internal error... If you\'re the owner, ¡see the logs!');
 				}
 				else
@@ -46,10 +42,9 @@
 			}
 			else
 			{
-				preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs); // strtolower URL? // use $Utils->GetURLs()
-				$URLs = $URLs[0];
+				$URLs = Utils::GetURLs($Text);
 
-				if($URLs !== array())
+				if($URLs !== false)
 				{
 					foreach($URLs as $URL)
 					{

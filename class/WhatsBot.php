@@ -5,6 +5,7 @@
 	require_once 'ModuleManager.php';
 	require_once 'WhatsBotCaller.php';
 	require_once 'WhatsappBridge.php';
+	require_once 'Utils.php';
 
 	final class WhatsBot
 	{
@@ -20,46 +21,48 @@
 
 		public function __construct($Debug = false)
 		{
-			$Config = file_get_contents('config/WhatsBot.json'); // use getConfig or getJson
-			$Config = json_decode($Config, true);
+			$Config = Utils::GetJson('config/WhatsBot.json');
 
+			if($Config !== false && !empty($Config['whatsapp']['username']) && !empty($Config['whatsapp']['identity']) && !empty($Config['whatsapp']['password']) && !empty($Config['whatsapp']['nickname'])) // and DB
+			{
+				$this->InitWhatsAPI
+				(
+					$Config['whatsapp']['username'],
+					$Config['whatsapp']['identity'],
+					$Config['whatsapp']['password'],
+					$Config['whatsapp']['nickname'],
+					$Debug
+				);
 
-			$this->Password = $Config['whatsapp'][2];
+				//$this->InitDatabase();
+			}
+			else
+				exit('Can\'t load config...');
+		}
 
-			$this->Whatsapp = new WhatsProt
-			(
-				$Config['whatsapp'][0],
-				$Config['whatsapp'][1],
-				$Config['whatsapp'][3],
-				$Debug
-			);
+		private function InitWhatsAPI($Username, $Identity, $Password, $Nickname, $Debug)
+		{
+			$this->Whatsapp = new WhatsProt($Username, $Identity, $Nickname, $Debug);
 
 			$this->Bridge = new WhatsappBridge($this->Whatsapp);
-
-			$this->Caller = new WhatsBotCaller($this->ModuleManager, $this->Bridge); // No interesa que lo inicializemos después, está pasado por referencia
-
+			$this->Caller = new WhatsBotCaller($this->ModuleManager, $this->Bridge);
 			$this->ModuleManager = new ModuleManager($this->Caller);
-			$this->ModuleManager->LoadModules();
-
 			$this->Parser = new WhatsBotParser($this->Bridge, $this->ModuleManager);
+			$this->WhatsBotListener = new WhatsBotListener($this->Whatsapp, $this->Parser);
 
-			$this->Listener = new WhatsBotListener
-			(
-				$this->Whatsapp,
-				$Config['whatsapp'][2],
-				$this->Parser
-			);
+			$this->ModuleManager->LoadModules();
 
 			$this->Whatsapp->eventManager()->setDebug($Debug);
 			$this->Whatsapp->eventManager()->bindClass($this->Listener);
+
+			echo 'Connecting...' . PHP_EOL;
+			$this->Whatsapp->connect();
+			$this->Whatsapp->loginWithPassword($Password);
+			echo 'Connected...' . PHP_EOL;
 		}
 
 		public function Listen()
 		{
-			echo 'Connecting...' . PHP_EOL;
-
-			$this->Connect();
-
 			echo 'Listening...' . PHP_EOL;
 
 			$StartTime = time();
@@ -76,12 +79,6 @@
 					$StartTime = time();
 				}
 			}
-		}
-
-		private function Connect()
-		{
-			$this->Whatsapp->connect();
-			$this->Whatsapp->loginWithPassword($this->Password);
 		}
 	}
 

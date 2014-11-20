@@ -1,19 +1,20 @@
 {
   "database":
-  [
-    "localhost",
-    "root",
-    "",
-    "whatsbot"
-  ],
+  {
+    "hostname":"",
+    "username":"",
+    "password":"",
+    "database":""
+  },
   "whatsapp":
-  [
-    "numero",
-    "indentity",
-    "password",
-    "nickname",
+  {
+    "username":"",
+    "identity":"",
+    "password":"",
+    "nickname":"",
+    "admins":
     [
-      "admin1"
+      
     ]
-  ]
+  }
 }

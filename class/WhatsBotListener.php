@@ -2,20 +2,14 @@
 	class WhatsBotListener
 	{
 		private $Whatsapp = null;
-		private $Password = null;
-
 		private $Parser = null;
 
 		private $StartTime = null;
 
-		public function __construct(WhatsProt &$Whatsapp, $Password, WhatsBotParser &$Parser)
+		public function __construct(WhatsProt &$Whatsapp, WhatsBotParser &$Parser)
 		{
 			$this->Whatsapp = &$Whatsapp;
-			$this->Password = $Password;
-
 			$this->Parser = &$Parser;
-
-			// Maybe bind $this to eventManager here
 
 			$this->StartTime = time();
 		}
