@@ -19,7 +19,7 @@
 				$Parsed = substr($Text, 1);
 				$Parsed = explode(' ', $Parsed);
 
-				if($this->ModuleManager->ModuleExists($Parsed[0]))
+				if($this->ModuleManager->ModuleExists($Parsed[0])) // test if module is only for admins
 				{
 					$Response = $this->ModuleManager->CallModule
 					(
