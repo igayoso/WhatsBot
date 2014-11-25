@@ -35,10 +35,10 @@
 					);
 
 					if($Response === false)
-						$this->Whatsapp->SendMessage($this->Utils->getOrigin($From), 'Internal error... If you\'re the owner, ¡see the logs!');
+						$this->Whatsapp->SendMessage(Utils::GetFrom($From), 'Internal error... If you\'re the owner, ¡see the logs!');
 				}
 				else
-					$this->Whatsapp->SendMessage($this->Utils->getOrigin($From), 'That module doesn\'t exists...');
+					$this->Whatsapp->SendMessage(Utils::GetFrom($From), 'That module doesn\'t exists...');
 			}
 			else
 			{
