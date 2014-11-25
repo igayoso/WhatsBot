@@ -46,6 +46,26 @@
 				return $FromData['u'];
 		}
 
+		public static function IsAdmin($From)
+		{
+			if(is_array($From))
+				$From = Utils::GetNumberFromJID($From['u'], false);
+			else if(substr_count($From, '-') > 0 && substr_count($From, '@') > 0)
+				$From = Utils::GetNumberFromJID($From, true);
+			else if(substr_count($From, '@') > 0)
+				$From = Utils::GetNumberFromJID($From, false);
+
+			if($From !== false)
+			{
+				$Admins = Utils::GetJson('config/WhatsBot.json');
+
+				if(isset($Admins['whatsapp']['admins']))
+					return in_array($From, $Admins['whatsapp']['admins']);
+			}
+
+			return false;
+		}
+
 		public static function GetNumberFromJID($JID, $Group = false)
 		{
 			return substr($JID, 0, strpos($JID, ($Group) ? '-' : '@'));
@@ -74,7 +94,7 @@
 			return false;
 		}
 
-		public static function Show($Text, $WithNewLine = true)
+		public static function Write($Text, $WithNewLine = true)
 		{
 			fwrite(SDOUT, $Text . ($WithNewLine) ? PHP_EOL : '');
 		}
@@ -90,16 +110,5 @@
 		public static function isGroup($From)
 		{
 			return substr($From, -strlen('@g.us')) === '@g.us';
-		}
-
-		public static function isAdmin($From)
-		{
-			$Admins = file_get_contents('config/WhatsBot.json');
-			$Admins = json_decode($Admins, true)['whatsapp'][4];
-
-			if(in_array($From, $Admins))
-				return true;
-
-			return false;
 		}*/
 	}
