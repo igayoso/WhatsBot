@@ -1,3 +1,4 @@
 <?php
-	$T = $Utils->getParams($ModuleName, $Text, false);
-	$Whatsapp->SendMessage($Utils->getOrigin($From), ($T !== false) ? md5($T) : 'You must write something...');
+	$Text = Utils::GetText($ModuleName, $Text);
+
+	$Whatsapp->SendMessage(Utils::GetFrom($From), ($Text !== false) ? md5($Text) : 'You must write something...');
