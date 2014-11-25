@@ -1,27 +1,28 @@
 <?php
-	$O = $Utils->getOrigin($From);
+	$From = Utils::GetFrom($From);
 
 	if(isset($Params[1]))
 	{
 		if($ModuleManager->ModuleExists($Params[1]))
 		{
-			$H = $ModuleManager->GetModuleHelp($Params[1]);
+			$Help = $ModuleManager->GetModuleHelp($Params[1]);
 
-			if($H === false)
-				$Whatsapp->SendMessage($O, 'There is no help for that module...');
+			if($Help !== false)
+				$Whatsapp->SendMessage($From, $Help);
 			else
-				$Whatsapp->SendMessage($O, $H);
+				$Whatsapp->SendMessage($From, 'There is no help for that module...');
 		}
 		else
-			$Whatsapp->SendMessage($O, 'That module doesn\'t exists. Write !help to see list of available modules...');
+			$Whatsapp->SendMessage($From, 'That module doesn\'t exists. Write !help to see list of available modules...');
 	}
 	else
 	{
-		$H = $ModuleManager->GetModules();
-		$T = 'Available modules: ';
+		$Modules = $ModuleManager->GetModules();
 
-		foreach($H as $M)
-			$T .= "{$M} ";
+		$Text = 'Available modules: ';
 
-		$Whatsapp->SendMessage($O, $T);
+		foreach($Modules as $Module)
+			$Text .= "{$Module} "; // Delete last space
+
+		$Whatsapp->SendMessage($From, $Text);
 	}
