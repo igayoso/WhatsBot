@@ -134,7 +134,7 @@
 		{
 		}
 
-		public function LoadIncludes() // están disponibles fuera del ambito local? D:
+		/*public function LoadIncludes() // están disponibles fuera del ambito local? D:
 		{
 			$Includes = $this->Utils->getJson('config/Modules.json');
 
@@ -161,7 +161,7 @@
 			}
 
 			return false;
-		}
+		}*/
 
 		public function ModuleExists($Name)
 		{
@@ -204,4 +204,6 @@
 	 * Retornar modulos e includes cargados, como array
 	 * 
 	 * Buscar strtolowers olvidados xD
+	 * 
+	 * Remake includes system
 	 */
