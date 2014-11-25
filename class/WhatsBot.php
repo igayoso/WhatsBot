@@ -48,7 +48,7 @@
 			$this->Caller = new WhatsBotCaller($this->ModuleManager, $this->Bridge);
 			$this->ModuleManager = new ModuleManager($this->Caller);
 			$this->Parser = new WhatsBotParser($this->Bridge, $this->ModuleManager);
-			$this->WhatsBotListener = new WhatsBotListener($this->Whatsapp, $this->Parser);
+			$this->Listener = new WhatsBotListener($this->Whatsapp, $this->Parser);
 
 			$this->ModuleManager->LoadModules();
 
