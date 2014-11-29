@@ -46,12 +46,10 @@
 				return $FromData['u'];
 		}
 
-		public static function IsAdmin($From)
+		/*public static function IsAdmin($From)
 		{
 			if(is_array($From))
 				$From = Utils::GetNumberFromJID($From['u'], false);
-			else if(substr_count($From, '-') > 0 && substr_count($From, '@') > 0)
-				$From = Utils::GetNumberFromJID($From, true);
 			else if(substr_count($From, '@') > 0)
 				$From = Utils::GetNumberFromJID($From, false);
 
@@ -64,9 +62,9 @@
 			}
 
 			return false;
-		}
+		}*/
 
-		public static function GetNumberFromJID($JID, $Group = false)
+		public static function GetNumberFromJID($JID, $Group = false) // Delete group function?
 		{
 			return substr($JID, 0, strpos($JID, ($Group) ? '-' : '@'));
 		}
