@@ -3,7 +3,8 @@ To test
 
 	Search (Module): 
 		Commit: <https://github.com/fermino/WhatsBot/commit/d090d27141a498df5bfd46b553d391186bc9ca70>
-		Version: 1 beta. 
+		Version: 2 beta. 
+		To do: Find bugs in structure update.
 		Founded bugs: -
 	Soundcloud (Domain Module): 
 		Commit: <https://github.com/fermino/WhatsBot/commit/736bdb5c63fdc9932596c85abba5f49d40e2c8ff>
