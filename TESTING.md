@@ -8,7 +8,8 @@ To test
 		Founded bugs: -
 	Soundcloud (Domain Module): 
 		Commit: <https://github.com/fermino/WhatsBot/commit/736bdb5c63fdc9932596c85abba5f49d40e2c8ff>
-		Version: 1 beta. 
+		Version: 2 beta. 
+		To do: Find bugs in structure update.
 		Founded bugs: -
 	Domain Modules parer (Feature, WhatsBotParser): 
 		Commit: <https://github.com/fermino/WhatsBot/commit/736bdb5c63fdc9932596c85abba5f49d40e2c8ff>
