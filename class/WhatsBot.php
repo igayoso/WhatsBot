@@ -91,3 +91,10 @@
 	 * 
 	 * Implement? https://github.com/mgp25/WhatsAPI-Official/issues/169
 	 */
+
+	/* To do (new-structure): 
+	 * Fix Utils::IsAdmin
+	 * Fix !setstatus
+     * Test /soundcloud/
+     * Test !search (updated)
+     */
