@@ -92,6 +92,8 @@
 			return false;
 		}
 
+		// GetRemoteFile($URL, $SucessHeader = 200, $ParseURL = true);
+
 		public static function Write($Text, $WithNewLine = true)
 		{
 			fwrite(SDOUT, $Text . ($WithNewLine) ? PHP_EOL : '');
