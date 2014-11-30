@@ -1,2 +1,2 @@
 <?php
-	include 'class/modules/domain_soundcloud.php';
+	return include 'class/modules/domain_soundcloud.php';

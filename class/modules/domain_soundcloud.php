@@ -2,29 +2,32 @@
 	/* To do. 
 	 * If you have already the video size and hash, you can send it without re-uploading it to whatsapp servers
 	 * $w->sendMessageVideo($target, $filepath, false, $fsize, $fhash, $caption);
+	 * 
+	 * Use GetRemoteFile
 	 */
-	$From = $Utils->getOrigin($From);
+
+	$From = Utils::GetFrom($From);
 
 	$Error = true;
 
-	$Config = $Utils->getJson('config/soundcloud.json');
+	$Config = Utils::GetJson('config/soundcloud.json');
 
 	if($Config !== false && isset($Config['endpoint']) && isset($Config['clientid']))
 	{
 		$RequestURL = "{$Config['endpoint']}resolve.json?client_id={$Config['clientid']}&url={$URL}";
 
-		$Headers = get_headers($RequestURL, 1);
+		$Headers = get_headers($RequestURL, 1); // @?
 
 		if($Headers !== false && isset($Headers['Location']) && substr($Headers[0], 9, 3) == '302')
 		{
-			$Track = file_get_contents($RequestURL);
+			$Track = file_get_contents($RequestURL); // if false then return false
 			$Track = json_decode($Track, true);
 
 			if($Track !== false && isset($Track['kind']) && $Track['kind'] == 'track' && isset($Track['id']) && is_int($Track['id']))
 			{
 				$RequestURL = "{$Config['endpoint']}i1/tracks/{$Track['id']}/streams?client_id={$Config['clientid']}";
 
-				$Headers = get_headers($RequestURL, 1);
+				$Headers = get_headers($RequestURL, 1); // @?
 
 				if($Headers !== false && substr($Headers[0], 9, 3) == '200')
 				{
@@ -59,7 +62,7 @@
 
 							if($Playlist !== false)
 							{
-								$URLs = $Utils->GetURLs($Playlist);
+								$URLs = Utils::GetURLs($Playlist);
 
 								if($URLs !== false)
 								{

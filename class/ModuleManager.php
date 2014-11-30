@@ -4,7 +4,6 @@
 	class ModuleManager
 	{
 		private $Caller = null;
-		private $Utils = null;
 
 		private $Modules = array();
 		private $DomainModules = array();
@@ -13,12 +12,11 @@
 		public function __construct(WhatsBotCaller &$Caller)
 		{
 			$this->Caller = &$Caller;
-			$this->Utils = new Utils();
 		}
 
 		public function LoadModules() // devolver lista de modulos cargados
 		{
-			$Modules = $this->Utils->getJson('config/Modules.json');
+			$Modules = Utils::GetJson('config/Modules.json');
 
 			if($Modules !== false)
 			{
@@ -44,7 +42,7 @@
 
 			if(is_file($JsonFile) && is_file($PHPFile))
 			{
-				$Data = $this->Utils->getJson($JsonFile);
+				$Data = Utils::GetJson($JsonFile);
 
 				$this->Modules[strtolower($Name)] = array
 				(
@@ -136,7 +134,7 @@
 		{
 		}
 
-		public function LoadIncludes() // están disponibles fuera del ambito local? D:
+		/*public function LoadIncludes() // están disponibles fuera del ambito local? D:
 		{
 			$Includes = $this->Utils->getJson('config/Modules.json');
 
@@ -163,7 +161,7 @@
 			}
 
 			return false;
-		}
+		}*/
 
 		public function ModuleExists($Name)
 		{
@@ -206,4 +204,6 @@
 	 * Retornar modulos e includes cargados, como array
 	 * 
 	 * Buscar strtolowers olvidados xD
+	 * 
+	 * Remake includes system
 	 */

@@ -1,2 +1,2 @@
 <?php
-	$Whatsapp->SendMessage($Utils->getOrigin($From), $Utils->getParams('echo', $Text, 'You must write something...'));
+	$Whatsapp->SendMessage(Utils::GetFrom($From), Utils::GetText($ModuleName, $Text, 'You must write something...'));

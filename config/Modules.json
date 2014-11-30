@@ -6,12 +6,10 @@
       "echo",
       "help",
       "md5",
-      "search",
-      "setstatus"
+      "search"
     ],
     "domains":
     [
-      "example.com",
       "soundcloud.com",
       "m.soundcloud.com"
     ],

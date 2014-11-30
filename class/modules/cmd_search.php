@@ -1,14 +1,14 @@
 <?php
-	$From = $Utils->getOrigin($From);
-	$Params = $Utils->getParams($ModuleName, $Text, false);
+	$To = Utils::GetFrom($From);
+	$Text = Utils::GetText($ModuleName, $Text);
 
-	if($Params !== false)
+	if($Text !== false)
 	{
-		$Json = $Utils->getJson('config/GoogleSearch.json');
+		$Json = Utils::GetJson('config/GoogleSearch.json');
 
-		$Q = urlencode($Params);
+		$Q = urlencode($Text);
 
-		$UserID = $Utils->GetNumberFromJID($From);
+		$UserID = Utils::GetNumberFromJID($From['u']);
 		if(strlen($UserID) > 14)
 			$UserID = substr($UserID, 0, 14);
 		$UserID = urlencode($UserID);
@@ -19,7 +19,7 @@
 		if(!empty($Json['large']))
 			$RequestURL .= '&rsz=large';
 
-		$Data = file_get_contents($RequestURL);
+		$Data = file_get_contents($RequestURL); // if false then return false
 		$Data = json_decode($Data, true);
 
 		if($Data['responseStatus'] == 200)
@@ -35,10 +35,10 @@
 
 			$Message .= "{$Data['results'][$i]['unescapedUrl']} => {$Data['results'][$i]['titleNoFormatting']}";
 
-			$Whatsapp->SendMessage($From, $Message);
+			$Whatsapp->SendMessage($To, $Message);
 		}
 		else
-			$Whatsapp->SendMessage($From, 'Internal error...');
+			return false;
 	}
 	else
-		$Whatsapp->SendMessage($From, 'You must write something to search...');
+		$Whatsapp->SendMessage($To, 'You must write something to search...');

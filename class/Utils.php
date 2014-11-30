@@ -1,9 +1,9 @@
 <?php
 	class Utils
 	{
-		public function getJson($Filename)
+		public static function GetJson($Filename)
 		{
-			if(is_file($Filename))
+			if(is_file($Filename) && is_readable($Filename))
 			{
 				$Data = file_get_contents($Filename);
 
@@ -19,34 +19,26 @@
 			return false;
 		}
 
-		public function getConfig($Key)
+		public static function MakeFrom($FromGroup, $FromUser)
 		{
-			$Data = file_get_contents('config/WhatsBot.json');
-			$Data = json_decode($Data, true);
-
-			return (isset($Data[$Key])) ? $Data[$Key] : false;
-		}
-
-		public function makeFrom($FromG, $FromU)
-		{
-			if($FromG != null)
+			if($FromGroup != null)
 				$From = array
 				(
 					'from' => 'group',
-					'g' => $FromG,
-					'u' => $FromU
+					'g' => $FromGroup,
+					'u' => $FromUser
 				);
 			else
 				$From = array
 				(
-					'from' => 'privmsg',
-					'u' => $FromU
+					'from' => 'pv',
+					'u' => $FromUser
 				);
 
 			return $From;
 		}
 
-		public function getOrigin($FromData)
+		public static function GetFrom($FromData)
 		{
 			if($FromData['from'] == 'group')
 				return $FromData['g'];
@@ -54,16 +46,42 @@
 				return $FromData['u'];
 		}
 
-		public function getParams($Module, $Original, $Else) // Tal vez llamar a la ayuda en lugar de devolver $Else
+		/*public static function IsAdmin($From)
 		{
-			$Length = strlen($Module) + 2; // Example '! echo $PARAMS' 1 + 4 + 1 - $PARAMS
+			if(is_array($From))
+				$From = Utils::GetNumberFromJID($From['u'], false);
+			else if(substr_count($From, '@') > 0)
+				$From = Utils::GetNumberFromJID($From, false);
 
-			$D = substr($Original, $Length);
+			if($From !== false)
+			{
+				$Admins = Utils::GetJson('config/WhatsBot.json');
 
-			return ($D !== false) ? $D : $Else; // Agregar constante con la respuesta específica de !help para este comando
+				if(isset($Admins['whatsapp']['admins']))
+					return in_array($From, $Admins['whatsapp']['admins']);
+			}
+
+			return false;
+		}*/
+
+		public static function GetNumberFromJID($JID, $Group = false) // Delete group function?
+		{
+			return substr($JID, 0, strpos($JID, ($Group) ? '-' : '@'));
 		}
 
-		public function GetURLs($Text)
+		public static function GetGroupIDFromJID($JID)
+		{
+
+		}
+
+		public static function GetText($ModuleName, $OriginalText, $Else = false)
+		{
+			$Text = substr($OriginalText, strlen($ModuleName) + 2);
+
+			return ($Text !== false) ? $Text : $Else;
+		}
+
+		public static function GetURLs($Text)
 		{
 			preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs);
 			$URLs = $URLs[0];
@@ -74,36 +92,23 @@
 			return false;
 		}
 
-		public function isGroup($From)
+		// GetRemoteFile($URL, $SucessHeader = 200, $ParseURL = true);
+
+		public static function Write($Text, $WithNewLine = true)
+		{
+			fwrite(SDOUT, $Text . ($WithNewLine) ? PHP_EOL : '');
+		}
+
+		/*public static function getConfig($Key)
+		{
+			$Data = file_get_contents('config/WhatsBot.json');
+			$Data = json_decode($Data, true);
+
+			return (isset($Data[$Key])) ? $Data[$Key] : false;
+		}
+
+		public static function isGroup($From)
 		{
 			return substr($From, -strlen('@g.us')) === '@g.us';
-		}
-
-		public function isAdmin($From)
-		{
-			$Admins = file_get_contents('config/WhatsBot.json');
-			$Admins = json_decode($Admins, true)['whatsapp'][4];
-
-			if(in_array($From, $Admins))
-				return true;
-
-			return false;
-		}
-
-		public function GetNumberFromJID($JID)
-		{
-			return substr($JID, 0, strpos($JID, '@'));
-		}
-
-		public function getNumberFromPrivateMessage($From)
-		{
-			//return str_replace(search, replace, subject)
-			//n@s.whatsapp.net
-			//n-g@g.us
-		}
-
-		public function getNumberFromGroup($From)
-		{
-
-		}
+		}*/
 	}
