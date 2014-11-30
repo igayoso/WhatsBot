@@ -1,3 +1,8 @@
+Add module name to config/Modules.json => ['modules']['commands']
+
+
+Add cmd_MODULE_NAME.json to modules/
+
 Json: 
 ```json
 	{
@@ -6,6 +11,8 @@ Json:
 		"version":MODULE VERSION (INT)
 	}
 ```
+
+Add cmd_MODULE_NAME.php to modules/
 
 PHP: 
 ```php
