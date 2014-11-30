@@ -85,4 +85,9 @@
 	/* To do: 
 	 * Make an parser for modules (With https://github.com/nikic/PHP-Parser ?)
 	 * Flood detection / protection
+	 * 
+	 * https://github.com/mgp25/WhatsAPI-Official/issues/164#issuecomment-64790667
+	 * Add syncing before send message (Array with numbers synceds? [IF DISCONNECT?])
+	 * 
+	 * Implement? https://github.com/mgp25/WhatsAPI-Official/issues/169
 	 */
