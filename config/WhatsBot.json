@@ -1,10 +1,7 @@
 {
   "database":
   {
-    "hostname":"",
-    "username":"",
-    "password":"",
-    "database":""
+    "filename":"DB.sqlite"
   },
   "whatsapp":
   {
