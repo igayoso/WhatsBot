@@ -5,6 +5,7 @@
 	require_once 'ModuleManager.php';
 	require_once 'WhatsBotCaller.php';
 	require_once 'WhatsappBridge.php';
+	require_once 'DB/DB.php';
 	require_once 'Utils.php';
 
 	final class WhatsBot
@@ -19,12 +20,16 @@
 		private $Caller = null;
 		private $Bridge = null;
 
+		private $DB = null;
+
 		public function __construct($Debug = false)
 		{
 			$Config = Utils::GetJson('config/WhatsBot.json');
 
-			if($Config !== false && !empty($Config['whatsapp']['username']) && !empty($Config['whatsapp']['identity']) && !empty($Config['whatsapp']['password']) && !empty($Config['whatsapp']['nickname'])) // and DB
+			if($Config !== false && !empty($Config['database']['filename']) && !empty($Config['whatsapp']['username']) && !empty($Config['whatsapp']['identity']) && !empty($Config['whatsapp']['password']) && !empty($Config['whatsapp']['nickname'])) // and DB
 			{
+				$this->InitDB($Config['database']['filename']);
+
 				$this->InitWhatsAPI
 				(
 					$Config['whatsapp']['username'],
@@ -33,11 +38,14 @@
 					$Config['whatsapp']['nickname'],
 					$Debug
 				);
-
-				//$this->InitDatabase();
 			}
 			else
 				exit('Can\'t load config...');
+		}
+
+		private function InitDB($Filename)
+		{
+			$this->DB = new WhatsBotDB($Filename);
 		}
 
 		private function InitWhatsAPI($Username, $Identity, $Password, $Nickname, $Debug)
@@ -48,7 +56,7 @@
 			$this->Caller = new WhatsBotCaller($this->ModuleManager, $this->Bridge);
 			$this->ModuleManager = new ModuleManager($this->Caller);
 			$this->Parser = new WhatsBotParser($this->Bridge, $this->ModuleManager);
-			$this->Listener = new WhatsBotListener($this->Whatsapp, $this->Parser);
+			$this->Listener = new WhatsBotListener($this->Whatsapp, $this->Parser, $this->DB);
 
 			$this->ModuleManager->LoadModules();
 
