@@ -74,6 +74,11 @@
 
 		}
 
+		public static function IsGroupJID($JID)
+		{
+			return substr_count($JID, '@') == 1 && substr_count($JID, '-') == 1;
+		}
+
 		public static function GetText($ModuleName, $OriginalText, $Else = false)
 		{
 			$Text = substr($OriginalText, strlen($ModuleName) + 2);
