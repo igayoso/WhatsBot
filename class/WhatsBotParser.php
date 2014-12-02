@@ -84,7 +84,7 @@
 			}
 		}
 
-		public function ParseMediaMessage($Me, $From, $ID, $Type, $Subtype, $Time, $Name, Array $Data)
+		public function ParseMediaMessage($Me, $From, $ID, $Type, $Subtype, $Time, $Name, Array $Data) // download data instead passing url
 		{
 			if($this->ModuleManager->MediaModuleExists($Subtype))
 				$this->ModuleManager->CallMediaModule
