@@ -83,5 +83,23 @@
 				}
 			}
 		}
+
+		public function ParseMediaMessage($Me, $From, $ID, $Type, $Subtype, $Time, $Name, Array $Data)
+		{
+			if($this->ModuleManager->MediaModuleExists($Subtype))
+				$this->ModuleManager->CallMediaModule
+				(
+					$Subtype,
+
+					$Me,
+					$From,
+					$ID,
+					$Type,
+					$Time,
+					$Name,
+
+					$Data
+				);
+		}
 	}
 

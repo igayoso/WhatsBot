@@ -8,6 +8,7 @@
 		private $Modules = array();
 		private $DomainModules = array();
 		private $ExtModules = array();
+		private $MediaModules = array();
 
 		public function __construct(WhatsBotCaller &$Caller)
 		{
@@ -23,6 +24,7 @@
 				$Commands = $Modules['modules']['commands'];
 				$Domains = $Modules['modules']['domains'];
 				$Extensions = $Modules['modules']['exts'];
+				$Medias = $Modules['modules']['media'];
 
 				foreach($Commands as $Command)
 					$this->LoadModule($Command);
@@ -32,8 +34,12 @@
 
 				foreach($Extensions as $Extension)
 					;//$this->LoadExtensionModule($Extension);
+
+				foreach($Medias as $Media)
+					$this->LoadMediaModule($Media);
 			}
 		}
+
 
 		private function LoadModule($Name) // public for !load or !reload
 		{
@@ -77,18 +83,34 @@
 
 		private function LoadExtensionModule($Name)
 		{
+
 		}
 
-		private function LoadMediaModules($Name)
+		private function LoadMediaModule($Name)
 		{
+			$Filename = "class/modules/media_{$Name}.php";
+
+			if(is_file($Filename))
+			{
+				$this->MediaModules[strtolower($Name)] = array
+				(
+					// version,
+					'file' => $Filename
+				);
+
+				return true;
+			}
+
+			return false;
 		}
 
-		public function CallModule($ModuleName, $Params, $Me, $ID, $Time, $From, $Name, $Text)
+
+		public function CallModule($ModuleName, $Params, $Me, $ID, $Time, $From, $Name, $Text) // cambiar orden
 		{
 			$ModuleName = strtolower($ModuleName);
 
 			if(isset($this->Modules[$ModuleName]))
-				return $this->Caller->CallModule
+				return $this->Caller->CallModule // cambiar orden
 				(
 					$ModuleName,
 					$this->Modules[$ModuleName]['file'],
@@ -103,15 +125,15 @@
 					$Text
 				);
 
-			return false;
+			return null;
 		}
 
-		public function CallDomainModule($ModuleName, $ParsedURL, $URL, $Me, $ID, $Time, $From, $Name, $Text)
+		public function CallDomainModule($ModuleName, $ParsedURL, $URL, $Me, $ID, $Time, $From, $Name, $Text) // cambiar orden
 		{
 			$ModuleName = strtolower($ModuleName);
 
 			if(isset($this->DomainModules[$ModuleName]))
-				return $this->Caller->CallDomainModule
+				return $this->Caller->CallDomainModule // cambiar orden
 				(
 					$ModuleName,
 					$this->DomainModules[$ModuleName]['file'],
@@ -127,12 +149,37 @@
 					$Text
 				);
 
-			return false;
+			return null;
 		}
 
 		public function CallExtensionModule($Params)
 		{
+
 		}
+
+		public function CallMediaModule($ModuleName, $Me, $From, $ID, $Type, $Time, $Name, Array $Data) // carga automatica? if is file then load & exec without loadmodules() & modules[media]
+		{
+			$ModuleName = strtolower($ModuleName);
+
+			if(isset($this->MediaModules[$ModuleName]))
+				return $this->Caller->CallMediaModule
+				(
+					$ModuleName,
+					$this->MediaModules[$ModuleName]['file'],
+
+					$Me,
+					$From,
+					$ID,
+					$Type,
+					$Time,
+					$Name,
+
+					$Data
+				);
+
+			return null;
+		}
+
 
 		/*public function LoadIncludes() // están disponibles fuera del ambito local? D:
 		{
@@ -163,6 +210,7 @@
 			return false;
 		}*/
 
+
 		public function ModuleExists($Name)
 		{
 			return isset($this->Modules[strtolower($Name)]);
@@ -172,6 +220,17 @@
 		{
 			return isset($this->DomainModules[strtolower($Name)]);
 		}
+
+		public function ExtensionModuleExists($Name)
+		{
+			return isset($this->ExtModules[strtolower($Name)]);
+		}
+
+		public function MediaModuleExists($Name)
+		{
+			return isset($this->MediaModules[strtolower($Name)]);
+		}
+
 
 		public function GetModules()
 		{

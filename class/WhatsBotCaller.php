@@ -27,4 +27,13 @@
 
 			return include $Filename;
 		}
+
+		public function CallMediaModule($ModuleName, $Filename, $Me, $From, $ID, $Type, $Time, $Name, Array $Data)
+		{
+			$Whatsapp = &$this->Whatsapp;
+
+			extract($Data);
+
+			return include $Filename;
+		}
 	}

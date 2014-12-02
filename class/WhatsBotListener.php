@@ -33,6 +33,35 @@
 				$this->Parser->ParseTextMessage($Me, $GroupID, $From, $ID, $Type, $Time, $Name, $Text);
 		}
 
+		public function onGetImage($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
+		{
+			// Log to DB
+
+			if($Time > $this->StartTime)
+				$this->Parser->ParseMediaMessage
+				(
+					$Me,
+					$From,
+					$ID, 
+					$Type,
+					'image',
+					$Time,
+					$Name,
+					array
+					(
+						'Size' => $Size,
+						'URL' => $URL,
+						'File' => $File,
+						'MIME' => $MIME,
+						'Hash' => $Hash,
+						'Width' => $Width,
+						'Height' => $Height,
+						'Preview' => $Preview,
+						'Caption' => $Caption
+					)
+				);
+		}
+
 		public function onGetReceipt($From, $ID, $Offline, $Retry)
 		{
 			$this->Whatsapp->sendPong($ID);
@@ -56,14 +85,11 @@
 		    onGetBroadcastLists( $mynumber, $broadcastLists )
 		    onGetError( $mynumber, $id, $data )
 		    onGetExtendAccount( $mynumber, $kind, $status, $creation, $expiration )
-		    onGetGroupMessage( $mynumber, $from_group_jid, $from_user_jid, $id, $type, $time, $name, $body )
 		    onGetGroupParticipants( $mynumber, $groupId, $groupList )
 		    onGetGroups( $mynumber, $groupList )
 		    onGetGroupsInfo( $mynumber, $groupList )
 		    onGetGroupsSubject( $mynumber, $group_jid, $time, $author, $name, $subject )
-		    onGetImage( $mynumber, $from, $id, $type, $time, $name, $size, $url, $file, $mimeType, $fileHash, $width, $height, $preview, $caption )
 		    onGetLocation( $mynumber, $from, $id, $type, $time, $name, $name, $longitude, $latitude, $url, $preview )
-		    onGetMessage( $mynumber, $from, $id, $type, $time, $name, $body )
 		    onGetNormalizedJid( $mynumber, $data )
 		    onGetPrivacyBlockedList( $mynumber, $data )
 		    onGetProfilePicture( $mynumber, $from, $type, $data )
