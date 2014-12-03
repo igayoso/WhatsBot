@@ -106,3 +106,7 @@
      * Test /soundcloud/
      * Test !search (updated)
      */
+
+	/*
+	 * Implement: https://github.com/mgp25/WhatsAPI-Official/wiki/WhatsAPI-Documentation#whatsapp-workflow
+	 */
