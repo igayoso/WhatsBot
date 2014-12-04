@@ -63,14 +63,14 @@
 			$this->Whatsapp->eventManager()->setDebug($Debug);
 			$this->Whatsapp->eventManager()->bindClass($this->Listener);
 
-			echo 'Connecting...' . PHP_EOL;
+			Utils::Write('Connecting...');
 			$this->Whatsapp->connect();
 			$this->Whatsapp->loginWithPassword($Password);
 		}
 
 		public function Listen()
 		{
-			echo 'Listening...' . PHP_EOL;
+			Utils::Write('Listening...');
 
 			$StartTime = time();
 
@@ -97,8 +97,6 @@
 	 * Add syncing before send message (Array with numbers synceds? [IF DISCONNECT?])
 	 * 
 	 * Implement? https://github.com/mgp25/WhatsAPI-Official/issues/169
-	 *
-	 * Replace echo with Utils::Write
 	 */
 
 	/* To do (new-structure): 

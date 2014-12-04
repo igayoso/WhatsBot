@@ -15,13 +15,13 @@
 			$this->Classes[] = &$Class;
 
 			if($this->Debug)
-				echo 'Class ' . get_class($Class) . ' binded...' . PHP_EOL;
+				Utils::Write('Class ' . get_class($Class) . ' binded...');
 		}
 
 		public function fire($Event, Array $Params)
 		{
 			if($this->Debug)
-				echo "Event fired: {$Event}" . PHP_EOL;
+				Utils::Write("Event fired: {$Event}");
 
 			for($i = 0; $i < count($this->Classes); $i++)
 				if(method_exists($this->Classes[$i], $Event) && is_callable(array($this->Classes[$i], $Event), true)) // To do: If method is private it returns true, fix!
