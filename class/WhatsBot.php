@@ -103,9 +103,9 @@
 	/* To do (new-structure): 
 	 * Fix Utils::IsAdmin
 	 * Fix !setstatus
-     * Test /soundcloud/
-     * Test !search (updated)
-     */
+	 * Test /soundcloud/
+	 * Test !search (updated)
+	 */
 
 	/*
 	 * Implement: https://github.com/mgp25/WhatsAPI-Official/wiki/WhatsAPI-Documentation#whatsapp-workflow
