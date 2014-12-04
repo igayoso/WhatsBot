@@ -66,7 +66,6 @@
 			echo 'Connecting...' . PHP_EOL;
 			$this->Whatsapp->connect();
 			$this->Whatsapp->loginWithPassword($Password);
-			echo 'Connected...' . PHP_EOL;
 		}
 
 		public function Listen()
@@ -98,6 +97,8 @@
 	 * Add syncing before send message (Array with numbers synceds? [IF DISCONNECT?])
 	 * 
 	 * Implement? https://github.com/mgp25/WhatsAPI-Official/issues/169
+	 *
+	 * Replace echo with Utils::Write
 	 */
 
 	/* To do (new-structure): 

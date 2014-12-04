@@ -101,7 +101,8 @@
 
 		public static function Write($Text, $WithNewLine = true)
 		{
-			fwrite(SDOUT, $Text . ($WithNewLine) ? PHP_EOL : '');
+			$Text .= ($WithNewLine) ? PHP_EOL : ''; // $Text = $Text . ($WithNewLine) ? PHP_EOL : ''; Doesn't work, bug? xD
+			fwrite(STDOUT, $Text);
 		}
 
 		/*public static function getConfig($Key)

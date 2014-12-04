@@ -17,6 +17,13 @@
 			$this->StartTime = time();
 		}
 
+		// To do: Log every event to database
+
+		public function onConnect($Me, $Socket)
+		{
+			Utils::Write('Connected...');
+		}
+
 		public function onGetMessage($Me, $From, $ID, $Type, $Time, $Name, $Text)
 		{
 			$this->DB->InsertMessage($Me, $From, $ID, $Type, $Time, $Name, $Text);
@@ -74,7 +81,6 @@
 		    onCodeRequest( $mynumber, $method, $length )
 		    onCodeRequestFailed( $mynumber, $method, $reason, $param )
 		    onCodeRequestFailedTooRecent( $mynumber, $method, $reason, $retry_after )
-		    onConnect( $mynumber, $socket ) 
 		    onConnectError( $mynumber, $socket )
 		    onCredentialsBad( $mynumber, $status, $reason )
 		    onCredentialsGood( $mynumber, $login, $password, $type, $expiration, $kind, $price, $cost, $currency, $price_expiration )
