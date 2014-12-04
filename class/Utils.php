@@ -76,7 +76,7 @@
 
 		public static function IsGroupJID($JID)
 		{
-			return substr_count($JID, '@') == 1 && substr_count($JID, '-') == 1;
+			return substr_count($JID, '@') == 1 && substr_count($JID, '-') == 1 && substr($JID, -5) === '@g.us';
 		}
 
 		public static function GetText($ModuleName, $OriginalText, $Else = false)
@@ -110,10 +110,5 @@
 			$Data = json_decode($Data, true);
 
 			return (isset($Data[$Key])) ? $Data[$Key] : false;
-		}
-
-		public static function isGroup($From)
-		{
-			return substr($From, -strlen('@g.us')) === '@g.us';
 		}*/
 	}
