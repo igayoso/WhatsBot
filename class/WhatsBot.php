@@ -97,6 +97,8 @@
 	 * Add syncing before send message (Array with numbers synceds? [IF DISCONNECT?])
 	 * 
 	 * Implement? https://github.com/mgp25/WhatsAPI-Official/issues/169
+	 * 
+	 * Only CLI use
 	 */
 
 	/* To do (new-structure): 

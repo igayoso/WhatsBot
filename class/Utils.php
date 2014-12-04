@@ -64,12 +64,17 @@
 			return false;
 		}*/
 
-		public static function GetNumberFromJID($JID, $Group = false) // Delete group function?
+		public static function GetNumberFromJID($JID)
 		{
-			return substr($JID, 0, strpos($JID, ($Group) ? '-' : '@'));
+			return substr($JID, 0, strpos($JID, '@'));
 		}
 
-		public static function GetGroupIDFromJID($JID)
+		public static function GetGroupCreator($JID)
+		{
+
+		}
+
+		public static function GetGroupID($JID)
 		{
 
 		}
@@ -101,8 +106,7 @@
 
 		public static function Write($Text, $WithNewLine = true)
 		{
-			$Text .= ($WithNewLine) ? PHP_EOL : ''; // $Text = $Text . ($WithNewLine) ? PHP_EOL : ''; Doesn't work, bug? xD
-			fwrite(STDOUT, $Text);
+			fwrite(STDOUT, $Text . ($WithNewLine ? PHP_EOL : null));
 		}
 
 		/*public static function getConfig($Key)
