@@ -33,7 +33,7 @@
 					$this->LoadDomainModule($Domain);
 
 				foreach($Extensions as $Extension)
-					;//$this->LoadExtensionModule($Extension);
+					$this->LoadExtensionModule($Extension);
 
 				foreach($Medias as $Media)
 					$this->LoadMediaModule($Media);
@@ -46,7 +46,7 @@
 			$JsonFile = "class/modules/cmd_{$Name}.json";
 			$PHPFile = "class/modules/cmd_{$Name}.php";
 
-			if(is_file($JsonFile) && is_file($PHPFile))
+			if(is_file($JsonFile) && is_file($PHPFile) && is_readable($JsonFile) && is_readable($PHPFile))
 			{
 				$Data = Utils::GetJson($JsonFile);
 
@@ -67,7 +67,7 @@
 		{
 			$Filename = "class/modules/domain_{$Name}.php";
 
-			if(is_file($Filename))
+			if(is_file($Filename) && is_readable($Filename))
 			{
 				$this->DomainModules[strtolower($Name)] = array
 				(
@@ -83,14 +83,27 @@
 
 		private function LoadExtensionModule($Name)
 		{
+			$Filename = "class/modules/ext_{$Name}.php";
 
+			if(is_file($Filename) && is_readable($Filename))
+			{
+				$this->ExtModules[strtolower($Name)] = array
+				(
+					// version,
+					'file' => $Filename
+				);
+
+				return true;
+			}
+
+			return false;
 		}
 
 		private function LoadMediaModule($Name)
 		{
 			$Filename = "class/modules/media_{$Name}.php";
 
-			if(is_file($Filename))
+			if(is_file($Filename) && is_readable($Filename))
 			{
 				$this->MediaModules[strtolower($Name)] = array
 				(
@@ -109,7 +122,7 @@
 		{
 			$ModuleName = strtolower($ModuleName);
 
-			if(isset($this->Modules[$ModuleName]))
+			if(isset($this->Modules[$ModuleName])) // use exists()
 				return $this->Caller->CallModule // cambiar orden
 				(
 					$ModuleName,
@@ -132,7 +145,7 @@
 		{
 			$ModuleName = strtolower($ModuleName);
 
-			if(isset($this->DomainModules[$ModuleName]))
+			if(isset($this->DomainModules[$ModuleName])) // use exists()
 				return $this->Caller->CallDomainModule // cambiar orden
 				(
 					$ModuleName,
@@ -152,16 +165,36 @@
 			return null;
 		}
 
-		public function CallExtensionModule($Params)
+		public function CallExtensionModule($ModuleName, $Me, $From, $ID, $Type, $Time, $Name, $Text, $URL, $ParsedURL)
 		{
+			$ModuleName = strtolower($ModuleName);
 
+			if($this->ExtensionModuleExists($ModuleName))
+				return $this->Caller->CallExtensionModule
+				(
+					$ModuleName,
+					$this->ExtModules[$ModuleName]['file'],
+
+					$Me,
+					$From,
+					$ID,
+					$Type,
+					$Time,
+					$Name,
+					$Text,
+
+					$URL,
+					$ParsedURL
+				);
+
+			return null;
 		}
 
 		public function CallMediaModule($ModuleName, $Me, $From, $ID, $Type, $Time, $Name, Array $Data) // carga automatica? if is file then load & exec without loadmodules() & modules[media]
 		{
 			$ModuleName = strtolower($ModuleName);
 
-			if(isset($this->MediaModules[$ModuleName]))
+			if(isset($this->MediaModules[$ModuleName])) // use exists()
 				return $this->Caller->CallMediaModule
 				(
 					$ModuleName,

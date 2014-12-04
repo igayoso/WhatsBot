@@ -48,7 +48,7 @@
 				{
 					foreach($URLs as $URL)
 					{
-						$PURL = parse_url($URL);
+						$PURL = parse_url($URL); // Change to $ParsedURL
 
 						if($PURL !== false)
 						{
@@ -69,7 +69,29 @@
 									$Text
 								);
 							}
-							///*else*/if($ExtensionModuleExists)...
+							else // else or not?
+							{
+								$Extension = pathinfo($URL, PATHINFO_EXTENSION);
+
+								if(!empty($Extension) && $this->ModuleManager->ExtensionModuleExists($Extension))
+								{
+									$R = $this->ModuleManager->CallExtensionModule
+									(
+										$Extension,
+
+										$Me,
+										$From,
+										$ID,
+										$Type,
+										$Time,
+										$Name,
+										$Text,
+
+										$URL,
+										$PURL
+									);
+								}
+							}
 						}
 						else
 						{

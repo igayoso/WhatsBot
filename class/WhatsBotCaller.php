@@ -28,6 +28,13 @@
 			return include $Filename;
 		}
 
+		public function CallExtensionModule($ModuleName, $Filename, $Me, $From, $ID, $Type, $Time, $Name, $Text, $URL, $ParsedURL)
+		{
+			$Whatsapp = &$this->Whatsapp;
+
+			return include $Filename;
+		}
+
 		public function CallMediaModule($ModuleName, $Filename, $Me, $From, $ID, $Type, $Time, $Name, Array $Data)
 		{
 			$Whatsapp = &$this->Whatsapp;
