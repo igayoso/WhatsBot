@@ -821,7 +821,7 @@ class WhatsProt
         $node = new ProtocolNode("iq", array(
             "id" => $msgId,
             "xmlns" => "urn:xmpp:whatsapp:push",
-            "type" => "set",
+            "type" => "get",
             "to" => static::WHATSAPP_SERVER
                 ), array($child), null);
         $this->sendNode($node);
@@ -837,26 +837,6 @@ class WhatsProt
     public function sendGetGroups()
     {
         $this->sendGetGroupsFiltered("participating");
-    }
-
-    /**
-     * Send a request to get information about a specific group
-     *
-     * @param  string $gjid The specific group id
-     */
-    public function sendGetGroupsInfo($gjid)
-    {
-        $msgId = $this->createMsgId("getgroupinfo");
-
-        $child = new ProtocolNode("query", null, null, null);
-        $node = new ProtocolNode("iq", array(
-            "id" => $msgId,
-            "type" => "get",
-            "xmlns" => "w:g",
-            "to" => $this->getJID($gjid)
-                ), array($child), null);
-        $this->sendNode($node);
-        $this->waitForServer($msgId);
     }
 
     /**
@@ -905,7 +885,7 @@ class WhatsProt
         $node = new ProtocolNode("iq", array(
             "id" => $msgId,
             "type" => "get",
-            "xmlns" => "w:g",
+            "xmlns" => "w:g2",
             "to" => $this->getJID($gjid)
                 ), array($child), null);
         $this->sendNode($node);
@@ -1042,7 +1022,6 @@ class WhatsProt
             "to" => "s.whatsapp.net"
                 ), array($child), null);
         $this->sendNode($node);
-        $this->waitForServer($id);
     }
 
 	/**
@@ -1184,17 +1163,25 @@ class WhatsProt
   }
 
   /**
-  * Get voip info. of a number
+  * Get voip info. of a number/s
   *
-  * @param string $number
+  * @param string $jids
   */
-  public function sendGetHasVoipEnabled($number)
+  public function sendGetHasVoipEnabled($jids)
   {
     $msgId = $this->createMsgId("voip_");
-    $userNode = new ProtocolNode("user", array(
-      "jid" => $number."@".static::WHATSAPP_SERVER
-    ), null, null);
-    $eligibleNode = new ProtocolNode("eligible", null, array($userNode), null);
+
+    if(!is_array($jids))
+    {
+      $jids = array($jids);
+    }
+    $userNode = array();
+    foreach($jids as $jid)
+    {
+      $userNode[] = new ProtocolNode("user", array('jid' => $this->getJID($jid)), null, null);
+    }
+
+    $eligibleNode = new ProtocolNode("eligible", null, $userNode, null);
     $node = new ProtocolNode("iq", array(
       "id" => $msgId,
       "xmlns" => "voip",
@@ -1218,7 +1205,7 @@ class WhatsProt
         $children = array();
         foreach($jids as $jid)
         {
-            $children[] = new ProtocolNode("user", array("jid" => $this->getJID($jid)), null, null);
+            $children[] = new ProtocolNode("user", array("jid" => $this->getJID($jid), "t" => time()), null, null);
         }
         $node = new ProtocolNode("iq", array(
             "to" => "s.whatsapp.net",
@@ -1242,36 +1229,43 @@ class WhatsProt
      * @return string
      *   The group ID.
      */
-    public function sendGroupsChatCreate($subject, $participants = array())
-    {
-        $groupHash = array();
-        $groupHash["action"] = "create";
-        $groupHash["subject"] = $subject;
-        $group = new ProtocolNode("group", $groupHash, null, "");
+     public function sendGroupsChatCreate($subject, $participants)
+     {
+       if (!is_array($participants)) {
+         $participants = array($participants);
+       }
+       foreach ($participants as $participant)
+       {
+         $participantNode[] = new ProtocolNode("participant", array(
+           "jid" => $this->getJID($participant)
+         ), null, null);
+       }
 
-        $setHash = array();
-        $setHash["id"] = $this->createMsgId("creategroup");
-        $setHash["type"] = "set";
-        $setHash["xmlns"] = "w:g";
-        $setHash["to"] = static::WHATSAPP_GROUP_SERVER;
-        $groupNode = new ProtocolNode("iq", $setHash, array($group), "");
+       $id = $this->createMsgId("creategroup");
 
-        $this->sendNode($groupNode);
-        $this->waitForServer($setHash["id"]);
-        $groupId = $this->groupId;
+       $createNode = new ProtocolNode("create", array(
+         "subject" => $subject
+       ), $participantNode, null);
 
-        if (count($participants) > 0) {
-            $this->sendGroupsParticipantsAdd($groupId, $participants);
-        }
+       $iqNode = new ProtocolNode("iq", array(
+         "xmlns" => "w:g2",
+         "id" => $id,
+         "type" => "set",
+         "to" => "g.us"
+       ), array($createNode), null);
 
-            $this->eventManager()->fire("onGroupCreate",
-                array(
-                    $this->phoneNumber,
-                    $groupId
-                ));
+       $this->sendNode($iqNode);
+       $this->waitForServer($id);
+       $groupId = $this->groupId;
 
-        return $groupId;
-    }
+       $this->eventManager()->fire("onGroupCreate",
+       array(
+         $this->phoneNumber,
+         $groupId
+       ));
+
+       return $groupId;
+     }
 
     public function sendSetGroupSubject($gjid, $subject)
     {
@@ -1280,7 +1274,7 @@ class WhatsProt
             "id" => $this->createMsgId("set_group_subject"),
             "type" => "set",
             "to" => $this->getJID($gjid),
-            "xmlns" => "w:g"
+            "xmlns" => "w:g2"
         ), array($child), null);
         $this->sendNode($node);
     }
@@ -1306,7 +1300,7 @@ class WhatsProt
         $iqData = array();
         $iqData["id"] = $msgID;
         $iqData["type"] = "set";
-        $iqData["xmlns"] = "w:g";
+        $iqData["xmlns"] = "w:g2";
         $iqData["to"] = static::WHATSAPP_GROUP_SERVER;
         $iqNode = new ProtocolNode("iq", $iqData, array($leaveNode), null);
 
@@ -1333,7 +1327,7 @@ class WhatsProt
         $hash["id"] = $this->createMsgId("leavegroups");
         $hash["to"] = static::WHATSAPP_GROUP_SERVER;
         $hash["type"] = "set";
-        $hash["xmlns"] = "w:g";
+        $hash["xmlns"] = "w:g2";
         $node = new ProtocolNode("iq", $hash, array($leave), null);
         $this->sendNode($node);
         $this->waitForServer($hash["id"]);
@@ -2881,7 +2875,7 @@ class WhatsProt
                 //Events fired depend on text in the ID field.
                 $groupList = array();
                 if ($node->getChild(0) != null) {
-                    foreach ($node->getChildren() as $child) {
+                    foreach ($node->getChild(0)->getChildren() as $child) {
                         $groupList[] = $child->getAttributes();
                     }
                 }
@@ -2953,6 +2947,7 @@ class WhatsProt
                 if ($node->getChild(0) != null) {
                     $childArray = $node->getChildren();
                     foreach ($childArray as $list) {
+                      if($list->getChildren() != null) {
                         foreach ( $list->getChildren() as $sublist) {
                             $id = $sublist->getAttribute("id");
                             $name = $sublist->getAttribute("name");
@@ -2963,6 +2958,7 @@ class WhatsProt
                             }
                             $broadcastLists[$id]['recipients'] = $recipients;
                         }
+                      }
                     }
                 }
                 $this->eventManager()->fire("onGetBroadcastLists",
@@ -3443,8 +3439,8 @@ class WhatsProt
             {
                 throw new Exception("Failed to read stanza header");
             }
-            $treeLength = 0;
-            $treeLength = ord($header[1]) << 8;
+            $treeLength = (ord($header[0]) & 0x0F) << 16;
+            $treeLength |= ord($header[1]) << 8;
             $treeLength |= ord($header[2]) << 0;
 
             //read full length
@@ -3590,13 +3586,11 @@ class WhatsProt
     protected function sendGetGroupsFiltered($type)
     {
         $msgID = $this->createMsgId("getgroups");
-        $child = new ProtocolNode("list", array(
-            "type" => $type
-                ), null, null);
+        $child = new ProtocolNode($type, null, null, null);
         $node = new ProtocolNode("iq", array(
             "id" => $msgID,
             "type" => "get",
-            "xmlns" => "w:g",
+            "xmlns" => "w:g2",
             "to" => "g.us"
                 ), array($child), null);
         $this->sendNode($node);
@@ -3753,15 +3747,15 @@ class WhatsProt
      */
     protected function sendSetPicture($jid, $filepath)
     {
-    	if(stripos($filepath, 'http')!== false && !preg_match('/\s/',$filepath)){
-		$extension = end(explode(".", $filepath));
-		$newImageName = rand(0, 100000);
-		$imagePath = static::PICTURES_FOLDER."/".$newImageName.".jpg";
-		if($extension == 'jpg'){
-			copy($filepath, $imagePath);
-			$filepath = $imagePath;
-		}
-	}
+        if(stripos($filepath, 'http')!== false && !preg_match('/\s/',$filepath)){
+          $extension = end(explode(".", $filepath));
+          $newImageName = rand(0, 100000);
+          $imagePath = static::PICTURES_FOLDER."/".$newImageName.".jpg";
+            if($extension == 'jpg'){
+              copy($filepath, $imagePath);
+              $filepath = $imagePath;
+		        }
+        }
         preprocessProfilePicture($filepath);
         $fp = @fopen($filepath, "r");
         if ($fp) {
