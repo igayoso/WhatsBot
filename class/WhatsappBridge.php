@@ -13,9 +13,14 @@
 			return $this->Whatsapp->sendMessage($To, $Message, $ID);
 		}
 
-		public function SendMessageAudio($To, $Filepath, $StoreURLMedia = false, $Filesize = 0, $Filehash = '')
+		public function SendMessageAudio($To, $Filepath, $StoreURLMedia = false, $Filesize = 0, $Filehash = '') // SendAudioMessage
 		{
 			return $this->Whatsapp->sendMessageAudio($To, $Filepath, $StoreURLMedia, $Filesize, $Filehash);
+		}
+
+		public function SendImageMessage($To, $Filepath, $Caption = '', $StoreURLMedia = false, $Filesize = 0, $Filehash = '')
+		{
+			return $this->Whatsapp->sendMessageImage($To, $Filepath, $StoreURLMedia, $Filesize, $Filehash, $Caption);
 		}
 
 		public function SetStatus($Status)
@@ -62,7 +67,6 @@
 			sendGroupsParticipantsRemove($groupId, $participants)
 			sendMessageComposing($to)
 			sendMessagePaused($to)
-			sendMessageImage($to, $filepath, $storeURLmedia = false, $fsize = 0, $fhash = "", $caption = "")
 			sendMessageVideo($to, $filepath, $storeURLmedia = false, $fsize = 0, $fhash = "", $caption = "")
 			sendMessageLocation($to, $long, $lat, $name = null, $url = null)
 			sendChatState($to, $state)
