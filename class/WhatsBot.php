@@ -24,6 +24,12 @@
 
 		public function __construct($Debug = false)
 		{
+			Utils::Write('Clearing temp directory...');
+			Utils::ClearTemp(); // If true
+			Utils::Write('Temp directory cleared...');
+
+			Utils::WriteNewLine();
+
 			$Config = Utils::GetJson('config/WhatsBot.json');
 
 			if($Config !== false && !empty($Config['database']['filename']) && !empty($Config['whatsapp']['username']) && !empty($Config['whatsapp']['identity']) && !empty($Config['whatsapp']['password']) && !empty($Config['whatsapp']['nickname'])) // and DB
@@ -65,7 +71,11 @@
 
 			Utils::Write('Connecting...');
 			$this->Whatsapp->connect();
+			Utils::WriteNewLine();
+
+			Utils::Write('Logging in...');
 			$this->Whatsapp->loginWithPassword($Password);
+			Utils::WriteNewLine();
 		}
 
 		public function Listen()

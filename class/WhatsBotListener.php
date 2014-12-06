@@ -96,6 +96,11 @@
 				);
 		}
 
+		public function onGetReceipt($From, $ID, $Offline, $Retry)
+		{
+			$this->Whatsapp->sendPong($ID);
+		}
+
 		public function onGetVideo($Me, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption)
 		{
 			// Log to DB
@@ -126,9 +131,9 @@
 				);
 		}
 
-		public function onGetReceipt($From, $ID, $Offline, $Retry)
+		public function onLogin($Me)
 		{
-			$this->Whatsapp->sendPong($ID);
+			Utils::Write('Logged in...');
 		}
 
 		/* Events: 
@@ -168,7 +173,6 @@
 		    onGroupsChatEnd( $mynumber, $gid )
 		    onGroupsParticipantsAdd( $mynumber, $groupId, $jid )
 		    onGroupsParticipantsRemove( $mynumber, $groupId, $jid)
-		    onLogin( $mynumber )
 		    onLoginFailed( $mynumber, $data )
 		    onMediaMessageSent( $mynumber, $to, $id, $filetype, $url, $filename, $filesize, $filehash, $caption, $icon )
 		    onMediaUploadFailed( $mynumber, $id, $node, $messageNode, $statusMessage )
