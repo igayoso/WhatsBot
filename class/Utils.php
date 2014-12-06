@@ -19,6 +19,24 @@
 			return false;
 		}
 
+		public static function ClearTemp($Dir = 'tmp')
+		{
+			$Files = glob("{$Dir}/*");
+
+			foreach($Files as $File)
+			{
+				if(is_file($File))
+					unlink($File);
+				elseif(is_dir($File))
+					Utils::ClearTmp($File);
+			}
+
+			if($Dir !== 'tmp')
+				rmdir($Dir);
+
+			return true;
+		}
+
 		public static function MakeFrom($FromGroup, $FromUser)
 		{
 			if($FromGroup != null)
@@ -102,11 +120,41 @@
 			return false;
 		}
 
-		// GetRemoteFile($URL, $SucessHeader = 200, $ParseURL = true);
+		public static function GetRemoteFile($URL, $SucessHeaders = array(200, 301, 302)) // $ParseURL = true? || $SuccessHeaders ==> $SuccessCodes?
+		{
+			if(!is_array($SucessHeaders))
+				$SucessHeaders = array($SucessHeaders);
+
+			$Headers = get_headers($URL);
+
+			if($Headers !== false && isset($Headers[0]) && in_array(substr($Headers[0], 9, 3), $SucessHeaders))
+			{
+				$Data = file_get_contents($URL);
+
+				if($Data !== false)
+					return $Data;
+			}
+
+			return false;
+		}
+
+		public static function GetRemoteFilesize($URL)
+		{
+			$Headers = get_headers($URL, 1);
+
+			return isset($Headers['Content-Length']) ? (int)$Headers['Content-Length'] : false;
+		}
 
 		public static function Write($Text, $WithNewLine = true)
 		{
 			fwrite(STDOUT, $Text . ($WithNewLine ? PHP_EOL : null));
+		}
+
+		public static function WriteNewLine($NewLines = 1)
+		{
+			$String = str_repeat(PHP_EOL, $NewLines);
+
+			Utils::Write($String, false);
 		}
 
 		/*public static function getConfig($Key)
