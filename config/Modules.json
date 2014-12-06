@@ -15,7 +15,10 @@
 		],
 		"exts":
 		[
-			
+			"gif",
+			"jpg",
+			"jpeg",
+			"png"
 		],
 		"media":
 		[
