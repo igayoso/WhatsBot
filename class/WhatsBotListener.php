@@ -14,7 +14,7 @@
 			$this->Parser = &$Parser;
 			$this->DB = &$DB;
 
-			$this->StartTime = time();
+			$this->StartTime = time(); // Add function to Utils
 		}
 
 		// To do: Log every event to database
@@ -38,6 +38,33 @@
 
 			if($Time > $this->StartTime)
 				$this->Parser->ParseTextMessage($Me, $GroupID, $From, $ID, $Type, $Time, $Name, $Text);
+		}
+
+		public function onGetAudio($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Duration, $Codec)
+		{
+			// Log to DB
+
+			if($Time > $this->StartTime)
+				$this->Parser->ParseMediaMessage
+				(
+					$Me,
+					$From,
+					$ID,
+					$Type,
+					'audio',
+					$Time,
+					$Name,
+					array
+					(
+						'Size' => $Size,
+						'URL' => $URL,
+						'File' => $File,
+						'MIME' => $MIME,
+						'Hash' => $Hash,
+						'Duration' => $Duration,
+						'Codec' => $Codec
+					)
+				);
 		}
 
 		public function onGetImage($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
@@ -69,6 +96,36 @@
 				);
 		}
 
+		public function onGetVideo($Me, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption)
+		{
+			// Log to DB
+
+			if($Time > $this->StartTime)
+				$this->Parser->ParseMediaMessage
+				(
+					$Me,
+					$From,
+					$ID,
+					$Type,
+					'video',
+					$Time,
+					$Name,
+					array
+					(
+						'URL' => $URL,
+						'File' => $File,
+						'Size' => $Size,
+						'MIME' => $MIME,
+						'Hash' => $Hash,
+						'Duration' => $Duration,
+						'VCodec' => $VCodec,
+						'ACodec' => $ACodec,
+						'Preview' => $Preview,
+						'Caption' => $CaptionS
+					)
+				);
+		}
+
 		public function onGetReceipt($From, $ID, $Offline, $Retry)
 		{
 			$this->Whatsapp->sendPong($ID);
@@ -87,7 +144,6 @@
 		    onDisconnect( $mynumber, $socket ) 
 		    onDissectPhone( $mynumber, $phonecountry, $phonecc, $phone, $phonemcc, $phoneISO3166, $phoneISO639, $phonemnc ) 
 		    onDissectPhoneFailed( $mynumber )
-		    onGetAudio( $mynumber, $from, $id, $type, $time, $name, $size, $url, $file, $mimeType, $fileHash, $duration, $acodec )
 		    onGetBroadcastLists( $mynumber, $broadcastLists )
 		    onGetError( $mynumber, $id, $data )
 		    onGetExtendAccount( $mynumber, $kind, $status, $creation, $expiration )
@@ -105,7 +161,6 @@
 		    onGetServicePricing( $mynumber, $price, $cost, $currency, $expiration )
 		    onGetStatus( $mynumber, $from, $requested, $id, $time, $data )
 		    onGetSyncResult( $result )
-		    onGetVideo( $mynumber, $from, $id, $type, $time, $name, $url, $file, $size, $mimeType, $fileHash, $duration, $vcodec, $acodec, $preview, $caption )
 		    onGetvCard( $mynumber, $from, $id, $type, $time, $name, $vcardname, $vcard )
 		    onGroupCreate( $mynumber, $groupId )
 		    onGroupisCreated( $mynumber, $creator, $gid, $subject )
