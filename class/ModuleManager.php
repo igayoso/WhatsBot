@@ -213,37 +213,6 @@
 			return null;
 		}
 
-
-		/*public function LoadIncludes() // están disponibles fuera del ambito local? D:
-		{
-			$Includes = $this->Utils->getJson('config/Modules.json');
-
-			if(isset($Includes['includes']))
-			{
-				$Includes = $Includes['includes'];
-
-				foreach($Includes as $Include)
-					$this->LoadInclude($Include);
-
-				return true;
-			}
-
-			return false;
-		}
-
-		private function LoadInclude($Path)
-		{
-			if(is_file($Path))
-			{
-				include($Path);
-
-				return true;
-			}
-
-			return false;
-		}*/
-
-
 		public function ModuleExists($Name)
 		{
 			return isset($this->Modules[strtolower($Name)]);
@@ -278,6 +247,31 @@
 				return $this->Modules[$Name]['help'];
 
 			return false;
+		}
+
+		public function LoadIncludes() // Rehacer...
+		{
+			$Includes = Utils::GetJson('config/Modules.json');
+
+			if(isset($Includes['includes']))
+			{
+				foreach($Includes['includes'] as $Include)
+					$this->LoadInclude($Include);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		private function LoadInclude($Path)
+		{
+			$Path = "class/includes/{$Path}";
+
+			if(is_file($Path) && is_readable($Path))
+				return include $Path;
+
+			return null;
 		}
 	}
 
