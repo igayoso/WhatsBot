@@ -64,6 +64,7 @@
 			$this->Parser = new WhatsBotParser($this->Bridge, $this->ModuleManager);
 			$this->Listener = new WhatsBotListener($this->Whatsapp, $this->Parser, $this->DB);
 
+			$this->ModuleManager->LoadIncludes();
 			$this->ModuleManager->LoadModules();
 
 			$this->Whatsapp->eventManager()->setDebug($Debug);
