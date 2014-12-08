@@ -19,7 +19,18 @@
 			return false;
 		}
 
-		public static function ClearTemp($Dir = 'tmp')
+		public static function SaveJson($Filename, $Data)
+		{
+			$Data = json_encode($Data);
+
+			if($Data !== false)
+				if(file_put_contents($Filename, $Data) == strlen($Data))
+					return true;
+
+			return false;
+		}
+
+		public static function CleanTemp($Dir = 'tmp')
 		{
 			$Files = glob("{$Dir}/*");
 

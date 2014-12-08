@@ -21,7 +21,7 @@
 				if(file_put_contents($Filename, $Image) == $Length)
 					$this->Whatsapp->SendImageMessage($From, $Filename, $URL);
 
-				Utils::ClearTemp();
+				Utils::CleanTemp();
 			}
 			else
 				$Whatsapp->SendMessage($From, 'The image is too big...');

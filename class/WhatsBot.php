@@ -24,9 +24,9 @@
 
 		public function __construct($Debug = false)
 		{
-			Utils::Write('Clearing temp directory...');
-			Utils::ClearTemp(); // If true
-			Utils::Write('Temp directory cleared...');
+			Utils::Write('Cleaning temp directory...');
+			Utils::CleanTemp(); // If true
+			Utils::Write('Temp directory cleaned...');
 
 			Utils::WriteNewLine();
 
