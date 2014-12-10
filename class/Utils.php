@@ -1,6 +1,6 @@
 <?php
 	class Utils
-	{
+	{ // To do: Utils:: => static:: or self::
 		public static function GetJson($Filename)
 		{
 			if(is_file($Filename) && is_readable($Filename))
@@ -148,6 +148,21 @@
 
 			return false;
 		}
+
+			public static function GetRemoteJson($URL, $SucessHeaders = array(200, 301, 302))
+			{
+				$Data = static::GetRemoteFile($URL, $SucessHeaders);
+
+				if($Data !== false)
+				{
+					$Data = json_decode($Data, true);
+
+					if($Data !== false)
+						return $Data;
+				}
+
+				return false;
+			}
 
 		public static function GetRemoteFilesize($URL)
 		{
