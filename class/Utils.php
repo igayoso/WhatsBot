@@ -173,7 +173,7 @@
 
 		public static function Write($Text, $WithNewLine = true)
 		{
-			fwrite(STDOUT, $Text . ($WithNewLine ? PHP_EOL : null));
+			file_put_contents('php://output', $Text . ($WithNewLine ? PHP_EOL : null));
 		}
 
 		public static function WriteNewLine($NewLines = 1)
