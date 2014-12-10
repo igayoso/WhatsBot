@@ -3,6 +3,7 @@
 	require_once 'WhatsBotListener.php';
 	require_once 'WhatsBotParser.php';
 	require_once 'ModuleManager.php';
+	require_once 'ThreadManager.php';
 	require_once 'WhatsBotCaller.php';
 	require_once 'WhatsappBridge.php';
 	require_once 'DB/DB.php';
@@ -22,6 +23,8 @@
 
 		private $DB = null;
 
+		private $ThreadManager = null;
+
 		public function __construct($Debug = false)
 		{
 			Utils::Write('Cleaning temp directory...');
@@ -32,7 +35,7 @@
 
 			$Config = Utils::GetJson('config/WhatsBot.json');
 
-			if($Config !== false && !empty($Config['database']['filename']) && !empty($Config['whatsapp']['username']) && !empty($Config['whatsapp']['identity']) && !empty($Config['whatsapp']['password']) && !empty($Config['whatsapp']['nickname'])) // and DB
+			if($Config !== false && !empty($Config['database']['filename']) && !empty($Config['whatsapp']['username']) && !empty($Config['whatsapp']['identity']) && !empty($Config['whatsapp']['password']) && !empty($Config['whatsapp']['nickname']))
 			{
 				$this->InitDB($Config['database']['filename']);
 
@@ -47,6 +50,8 @@
 			}
 			else
 				exit('Can\'t load config...');
+
+			$this->InitThreads();
 		}
 
 		private function InitDB($Filename)
@@ -79,15 +84,24 @@
 			Utils::WriteNewLine();
 		}
 
+		private function InitThreads()
+		{//Show something xD
+			$this->ThreadManager = new ThreadManager($this->Bridge, $this->ModuleManager);
+
+			$this->ThreadManager->LoadThreads();
+		}
+
 		public function Listen()
 		{
 			Utils::Write('Listening...');
+			Utils::WriteNewLine();
 
 			$StartTime = time();
 
 			while(true)
 			{
 				$this->Whatsapp->pollMessage();
+				$this->ThreadManager->ExecuteTasks();
 
 				if(time() >= $StartTime + 30)
 				{
@@ -110,6 +124,8 @@
 	 * Implement? https://github.com/mgp25/WhatsAPI-Official/issues/169
 	 * 
 	 * Only CLI use
+	 * 
+	 * Delete references? http://php.net/manual/es/language.oop5.references.php
 	 */
 
 	/* To do (new-structure): 
