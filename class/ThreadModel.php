@@ -11,7 +11,7 @@
 			return $Tasks;
 		}
 
-		final private function AddTask($Name)
+		final protected function AddTask($Name)
 		{
 			$Params = func_get_args();
 			array_shift($Params);
@@ -19,7 +19,7 @@
 			self::$Tasks[] = array($Name, $Params);
 		}
 
-		final public function SendMessage($To, $Message, $ID = null)
+		final protected function SendMessage($To, $Message, $ID = null)
 		{
 			$this->AddTask('SendMessage', $To, $Message, $ID);
 		}
