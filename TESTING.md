@@ -23,5 +23,9 @@ To test
 	Avoid parsing old messages (Feature, WhatsBotListener): 
 		Commit: <https://github.com/fermino/WhatsBot/commit/6e7c1726fd2734dba9fc252367cf22e3ce47801f>
 		Founded bugs: -
+	Thread System (Feature, ThreadManager):
+		Branch: <https://github.com/fermino/WhatsBot/tree/Thread-system>
+		To do: Test if executer & TaskManager works properly. 
+		Founded bugs: -
 
 Feel free to edit this, and remember make an issue :). 
