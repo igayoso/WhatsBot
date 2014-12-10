@@ -62,7 +62,7 @@
 				$Tasks = $Thread->GetTasks();
 
 				foreach($Tasks as $Task)
-					if(method_exists($this->Whatsapp, $Task[0]) && is_callable(array($this->Whatsapp, $Task[0])))
+					if(method_exists($this->Whatsapp, $Task[0]) && is_callable(array($this->Whatsapp, $Task[0]))) // Protect __construct && if not empty Task[0]
 						call_user_func_array(array($this->Whatsapp, $Task[0]), $Task[1]);
 			}
 		}
