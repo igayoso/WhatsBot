@@ -52,7 +52,7 @@
 
 		public function StartThread($Name)
 		{
-			$this->Threads[$Name]->start();
+			$this->Threads[$Name]->start(PTHREADS_ALLOW_GLOBALS);
 		}
 
 		public function ExecuteTasks()
