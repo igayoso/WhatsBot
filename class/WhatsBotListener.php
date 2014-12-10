@@ -194,4 +194,8 @@
 			onUploadFile( $mynumber, $filename, $url )
 			onUploadFileFailed( $mynumber, $filename )
 		*/
+
+		/* To do: Hacer otra clase (Listener), que se encargue de loguear todo a la BD. Bindear ambas clases al EventManager 
+		 * Esto creo que evitaría algunos problemas con los threads
+		 */
 	}
