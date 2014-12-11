@@ -171,6 +171,11 @@
 			return isset($Headers['Content-Length']) ? (int)$Headers['Content-Length'] : false;
 		}
 
+		public static function ReadLine()
+		{
+			return trim(fgets(fopen('php://stdin', 'r')));
+		}
+
 		public static function Write($Text, $WithNewLine = true)
 		{
 			file_put_contents('php://output', $Text . ($WithNewLine ? PHP_EOL : null));
