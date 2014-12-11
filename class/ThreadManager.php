@@ -38,7 +38,7 @@
 
 				$ClassName = "Thread_{$Name}";
 
-				$this->Threads[$Name] = new $ClassName($this->Whatsapp, $this->ModuleManager);
+				$this->Threads[$Name] = new $ClassName();
 
 				if(!($this->Threads[$Name] instanceof WhatsBotThread))
 				{
