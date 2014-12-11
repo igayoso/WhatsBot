@@ -38,32 +38,43 @@
 
 				$ClassName = "Thread_{$Name}";
 
-				$this->Threads[$Name] = new $ClassName();
+				$this->Threads[$Name][0] = new $ClassName();
+				$this->Threads[$Name][1] = false;
 
-				if(!($this->Threads[$Name] instanceof WhatsBotThread))
+				if(!($this->Threads[$Name][0] instanceof Thread))
 				{
-					Utils::Write('Class "' . get_class($this->Threads[$Name]) . '" must be inherited from WhatsBotThread to work...');
+					Utils::Write('Class "' . get_class($this->Threads[$Name][0]) . '" must be inherited from Thread to work...');
 					Utils::WriteNewLine();
 
 					unset($this->Threads[$Name]);
 				}
+				elseif(!in_array('WhatsBotThread', class_uses($this->Threads[$Name][0])))
+				{
+					Utils::Write('Class "' . get_class($this->Threads[$Name][0]) . '" must use WhatsBotThread (trait). The thread will be loaded, but Whatsapp related functions will be not available...');
+					Utils::WriteNewLine();
+				}
+				else
+					$this->Threads[$Name][1] = true;
 			}
 		}
 
 		public function StartThread($Name)
 		{
-			$this->Threads[$Name]->start(PTHREADS_ALLOW_GLOBALS | PTHREADS_INHERIT_ALL);
+			$this->Threads[$Name][0]->start(PTHREADS_ALLOW_GLOBALS | PTHREADS_INHERIT_ALL);
 		}
 
 		public function ExecuteTasks()
 		{
 			foreach($this->Threads as $Thread)
 			{
-				$Tasks = $Thread->GetTasks();
+				if($Thread[1])
+				{
+					$Tasks = $Thread[0]->GetTasks();
 
-				foreach($Tasks as $Task)
-					if(method_exists($this->Whatsapp, $Task[0]) && is_callable(array($this->Whatsapp, $Task[0]))) // Protect __construct && if not empty Task[0]
-						call_user_func_array(array($this->Whatsapp, $Task[0]), $Task[1]);
+					foreach($Tasks as $Task)
+						if(method_exists($this->Whatsapp, $Task[0]) && is_callable(array($this->Whatsapp, $Task[0]))) // Protect __construct && if not empty Task[0]
+							call_user_func_array(array($this->Whatsapp, $Task[0]), $Task[1]);
+				}
 			}
 		}
 	}

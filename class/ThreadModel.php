@@ -1,5 +1,5 @@
 <?php
-	abstract class WhatsBotThread extends Thread
+	trait WhatsBotThread
 	{
 		private static $Tasks = array();
 

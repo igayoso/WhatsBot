@@ -1,6 +1,8 @@
 <?php
-	class Thread_TempCleaner extends WhatsBotThread
+	class Thread_TempCleaner extends Thread
 	{
+		use WhatsBotThread;
+		
 		public function run()
 		{
 			while(true)
