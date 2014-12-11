@@ -1,6 +1,10 @@
 <?php
 	require_once 'ThreadModel.php';
 
+	define('WHATSBOT_WHATSAPP_TASK', 1);
+	//define('WHATSBOT_MODULEMANAGER_TASK', 2);
+	//define('WHATSBOT_UPDATE_TASK', 3);
+
 	class ThreadManager
 	{
 		private $Threads = array();
@@ -60,7 +64,7 @@
 
 		public function StartThread($Name)
 		{
-			$this->Threads[$Name][0]->start(PTHREADS_ALLOW_GLOBALS);// | PTHREADS_INHERIT_ALL);
+			$this->Threads[$Name][0]->start(PTHREADS_ALLOW_GLOBALS | PTHREADS_INHERIT_CONSTANTS); // Trait doesn't work with PTHREADS_INHERIT_ALL or PTHREADS_INHERIT_CLASSES => Static $Tasks context? ._.
 		}
 
 		public function ExecuteTasks()
@@ -72,8 +76,21 @@
 					$Tasks = $Thread[0]->GetTasks();
 
 					foreach($Tasks as $Task)
-						if(method_exists($this->Whatsapp, $Task[0]) && is_callable(array($this->Whatsapp, $Task[0]))) // Protect __construct && if not empty Task[0]
-							call_user_func_array(array($this->Whatsapp, $Task[0]), $Task[1]);
+						switch($Task[0])
+						{
+							case WHATSBOT_WHATSAPP_TASK:
+								Utils::CallFunction($this->Whatsapp, $Task[1], $Task[2]); // Protect __construct
+								break;
+							//case WHATSBOT_MODULEMANAGER_TASK:
+							//	break;
+							//case WHATSBOT_UPDATE_TASK:
+							//	break;
+							default:
+								Utils::Write('Unknown task type. ');
+								Utils::Write("Task type: {$Task[0]}");
+								Utils::Write("Function: {$Task[1]}");
+								Utils::Write('Params: ' . print_r($Task[2], true));
+						}
 				}
 			}
 		}

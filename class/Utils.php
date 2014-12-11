@@ -195,4 +195,13 @@
 
 			return (isset($Data[$Key])) ? $Data[$Key] : false;
 		}*/
+
+		public static function CallFunction(&$Object, $Function, $Params = array())
+		{
+			if(!empty($Object) && !empty($Function))
+				if(method_exists($Object, $Function) && is_callable(array($Object, $Function)))
+					return call_user_func_array(array($Object, $Function), $Params);
+
+			return false;
+		}
 	}

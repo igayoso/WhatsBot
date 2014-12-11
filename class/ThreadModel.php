@@ -15,20 +15,21 @@
 			return $Tasks;
 		}
 
-		final protected function AddTask($Name)
+		final protected function AddTask($Type, $Name)
 		{
+			/*
+			 * array_slice(func_get_args(), 2): zend_mm_heap corrupted
+			 */
+
 			$Params = func_get_args();
 			array_shift($Params);
+			array_shift($Params);
 
-			$this->lock();
-
-			self::$Tasks[] = array($Name, $Params);
-
-			$this->unlock();
+			self::$Tasks[] = array($Type, $Name, $Params);
 		}
 
 		final protected function SendMessage($To, $Message, $ID = null)
 		{
-			$this->AddTask('SendMessage', $To, $Message, $ID);
+			$this->AddTask(WHATSBOT_WHATSAPP_TASK, 'SendMessage', $To, $Message, $ID);
 		}
 	}
