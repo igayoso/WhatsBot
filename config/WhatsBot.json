@@ -1,17 +1,17 @@
 {
-  "database":
-  {
-    "filename":"DB.sqlite"
-  },
-  "whatsapp":
-  {
-    "username":"",
-    "identity":"",
-    "password":"",
-    "nickname":"",
-    "admins":
-    [
-      
-    ]
-  }
+	"database":
+	{
+		"filename":"DB.sqlite"
+	},
+	"whatsapp":
+	{
+		"username":"",
+		"identity":"",
+		"password":"",
+		"nickname":"",
+		"admins":
+		[
+			
+		]
+	}
 }
