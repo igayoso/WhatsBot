@@ -5,6 +5,8 @@
 		
 		public function run()
 		{
+			require_once 'class/Utils.php';
+
 			while(true)
 			{
 				sleep(300); // In json?
