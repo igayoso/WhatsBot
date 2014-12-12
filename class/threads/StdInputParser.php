@@ -5,7 +5,12 @@
 
 		public function run()
 		{
-			require_once 'class/Utils.php';
+			require_once 'class/Utils.php'; // Al parecer, aunque falle, sólo detiene el thread y no todo el script C:
+
+			Utils::WriteNewLine();
+			Utils::Write('Starting WhatsBot standard input parser. ');
+			Utils::Write('Interactive console enabled. Try to write something!');
+			Utils::WriteNewLine();
 
 			while(true)
 			{
@@ -25,12 +30,20 @@
 							$Text = substr($Line, 5 + strlen($Splitted[1]));
 
 							if($Text !== false)
+							{
 								$this->SendMessage($Splitted[1], $Text);
+								Utils::Write('> Message sended...');
+							}
 							else
 								Utils::Write('> You must enter some text...');
 						}
 						else
 							Utils::Write('> You must enter some text...');
+						break;
+					case 'exit':
+						Utils::Write('Stopping WhatsBot. A module-based, user-friendly whatsapp bot. https://github.com/fermino/WhatsBot. By @fermino...');
+						Utils::Read(); // Cambiar algo en WhatsBot que evite pollMessage();
+						exit;
 						break;
 					default:
 						Utils::Write('> Unrecognized command...');
