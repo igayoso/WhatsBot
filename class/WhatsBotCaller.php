@@ -1,4 +1,7 @@
 <?php
+	include_once 'Utils.php';
+	include_once 'Utils/TempFile.php';
+
 	class WhatsBotCaller
 	{
 		private $ModuleManager = null;
