@@ -464,16 +464,28 @@ class WhatsProt
           updateData('whatsprot.class.php', $WAver);
         }
 
-        $Socket = fsockopen(static::WHATSAPP_HOST, static::PORT);
-        if ($Socket !== false) {
-            stream_set_timeout($Socket, static::TIMEOUT_SEC, static::TIMEOUT_USEC);
-            $this->socket = $Socket;
+        /* Create a TCP/IP socket. */
+        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        if ($socket !== false) {
+            $result = socket_connect($socket, static::WHATSAPP_HOST, static::PORT);
+            if ($result === false) {
+                $socket = false;
+            }
+        }
+
+        if ($socket !== false) {
+
+            socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => static::TIMEOUT_SEC, 'usec' => static::TIMEOUT_USEC));
+            socket_set_option($socket, SOL_SOCKET, SO_SNDTIMEO, array('sec' => static::TIMEOUT_SEC, 'usec' => static::TIMEOUT_USEC));
+
+            $this->socket = $socket;
             $this->eventManager()->fire("onConnect",
                 array(
                     $this->phoneNumber,
                     $this->socket
                 )
             );
+
         } else {
             if ($this->debug) {
                 print_r("Firing onConnectError\n");
@@ -482,7 +494,8 @@ class WhatsProt
                 array(
                     $this->phoneNumber,
                     $this->socket
-                ));
+                )
+            );
         }
     }
 
@@ -492,12 +505,10 @@ class WhatsProt
      */
     public function isConnected()
     {
-        if (!empty($this->socket) && feof($this->socket) === false)
-        {
-            return true; //Already connected.
+        if($this->socket === null) {
+            return false;
         }
-
-        return false;
+        return true;
     }
 
 
@@ -587,17 +598,23 @@ class WhatsProt
      */
     public function pollMessage($autoReceipt = true, $type = "read")
     {
-        if(!$this->isConnected()) {
-	       throw new Exception('Connection Closed!');
-        }
+      if(!$this->isConnected()) {
+        throw new Exception('Connection Closed!');
+      }
 
-        $stanza = $this->readStanza();
-        if($stanza)
-        {
-            $this->processInboundData($stanza, $autoReceipt, $type);
-            return true;
+      $r = array($this->socket);
+      $w = array();
+      $e = array();
+
+      if (socket_select($r, $w, $e, static::TIMEOUT_SEC, static::TIMEOUT_USEC)) {
+        // Something to read
+        if ($stanza = $this->readStanza()) {
+          $this->processInboundData($stanza, $autoReceipt, $type);
+          return true;
         }
-        return false;
+      }
+
+      return false;
     }
 
     /**
@@ -1267,9 +1284,17 @@ class WhatsProt
        return $groupId;
      }
 
+     /**
+     * Change group subject
+     *
+     * @param string $gjid
+     *   The group id
+     * @param string $subject
+     *   The subject
+     */
     public function sendSetGroupSubject($gjid, $subject)
     {
-        $child = new ProtocolNode("subject", array("value" => $subject), null, null);
+        $child = new ProtocolNode("subject", null, null, $subject);
         $node = new ProtocolNode("iq", array(
             "id" => $this->createMsgId("set_group_subject"),
             "type" => "set",
@@ -1752,9 +1777,10 @@ class WhatsProt
             $items[] = $item;
         }
         $child = new ProtocolNode("list", array("name" => "default"), $items, null);
-        $child2 = new ProtocolNode("query", array("xmlns" => "jabber:iq:privacy"), array($child), null);
+        $child2 = new ProtocolNode("query", null, array($child), null);
         $node = new ProtocolNode("iq", array(
             "id" => $this->createMsgId("setprivacy"),
+            "xmlns" => "jabber:iq:privacy",
             "type" => "set"
                 ), array($child2), null);
         $this->sendNode($node);
@@ -3429,7 +3455,19 @@ class WhatsProt
         $buff = '';
         if($this->socket != null)
         {
-            $header = @fread($this->socket, 3);//read stanza header
+            $header = @socket_read($this->socket, 3);//read stanza header
+            if($header === false) {
+                $error = "socket EOF, closing socket...";
+                socket_close($this->socket);
+                $this->socket = null;
+                $this->eventManager()->fire("onClose",
+                    array(
+                        $this->phoneNumber,
+                        $error
+                    )
+                );
+            }
+
             if(strlen($header) == 0)
             {
                 //no data received
@@ -3444,14 +3482,14 @@ class WhatsProt
             $treeLength |= ord($header[2]) << 0;
 
             //read full length
-            $buff = @fread($this->socket, $treeLength);
+            $buff = socket_read($this->socket, $treeLength);
             $trlen = $treeLength;
             $len = strlen($buff);
             $prev = 0;
             while(strlen($buff) < $treeLength)
             {
                 $toRead = $treeLength - strlen($buff);
-                $buff .= @fread($this->socket, $toRead);
+                $buff .= socket_read($this->socket, $toRead);
                 if($len == strlen($buff))
                 {
                     //no new data read, fuck it
@@ -3462,16 +3500,6 @@ class WhatsProt
 
             if (strlen($buff) != $treeLength) {
                 throw new Exception("Tree length did not match received length (buff = " . strlen($buff) . " & treeLength = $treeLength)");
-            } else
-            if (@feof($this->socket)) {
-                $error = "socket EOF, closing socket...";
-                fclose($this->socket);
-                $this->socket = null;
-                $this->eventManager()->fire("onClose",
-                    array(
-                        $this->phoneNumber,
-                        $error
-                    ));
             }
             $buff = $header . $buff;
         }
@@ -3575,7 +3603,7 @@ class WhatsProt
     {
         if($this->socket != null)
         {
-            fwrite($this->socket, $data, strlen($data));
+            socket_write($this->socket, $data, strlen($data));
         }
     }
 
@@ -3762,10 +3790,7 @@ class WhatsProt
             $data = fread($fp, filesize($filepath));
             if ($data) {
                 //this is where the fun starts
-                $picture = new ProtocolNode("picture", null, null, $data);
-
-                $icon = createIconGD($filepath, 96, true);
-                $thumb = new ProtocolNode("picture", array("type" => "preview"), null, $icon);
+                $picture = new ProtocolNode("picture", array("type" => "image"), null, $data);
 
                 $hash = array();
                 $nodeID = $this->createMsgId("setphoto");
@@ -3773,7 +3798,7 @@ class WhatsProt
                 $hash["to"] = $this->getJID($jid);
                 $hash["type"] = "set";
                 $hash["xmlns"] = "w:profile:picture";
-                $node = new ProtocolNode("iq", $hash, array($picture, $thumb), null);
+                $node = new ProtocolNode("iq", $hash, array($picture), null);
 
                 $this->sendNode($node);
                 $this->waitForServer($nodeID);
