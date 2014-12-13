@@ -8,6 +8,8 @@
 			$this->Whatsapp = &$WP;
 		}
 
+		// Send{type}Message => Send{type} only ?
+
 		public function SendMessage($To, $Message, $ID = null)
 		{
 			return $this->Whatsapp->sendMessage($To, $Message, $ID);
@@ -21,6 +23,16 @@
 		public function SendImageMessage($To, $Filepath, $Caption = '', $StoreURLMedia = false, $Filesize = 0, $Filehash = '')
 		{
 			return $this->Whatsapp->sendMessageImage($To, $Filepath, $StoreURLMedia, $Filesize, $Filehash, $Caption);
+		}
+
+		public function SendVCard($To, $Name, $VCard)
+		{
+			return $this->Whatsapp->sendVcard($To, $Name, $vCard);
+		}
+
+		public function SendVideoMessage($To, $Filepath, $Caption = '', $StoreURLMedia = false, $Filesize = 0, $Filehash = '')
+		{
+			return $this->Whatsapp->sendMessageVideo($To, $Filepath, $StoreURLMedia, $Filesize, $Filehash, $Caption);
 		}
 
 		public function SetStatus($Status)
@@ -67,7 +79,6 @@
 			sendGroupsParticipantsRemove($groupId, $participants)
 			sendMessageComposing($to)
 			sendMessagePaused($to)
-			sendMessageVideo($to, $filepath, $storeURLmedia = false, $fsize = 0, $fhash = "", $caption = "")
 			sendMessageLocation($to, $long, $lat, $name = null, $url = null)
 			sendChatState($to, $state)
 			sendNextMessage()
@@ -81,7 +92,6 @@
 			sendSetPrivacyBlockedList($blockedJids = array())
 			sendSetProfilePicture($path)
 			sendSetRecoveryToken($token)
-			sendVcard($to, $name, $vCard)
 			sendBroadcastVcard($targets, $name, $vCard)
 		*/
 	}
