@@ -1,6 +1,7 @@
 <?php
 	include_once 'Utils.php';
 	include_once 'Utils/TempFile.php';
+	include_once 'Utils/Unirest.php';
 
 	class WhatsBotCaller
 	{
