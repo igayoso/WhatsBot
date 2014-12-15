@@ -27,5 +27,8 @@ To test
 		Branch: <https://github.com/fermino/WhatsBot/tree/Thread-system>
 		To do: Test if executer & TaskManager works properly. 
 		Founded bugs: -
+	Action & Object Parser (Feature, WhatsBotParser)
+		To do: Test if parser works properly & Make some caller for that 'modules'
+		Founded bugs: -
 
 Feel free to edit this, and remember make an issue :). 
