@@ -101,9 +101,63 @@
 				}
 				else
 				{
+					// Only send if is pv ?
+
+					// Put data into Modules.json, with module's name (Update ModuleManager)
+
+					$Data = Utils::GetJson('config/Parser.json');
+
+					$Replace = $Data['replace'];
+					$Data = $Data['data'];
+
+					$String = strtolower($Text);
+					$String = str_replace($Replace[0], $Replace[1], $String);
+
+					$Flags = array
+					(
+						'question' => false
+					);
+
+					$String = str_replace('?', '', $String, $Count);
+					if($Count)
+						$Flags['question'] = true;
+
+					$Splitted = explode(' ', $String);
+
+					$Action = $this->GetAction($Data, $Splitted);
+
+					if($Action !== false)
+					{
+						$Object = $this->GetObject($Data, $Splitted, $Action[0], $Action[2]);
+
+						// Do something C:
+					}
+
 					// Parse for AI?
 				}
 			}
+		}
+
+		protected function GetAction(Array $Data, Array $Splitted)
+		{
+			foreach($Data as $Action => $D)
+				foreach($Splitted as $Offset => $Word)
+					if(in_array($Word, $D[0]))
+						return array($Action, $Word, $Offset);
+
+			return false;
+		}
+
+		protected function GetObject(Array $Data, Array $Splitted, $Action, $Offset)
+		{
+			$Splitted = array_slice($Splitted, $Offset + 1, null, true);
+
+			foreach($Data[$Action][1] as $Object => $Alias)
+				foreach($Splitted as $Offset => $Word)
+					if(in_array($Word, $Alias))
+						return array($Object, $Word, $Offset);
+
+			return false;
 		}
 
 		public function ParseMediaMessage($Me, $From, $ID, $Type, $Subtype, $Time, $Name, Array $Data) // download data instead passing url
