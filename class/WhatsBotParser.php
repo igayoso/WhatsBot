@@ -1,13 +1,19 @@
 <?php
+	require_once 'StringParser.php';
+
 	class WhatsBotParser
 	{
 		private $Whatsapp = null;
 		private $ModuleManager = null;
 
+		private $StringParser = null;
+
 		public function __construct(WhatsappBridge &$WhatsappBridge, ModuleManager &$ModuleManager)
 		{
 			$this->Whatsapp = &$WhatsappBridge;
 			$this->ModuleManager = &$ModuleManager;
+
+			$this->StringParser = new StringParser();
 		}
 
 		public function ParseTextMessage($Me, $FromGroup, $FromUser, $ID, $Type, $Time, $Name, $Text) // Testear si el módulo necesita argumentos o no con explode y strlen...
@@ -103,61 +109,34 @@
 				{
 					// Only send if is pv ?
 
-					// Put data into Modules.json, with module's name (Update ModuleManager)
+					$Flags;
 
-					$Data = Utils::GetJson('config/Parser.json');
+					$Parsed = $this->StringParser->Parse($Text, $Flags);
 
-					$Replace = $Data['replace'];
-					$Data = $Data['data'];
-
-					$String = strtolower($Text);
-					$String = str_replace($Replace[0], $Replace[1], $String);
-
-					$Flags = array
-					(
-						'question' => false
-					);
-
-					$String = str_replace('?', '', $String, $Count);
-					if($Count)
-						$Flags['question'] = true;
-
-					$Splitted = explode(' ', $String);
-
-					$Action = $this->GetAction($Data, $Splitted);
-
-					if($Action !== false)
+					if($Parsed !== false)
 					{
-						$Object = $this->GetObject($Data, $Splitted, $Action[0], $Action[2]);
+						if($this->ModuleManager->ParserModuleExists($Parsed[0][0]))
+						{
+							$Response = $this->ModuleManager->CallParserModule
+							(
+								$Parsed[0][0],
 
-						// Do something C:
+								$Me,
+								$From,
+								$ID,
+								$Time,
+								$Name,
+								$Text,
+
+								$Parsed[0],
+								$Parsed[1]
+							);
+						}
 					}
 
 					// Parse for AI?
 				}
 			}
-		}
-
-		protected function GetAction(Array $Data, Array $Splitted)
-		{
-			foreach($Data as $Action => $D)
-				foreach($Splitted as $Offset => $Word)
-					if(in_array($Word, $D[0]))
-						return array($Action, $Word, $Offset);
-
-			return false;
-		}
-
-		protected function GetObject(Array $Data, Array $Splitted, $Action, $Offset)
-		{
-			$Splitted = array_slice($Splitted, $Offset + 1, null, true);
-
-			foreach($Data[$Action][1] as $Object => $Alias)
-				foreach($Splitted as $Offset => $Word)
-					if(in_array($Word, $Alias))
-						return array($Object, $Word, $Offset);
-
-			return false;
 		}
 
 		public function ParseMediaMessage($Me, $From, $ID, $Type, $Subtype, $Time, $Name, Array $Data) // download data instead passing url
@@ -178,4 +157,3 @@
 				);
 		}
 	}
-

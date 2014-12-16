@@ -47,4 +47,12 @@
 
 			return include $Filename;
 		}
+
+		public function CallParserModule($ModuleName, $Filename, $Me, $From, $ID, $Time, $Name, $Text, $Action, $Object)
+		{
+			$Whatsapp = &$this->Whatsapp;
+			$ModuleManager = &$ModuleManager;
+
+			return include $Filename;
+		}
 	}

@@ -9,6 +9,7 @@
 		private $DomainModules = array();
 		private $ExtModules = array();
 		private $MediaModules = array();
+		private $ParserModules = array();
 
 		public function __construct(WhatsBotCaller &$Caller)
 		{
@@ -25,6 +26,7 @@
 				$Domains = $Modules['domains'];
 				$Extensions = $Modules['exts'];
 				$Medias = $Modules['media'];
+				$Parsers = array_keys($Modules['parser']);
 
 				foreach($Commands as $Command)
 					$this->LoadModule($Command);
@@ -37,6 +39,9 @@
 
 				foreach($Medias as $Media)
 					$this->LoadMediaModule($Media);
+
+				foreach($Parsers as $Parser)
+					$this->LoadParserModule($Parser);
 			}
 		}
 
@@ -106,6 +111,24 @@
 			if(is_file($Filename) && is_readable($Filename))
 			{
 				$this->MediaModules[strtolower($Name)] = array
+				(
+					// version,
+					'file' => $Filename
+				);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		private function LoadParserModule($Name)
+		{
+			$Filename = "class/modules/parser_{$Name}.php";
+
+			if(is_file($Filename) && is_readable($Filename))
+			{
+				$this->ParserModules[strtolower($Name)] = array
 				(
 					// version,
 					'file' => $Filename
@@ -213,6 +236,30 @@
 			return null;
 		}
 
+		public function CallParserModule($ModuleName, $Me, $From, $ID, $Time, $Name, $Text, $Action, $Object)
+		{
+			$ModuleName = strtolower($ModuleName);
+
+			if(isset($this->ParserModules[$ModuleName])) // use exists()
+				return $this->Caller->CallParserModule
+				(
+					$ModuleName,
+					$this->ParserModules[$ModuleName]['file'],
+
+					$Me,
+					$From,
+					$ID,
+					$Time,
+					$Name,
+					$Text,
+
+					$Action,
+					$Object
+				);
+
+			return null;
+		}
+
 		public function ModuleExists($Name)
 		{
 			return isset($this->Modules[strtolower($Name)]);
@@ -231,6 +278,11 @@
 		public function MediaModuleExists($Name)
 		{
 			return isset($this->MediaModules[strtolower($Name)]);
+		}
+
+		public function ParserModuleExists($Name)
+		{
+			return isset($this->ParserModules[strtolower($Name)]);
 		}
 
 
