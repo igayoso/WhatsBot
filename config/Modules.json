@@ -1,32 +1,25 @@
 {
-	"modules":
-	{
-		"commands":
-		[
-			"echo",
-			"help",
-			"md5",
-			"search"
-		],
-		"domains":
-		[
-			"soundcloud.com",
-			"m.soundcloud.com"
-		],
-		"exts":
-		[
-			"gif",
-			"jpg",
-			"jpeg",
-			"png"
-		],
-		"media":
-		[
-			"image"
-		]
-	},
-	"includes":
+	"commands":
 	[
-		
+		"echo",
+		"help",
+		"md5",
+		"search"
+	],
+	"domains":
+	[
+		"soundcloud.com",
+		"m.soundcloud.com"
+	],
+	"exts":
+	[
+		"gif",
+		"jpg",
+		"jpeg",
+		"png"
+	],
+	"media":
+	[
+		"image"
 	]
 }

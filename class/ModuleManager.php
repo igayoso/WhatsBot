@@ -21,10 +21,10 @@
 
 			if($Modules !== false)
 			{
-				$Commands = $Modules['modules']['commands'];
-				$Domains = $Modules['modules']['domains'];
-				$Extensions = $Modules['modules']['exts'];
-				$Medias = $Modules['modules']['media'];
+				$Commands = $Modules['commands'];
+				$Domains = $Modules['domains'];
+				$Extensions = $Modules['exts'];
+				$Medias = $Modules['media'];
 
 				foreach($Commands as $Command)
 					$this->LoadModule($Command);
@@ -249,29 +249,24 @@
 			return false;
 		}
 
-		public function LoadIncludes() // Rehacer...
+		public function LoadIncludes() // Return list of included files
 		{
-			$Includes = Utils::GetJson('config/Modules.json');
+			$Includes = Utils::GetJson('config/Includes.json');
 
-			if(isset($Includes['includes']))
+			foreach($Includes as $Include)
 			{
-				foreach($Includes['includes'] as $Include)
-					$this->LoadInclude($Include);
+				if(is_string($Include))
+					include_once "class/includes/{$Include}";
+				else
+				{
+					$Path = "class/includes/{$Include[0]}";
 
-				return true;
+					if(empty($Include[1]))
+						include_once $Path;
+					else
+						require_once $Path;
+				}
 			}
-
-			return false;
-		}
-
-		private function LoadInclude($Path)
-		{
-			$Path = "class/includes/{$Path}";
-
-			if(is_file($Path) && is_readable($Path))
-				return include $Path;
-
-			return null;
 		}
 	}
 
