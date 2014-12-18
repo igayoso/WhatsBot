@@ -32,7 +32,7 @@
 			}
 		}
 
-		public function LoadThread($Name)
+		protected function LoadThread($Name)
 		{
 			$Filename = "class/threads/{$Name}.php";
 
@@ -62,7 +62,7 @@
 			}
 		}
 
-		public function StartThread($Name)
+		protected function StartThread($Name)
 		{
 			$this->Threads[$Name][0]->start(PTHREADS_ALLOW_GLOBALS | PTHREADS_INHERIT_CONSTANTS); // Trait doesn't work with PTHREADS_INHERIT_ALL or PTHREADS_INHERIT_CLASSES => Static $Tasks context? ._.
 		}
