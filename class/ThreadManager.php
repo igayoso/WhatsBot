@@ -20,15 +20,28 @@
 
 		public function LoadThreads()
 		{
-			$Threads = Utils::GetJson('config/Threads.json');
-
-			if($Threads !== false)
+			if(extension_loaded('pthreads'))
 			{
-				foreach($Threads as $Thread)
-					$this->LoadThread($Thread);
+				$Threads = Utils::GetJson('config/Threads.json');
 
-				foreach($this->Threads as $Name => $Thread)
-					$this->StartThread($Name);
+				if(is_array($Threads))
+				{
+					foreach($Threads as $Thread)
+						$this->LoadThread($Thread);
+
+					foreach($this->Threads as $Name => $Thread)
+						$this->StartThread($Name);
+
+					Utils::Write('Threads loaded...');
+					Utils::WriteNewLine();
+				}
+			}
+			else
+			{
+				Utils::Write('Can\'t load Threads. You have to install PThreads extension. ');
+				Utils::Write('See http://php.net/manual/en/pthreads.installation.php');
+				Utils::Write('Windows builds: http://windows.php.net/downloads/pecl/releases/pthreads/');
+				Utils::WriteNewLine();
 			}
 		}
 

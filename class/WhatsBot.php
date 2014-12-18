@@ -85,9 +85,10 @@
 		}
 
 		private function InitThreads()
-		{//Show something xD
+		{
 			$this->ThreadManager = new ThreadManager($this->Bridge, $this->ModuleManager);
 
+			Utils::Write('Loading Threads...');
 			$this->ThreadManager->LoadThreads();
 		}
 
