@@ -2,7 +2,7 @@
 	require_once 'ThreadModel.php';
 
 	define('WHATSBOT_WHATSAPP_TASK', 1);
-	//define('WHATSBOT_MODULEMANAGER_TASK', 2);
+	define('WHATSBOT_MODULEMANAGER_TASK', 2);
 	//define('WHATSBOT_UPDATE_TASK', 3);
 
 	class ThreadManager
@@ -51,7 +51,7 @@
 
 			if(is_file($Filename) && is_readable($Filename))
 			{
-				include $Filename; // once?
+				include_once $Filename;
 
 				$ClassName = "Thread_{$Name}";
 
@@ -94,8 +94,9 @@
 							case WHATSBOT_WHATSAPP_TASK:
 								Utils::CallFunction($this->Whatsapp, $Task[1], $Task[2]); // Protect __construct
 								break;
-							//case WHATSBOT_MODULEMANAGER_TASK:
-							//	break;
+							case WHATSBOT_MODULEMANAGER_TASK:
+								Utils::CallFunction($this->ModuleManager, $Task[1], $Task[2]); // Protect __construct
+								break;
 							//case WHATSBOT_UPDATE_TASK:
 							//	break;
 							default:
