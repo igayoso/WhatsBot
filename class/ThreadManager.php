@@ -55,23 +55,24 @@
 
 				$ClassName = "Thread_{$Name}";
 
-				$this->Threads[$Name][0] = new $ClassName();
-				$this->Threads[$Name][1] = false;
-
-				if(!($this->Threads[$Name][0] instanceof Thread))
+				if(class_exists($ClassName))
 				{
-					Utils::Write('Class "' . get_class($this->Threads[$Name][0]) . '" must be inherited from Thread to work...');
-					Utils::WriteNewLine();
+					$this->Threads[$Name][0] = new $ClassName();
+					$this->Threads[$Name][1] = false;
 
-					unset($this->Threads[$Name]);
-				}
-				elseif(!in_array('WhatsBotThread', class_uses($this->Threads[$Name][0])))
-				{
-					Utils::Write('Class "' . get_class($this->Threads[$Name][0]) . '" must use WhatsBotThread (trait). The thread will be loaded, but Whatsapp related functions will be not available...');
-					Utils::WriteNewLine();
+					if(!($this->Threads[$Name][0] instanceof Thread))
+					{
+						Utils::Write('Class "' . get_class($this->Threads[$Name][0]) . '" must be inherited from Thread to work...');
+
+						unset($this->Threads[$Name]);
+					}
+					elseif(!in_array('WhatsBotThread', class_uses($this->Threads[$Name][0])))
+						Utils::Write('Class "' . get_class($this->Threads[$Name][0]) . '" must use WhatsBotThread (trait). The thread will be loaded, but Whatsapp related functions will be not available...');
+					else
+						$this->Threads[$Name][1] = true;
 				}
 				else
-					$this->Threads[$Name][1] = true;
+					Utils::Write("Class {$ClassName} does not exists. The thread's class at file " . realpath($Filename) . ", must be named {$ClassName}...");
 			}
 		}
 
