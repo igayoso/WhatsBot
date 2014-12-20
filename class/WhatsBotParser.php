@@ -107,31 +107,36 @@
 				}
 				else
 				{
-					// Only send if is pv ?
-
 					$Flags;
 
 					$Parsed = $this->StringParser->Parse($Text, $Flags);
 
 					if($Parsed !== false)
 					{
-						if($this->ModuleManager->ParserModuleExists($Parsed[0][0]))
+						if($FromGroup === null)
 						{
-							$Response = $this->ModuleManager->CallParserModule
-							(
-								$Parsed[0][0],
+							if($this->ModuleManager->ParserModuleExists($Parsed[0][0]))
+							{
+								$Response = $this->ModuleManager->CallParserModule
+								(
+									$Parsed[0][0],
 
-								$Me,
-								$From,
-								$ID,
-								$Time,
-								$Name,
-								$Text,
+									$Me,
+									$From,
+									$ID,
+									$Time,
+									$Name,
+									$Text,
 
-								$Parsed[0],
-								$Parsed[1]
-							);
+									$Parsed[0],
+									$Parsed[1]
+								);
+							}
+							else
+								; // Send some message
 						}
+						else
+							; // Send some message
 					}
 
 					// Parse for AI?
