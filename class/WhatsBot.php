@@ -4,6 +4,7 @@
 	require_once 'WhatsBotParser.php';
 	require_once 'ModuleManager.php';
 	require_once 'ThreadManager.php';
+	require_once 'Updater.php';
 	require_once 'WhatsBotCaller.php';
 	require_once 'WhatsappBridge.php';
 	require_once 'DB/DB.php';
@@ -17,16 +18,24 @@
 		private $Listener = null;
 
 		private $Parser = null;
+
 		private $ModuleManager = null;
+		private $ThreadManager = null;
+		private $Updater = null;
+
 		private $Caller = null;
 		private $Bridge = null;
 
 		private $DB = null;
 
-		private $ThreadManager = null;
-
 		public function __construct($Debug = false)
 		{
+			$this->Updater = new Updater();
+
+			Utils::Write('Checking updates...');
+			$this->Updater->CheckUpdates();
+			Utils::WriteNewLine();
+
 			Utils::Write('Cleaning temp directory...');
 			Utils::CleanTemp(); // If true
 			Utils::Write('Temp directory cleaned...');
