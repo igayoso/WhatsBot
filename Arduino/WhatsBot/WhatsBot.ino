@@ -1,5 +1,5 @@
 const int Rate = 9600;
-const char CommandEnd = 0x26; // Ampersand
+const char CommandSeparator = 0x10; // New Line
 const char Separator = 0x20; // Space
 
 void setup()
@@ -13,20 +13,22 @@ void loop()
 {
   char Buffer[128];
   
-  int Readed = Serial.readBytesUntil(0x26, Buffer, 128); // 0x10
+  int Readed = Serial.readBytesUntil(CommandSeparator, Buffer, 128);
   
   if(Readed > 0)
   {
     Blink();
     
     String Command = String(Buffer).substring(0, Readed);
+    Command.toLowerCase();
+    Command.trim();
     
     int Offset = Command.indexOf(Separator);
     String Object = Command.substring(0, Offset);
     String Params = Command.substring(Offset + 1);
     
     if(Object == "pin")
-      Serial.println(Pin(Params));
+      Serial.print(Pin(Params) + CommandSeparator);
   }
 }
 
@@ -87,7 +89,7 @@ String PinWrite(String Params)
     else if(Mode == "low")
       digitalWrite(Pin, LOW);
     //else if(Mode == "toggle")
-    //  ;
+    //  digitalWrite(Pin, !digitalRead(Pin));
     else
       return "pin_value_invalid";
     
