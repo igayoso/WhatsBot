@@ -9,6 +9,7 @@
 	require_once 'WhatsappBridge.php';
 	require_once 'DB/DB.php';
 	require_once 'Utils.php';
+	require_once 'Lang.php';
 
 	final class WhatsBot
 	{

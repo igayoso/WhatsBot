@@ -1,7 +1,8 @@
 <?php
-	include_once 'Utils.php';
+	require_once 'Utils.php';
+	require_once 'Lang.php';
 	include_once 'Utils/TempFile.php';
-	include_once 'Utils/Unirest.php';
+	require_once 'Utils/Unirest.php';
 
 	class WhatsBotCaller
 	{
@@ -22,12 +23,16 @@
 			$ModuleManager = &$this->ModuleManager; // add to !reload, !update, etc...
 			$Whatsapp = &$this->Whatsapp;
 
+			$Lang = new Lang($ModuleName);
+
 			return include $Filename;
 		}
 
 		public function CallDomainModule($ModuleName, $Filename, $ParsedURL, $URL, $Me, $ID, $Time, $From, $Name, $Text)
 		{
 			$Whatsapp = &$this->Whatsapp;
+
+			$Lang = new Lang($ModuleName);
 
 			return include $Filename;
 		}
@@ -36,12 +41,16 @@
 		{
 			$Whatsapp = &$this->Whatsapp;
 
+			$Lang = new Lang($ModuleName);
+
 			return include $Filename;
 		}
 
 		public function CallMediaModule($ModuleName, $Filename, $Me, $From, $ID, $Type, $Time, $Name, Array $Data)
 		{
 			$Whatsapp = &$this->Whatsapp;
+
+			$Lang = new Lang($ModuleName);
 
 			extract($Data);
 
@@ -52,6 +61,8 @@
 		{
 			$Whatsapp = &$this->Whatsapp;
 			$ModuleManager = &$ModuleManager;
+
+			$Lang = new Lang($ModuleName);
 
 			return include $Filename;
 		}
