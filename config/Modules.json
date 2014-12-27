@@ -4,7 +4,8 @@
 		"echo",
 		"help",
 		"md5",
-		"search"
+		"search",
+		"wiki"
 	],
 	"domains":
 	[
