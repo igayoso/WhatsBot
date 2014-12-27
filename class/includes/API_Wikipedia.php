@@ -1,13 +1,18 @@
 <?php
 	class Wikipedia
 	{
-		private static $Endpoint = 'http://es.wikipedia.org/w/api.php';
+		private static $Scheme = 'http://';
+		private static $Lang = 'en';
+		private static $Endpoint = 'wikipedia.org/w/api.php';
+
+		public static function SetLang($Lang)
+		{ static::$Lang = $Lang; }
 
 		public static function Search($Title)
 		{
 			$Title = urlencode($Title);
 
-			$URL = static::$Endpoint;
+			$URL = static::$Scheme . static::$Lang . '.' . static::$Endpoint;
 			$URL .= "?action=query&list=search&srwhat=text&format=json&srsearch={$Title}&continue=";
 
 			$Data = Utils::GetRemoteJson($URL);

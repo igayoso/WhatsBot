@@ -4,6 +4,11 @@
 
 	if($Text !== false)
 	{
+		$Lang = Utils::GetJson('config/Wiki.json');
+
+		if(!empty($Lang['lang']))
+			Wikipedia::SetLang($Lang['lang']);
+
 		$Result = Wikipedia::Search($Text);
 
 		if($Result !== false)
