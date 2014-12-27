@@ -1,4 +1,4 @@
 [
-	["API_Wikipedia.php", true],
-	["API_BingTranslate.php", true]
+	["API_STT.php", true],
+	["API_Wikipedia.php", true]
 ]
