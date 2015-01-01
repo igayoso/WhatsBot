@@ -1,105 +1,67 @@
 const int Rate = 9600;
-const char CommandSeparator = 0x10; // New Line
-const char Separator = 0x20; // Space
 
 void setup()
 {
   Serial.begin(Rate);
   
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(13, OUTPUT);
 }
 
 void loop()
 {
   char Buffer[128];
   
-  int Readed = Serial.readBytesUntil(CommandSeparator, Buffer, 128);
+  int Readed = Serial.readBytesUntil(0x10, Buffer, 128);
   
   if(Readed > 0)
   {
-    Blink();
+    Blink(13, 5, false);
     
     String Command = String(Buffer).substring(0, Readed);
     Command.toLowerCase();
     Command.trim();
     
-    int Offset = Command.indexOf(Separator);
-    String Object = Command.substring(0, Offset);
-    String Params = Command.substring(Offset + 1);
+    int Offset = Command.indexOf(0x20);
+    String Param = Command.substring(Offset + 1);
+    int IntParam = Param.toInt();
+    Command = Command.substring(0, Offset);
     
-    if(Object == "pin")
-      Serial.print(Pin(Params) + CommandSeparator);
+    if(Command == "pmi")
+    {
+      if(IsAvailablePin(IntParam))
+        pinMode(IntParam, INPUT);
+    }
+    else if(Command == "pmo")
+    {
+      if(IsAvailablePin(IntParam))
+        pinMode(IntParam, OUTPUT);
+    }
+    else if(Command == "dwh")
+    {
+      if(IsAvailablePin(IntParam))
+        digitalWrite(IntParam, HIGH);
+    }
+    else if(Command == "dwl")
+    {
+      if(IsAvailablePin(IntParam))
+        digitalWrite(IntParam, LOW);
+    }
   }
+  else
+    Blink(12, 100, true);
 }
 
-void Blink()
+void Blink(int Pin, int Delay, boolean WithEnd)
 {
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(5);
-  digitalWrite(LED_BUILTIN, LOW);
-}
-
-String Pin(String Params)
-{
-  int Offset = Params.indexOf(Separator);
-  String Command = Params.substring(0, Offset);
-  String SubParams = Params.substring(Offset + 1);
-  
-  if(Command == "mode")
-    return PinMode(SubParams);
-  else if(Command == "write")
-    return PinWrite(SubParams);
-  //else if(Command == "read")
-  //  ;
-  
-  return "pin_action_invalid";
-}
-
-String PinMode(String Params)
-{
-  int Offset = Params.indexOf(Separator);
-  int Pin = Params.substring(0, Offset).toInt();
-  String Mode = Params.substring(Offset + 1);
-  
-  if(IsAvailablePin(Pin))
-  {
-    if(Mode == "output")
-      pinMode(Pin, OUTPUT);
-    else if(Mode == "input")
-      pinMode(Pin, INPUT);
-    else
-      return "pin_mode_invalid";
-    
-    return "pin_mode_setted";
-  }
-  
-  return "pin_unavailable";
-}
-
-String PinWrite(String Params)
-{
-  int Offset = Params.indexOf(Separator);
-  int Pin = Params.substring(0, Offset).toInt();
-  String Mode = Params.substring(Offset + 1);
-  
-  if(IsAvailablePin(Pin))
-  {
-    if(Mode == "high")
-      digitalWrite(Pin, HIGH);
-    else if(Mode == "low")
-      digitalWrite(Pin, LOW);
-    //else if(Mode == "toggle")
-    //  digitalWrite(Pin, !digitalRead(Pin));
-    else
-      return "pin_value_invalid";
-    
-    return "pin_value_setted";
-  }
-  
-  return "pin_unavailable";
+  digitalWrite(Pin, HIGH);
+  delay(Delay);
+  digitalWrite(Pin, LOW);
+  if(WithEnd)
+    delay(Delay);
 }
 
 boolean IsAvailablePin(int Pin)
 {
-  return Pin > 1 && Pin < 14; // < 13?
+  return Pin > 1 && Pin < 12;
 }
