@@ -12,7 +12,7 @@ void loop()
 {
   char Buffer[128];
   
-  int Readed = Serial.readBytesUntil(0x10, Buffer, 128);
+  int Readed = Serial.readBytesUntil(0x0A, Buffer, 128);
   
   if(Readed > 0)
   {
