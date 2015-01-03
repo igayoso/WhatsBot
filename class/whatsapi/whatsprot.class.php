@@ -333,7 +333,7 @@ class WhatsProt
      *
      * @throws Exception
      */
-    public function codeRequest($method = 'sms', $carrier = null, $countryCode = null, $langCode = null)
+    public function codeRequest($method = 'sms', $carrier = "T-Mobile5", $countryCode = null, $langCode = null)
     {
         if (!$phone = $this->dissectPhone()) {
             throw new Exception('The provided phone number is not valid.');
@@ -368,12 +368,12 @@ class WhatsProt
             'id' => $this->identity,
             'lg' => $langCode,
             'lc' => $countryCode,
-            'mcc' => $phone['mcc'],
-            'mnc' => $mnc,
+            'mcc' => '000',
+            'mnc' => '000',
             'sim_mcc' => $phone['mcc'],
             'sim_mnc' => $mnc,
             'method' => $method,
-            //'reason' => "self-send-jailbroken",
+            'reason' => urlencode("self-send-jailbroken"),
             'token' => urlencode($token),
             'network_radio_type' => "1"
         );
@@ -413,7 +413,19 @@ class WhatsProt
                     ));
                 $minutes = round($response->retry_after / 60);
                 throw new Exception("Code already sent. Retry after $minutes minutes.");
-            } else {
+
+            } else if (isset($response->reason) && $response->reason == "too_many_guesses") {
+              $this->eventManager()->fire("onCodeRequestFailedTooManyGuesses",
+              array(
+                $this->phoneNumber,
+                $method,
+                $response->reason,
+                $response->retry_after
+              ));
+              $minutes = round($response->retry_after / 60);
+              throw new Exception("Too many guesses. Retry after $minutes minutes.");
+
+          }  else {
                 $this->eventManager()->fire("onCodeRequestFailed",
                     array(
                         $this->phoneNumber,
@@ -518,7 +530,7 @@ class WhatsProt
     public function disconnect()
     {
         if (is_resource($this->socket)) {
-            fclose($this->socket);
+            socket_close($this->socket);
             $this->socket = null;
             $this->eventManager()->fire("onDisconnect",
                 array(
@@ -2900,7 +2912,7 @@ class WhatsProt
                 //There are multiple types of Group reponses. Also a valid group response can have NO children.
                 //Events fired depend on text in the ID field.
                 $groupList = array();
-                if ($node->getChild(0) != null) {
+                if ($node->getChild(0) != null && $node->getChild(0)->getChildren() != null) {
                     foreach ($node->getChild(0)->getChildren() as $child) {
                         $groupList[] = $child->getAttributes();
                     }
@@ -3775,35 +3787,22 @@ class WhatsProt
      */
     protected function sendSetPicture($jid, $filepath)
     {
-        if(stripos($filepath, 'http')!== false && !preg_match('/\s/',$filepath)){
-          $extension = end(explode(".", $filepath));
-          $newImageName = rand(0, 100000);
-          $imagePath = static::PICTURES_FOLDER."/".$newImageName.".jpg";
-            if($extension == 'jpg'){
-              copy($filepath, $imagePath);
-              $filepath = $imagePath;
-		        }
-        }
-        preprocessProfilePicture($filepath);
-        $fp = @fopen($filepath, "r");
-        if ($fp) {
-            $data = fread($fp, filesize($filepath));
-            if ($data) {
-                //this is where the fun starts
-                $picture = new ProtocolNode("picture", array("type" => "image"), null, $data);
+        $data = preprocessProfilePicture($filepath);
+        $preview = createIconGD($filepath, 96, true);
 
-                $hash = array();
-                $nodeID = $this->createMsgId("setphoto");
-                $hash["id"] = $nodeID;
-                $hash["to"] = $this->getJID($jid);
-                $hash["type"] = "set";
-                $hash["xmlns"] = "w:profile:picture";
-                $node = new ProtocolNode("iq", $hash, array($picture), null);
+        $picture = new ProtocolNode("picture", array("type" => "image"), null, $data);
+        $preview = new ProtocolNode("picture", array("type" => "preview"), null, $preview);
 
-                $this->sendNode($node);
-                $this->waitForServer($nodeID);
-            }
-        }
+        $hash = array();
+        $nodeID = $this->createMsgId("setphoto");
+        $hash["id"] = $nodeID;
+        $hash["to"] = $this->getJID($jid);
+        $hash["type"] = "set";
+        $hash["xmlns"] = "w:profile:picture";
+        $node = new ProtocolNode("iq", $hash, array($picture, $preview), null);
+
+        $this->sendNode($node);
+        $this->waitForServer($nodeID);
     }
     /**
      * Parse the message text for emojis
