@@ -1,3 +1,4 @@
 [
-	["API_Wikipedia.php", true]
+	["API_Wikipedia.php", true],
+	["API_Google.php", true]
 ]
