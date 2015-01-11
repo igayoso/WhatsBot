@@ -103,7 +103,7 @@ class WhatsProt
             $this->identity = $this->buildIdentity($identity);
         } else {
             //use provided identity hash
-            $this->identity = file_get_contents($identity.'.dat');
+            $this->identity = urldecode(file_get_contents($identity.'.dat'));
         }
         $this->name = $nickname;
         $this->loginStatus = static::DISCONNECTED_STATUS;
@@ -373,8 +373,8 @@ class WhatsProt
             'sim_mcc' => $phone['mcc'],
             'sim_mnc' => $mnc,
             'method' => $method,
-            'reason' => urlencode("self-send-jailbroken"),
-            'token' => urlencode($token),
+            'reason' => "self-send-jailbroken",
+            'token' => $token,
             'network_radio_type' => "1"
         );
 
@@ -1234,7 +1234,7 @@ class WhatsProt
         $children = array();
         foreach($jids as $jid)
         {
-            $children[] = new ProtocolNode("user", array("jid" => $this->getJID($jid), "t" => time()), null, null);
+            $children[] = new ProtocolNode("user", array("jid" => $this->getJID($jid)), null, null);
         }
         $node = new ProtocolNode("iq", array(
             "to" => "s.whatsapp.net",
@@ -2281,13 +2281,13 @@ class WhatsProt
     {
         if (file_exists($identity.".dat"))
 		{
-			return file_get_contents($identity.'.dat');
+      return urldecode(file_get_contents($identity.'.dat'));
 		}
 		else
 		{
 			$id = fopen($identity.".dat", "w");
-			$bytes = "%".implode("%", str_split(strtolower(bin2hex(openssl_random_pseudo_bytes(16))), 2));
-			fwrite($id, $bytes);
+			$bytes = openssl_random_pseudo_bytes(20);
+			fwrite($id, strtolower(urlencode($bytes)));
 			fclose($id);
 
 			return $bytes;
@@ -2297,8 +2297,12 @@ class WhatsProt
     protected function checkIdentity($identity)
     {
     	if (file_exists($identity.".dat"))
-		{
-    		return (strlen(file_get_contents($identity.'.dat')) == 48);
+		  {
+        $id = urldecode(file_get_contents($identity.'.dat'));
+        if (($id == 20) || ($id == 16))
+        {
+          return true;
+        }
     	}
     	else
     	{
@@ -2448,11 +2452,7 @@ class WhatsProt
     protected function getResponse($host, $query)
     {
         // Build the url.
-        $url = $host . '?';
-        foreach ($query as $key => $value) {
-            $url .= $key . '=' . $value . '&';
-        }
-        $url = rtrim($url, '&');
+        $url = $host . '?' . http_build_query($query);
 
         // Open connection.
         $ch = curl_init();
