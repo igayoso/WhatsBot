@@ -27,7 +27,7 @@
 
 					$Response = json_decode($Response, true);
 
-					if($Response !== false && isset($Response['success']) && $Response['success'] == true && isset($Response['data']['link']))
+					if($Response !== null && isset($Response['success']) && $Response['success'] == true && isset($Response['data']['link']))
 						$Whatsapp->SendMessage($From, "Image uploaded to {$Response['data']['link']}");
 				}
 			}

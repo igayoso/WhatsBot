@@ -11,7 +11,7 @@
 				{
 					$Data = json_decode($Data, true);
 
-					if($Data !== false)
+					if($Data !== null)
 						return $Data;
 				}
 			}
@@ -157,7 +157,7 @@
 				{
 					$Data = json_decode($Data, true);
 
-					if($Data !== false)
+					if($Data !== null)
 						return $Data;
 				}
 
