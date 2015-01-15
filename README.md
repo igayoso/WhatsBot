@@ -10,8 +10,8 @@ A module-based, user-friendly whatsapp bot...
 Latest stable code: 
 ===================
 
-Code: <https://github.com/fermino/WhatsBot/tree/9dfa7a016308bcf76bae7d39b7c20f0308f2463f>
+Code: <https://github.com/fermino/WhatsBot/tree/33a165a46277c171f6f6c9fd89fe16f91425aa36>
 
-Download: <https://github.com/fermino/WhatsBot/archive/9dfa7a016308bcf76bae7d39b7c20f0308f2463f.zip>
+Download: <https://github.com/fermino/WhatsBot/archive/33a165a46277c171f6f6c9fd89fe16f91425aa36.zip>
 
 See <https://github.com/fermino/WhatsBot/blob/master/TESTING.md>, a list of beta features, maybe you can help :)
