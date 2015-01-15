@@ -3,7 +3,7 @@ WhatsBot
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fermino/WhatsBot)
 
-[![Code Climate](https://codeclimate.com/github/fermino/WhatsBot/badges/gpa.svg)](https://codeclimate.com/github/fermino/WhatsBot)
+[![Code Climate](https://codeclimate.com/github/fermino/WhatsBot/badges/gpa.svg)](https://codeclimate.com/github/fermino/WhatsBot) [![Test Coverage](https://codeclimate.com/github/fermino/WhatsBot/badges/coverage.svg)](https://codeclimate.com/github/fermino/WhatsBot)
 
 A module-based, user-friendly whatsapp bot...
 
