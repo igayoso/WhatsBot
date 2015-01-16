@@ -6,8 +6,11 @@
 
 		public function __construct()
 		{
-			$this->Data = Utils::GetJson('config/Modules.json')['parser'];
-			$this->ToReplace = Utils::GetJson('config/Parser.json')['replace'];
+			$this->Data = Utils::GetJson('config/Modules.json');
+			$this->Data = $this->Data['parser'];
+
+			$this->ToReplace = Utils::GetJson('config/Parser.json');
+			$this->ToReplace = $this->ToReplace['replace'];
 		}
 
 		public function Parse($String, &$Flags)
