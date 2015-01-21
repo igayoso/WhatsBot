@@ -4,36 +4,23 @@
 
 	if($Text !== false)
 	{
-		$Json = Utils::GetJson('config/GoogleSearch.json');
+		$Config = Utils::GetJson('config/GoogleSearch.json');
 
-		$Q = urlencode($Text);
+		$Large = !empty($Config['large']) ? true : false;
+		$Key = !empty($Config['key']) ? $Config['key'] : null;
 
-		$UserID = Utils::GetNumberFromJID($From['u']);
-		if(strlen($UserID) > 14)
-			$UserID = substr($UserID, 0, 14);
-		$UserID = urlencode($UserID);
+		$UserID = md5(Utils::GetNumberFromJID($From['u']));
 
-		$RequestURL = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q={$Q}&quotaUser={$UserID}";
-		if(!empty($Json['key']))
-			$RequestURL .= "&key={$Json['key']}";
-		if(!empty($Json['large']))
-			$RequestURL .= '&rsz=large';
+		$Data = Google::Search($Text, $Large, $UserID, $Key);
 
-		$Data = file_get_contents($RequestURL); // if false then return false
-		$Data = json_decode($Data, true);
-
-		if($Data['responseStatus'] == 200)
+		if($Data !== false)
 		{
-			$Data = $Data['responseData'];
-
-			$Message = "{$Data['cursor']['estimatedResultCount']} results in {$Data['cursor']['searchResultTime']} seconds: \n";
+			$Message = "{$Data['count']} results in {$Data['time']} seconds: \n";
 
 			$Count = count($Data['results']) - 1;
-
 			for($i = 0; $i < $Count; $i++)
-				$Message .= "{$Data['results'][$i]['unescapedUrl']} => {$Data['results'][$i]['titleNoFormatting']}\n";
-
-			$Message .= "{$Data['results'][$i]['unescapedUrl']} => {$Data['results'][$i]['titleNoFormatting']}";
+				$Message .= "{$Data['results'][$i]['url']} => {$Data['results'][$i]['title']}\n";
+			$Message .= "{$Data['results'][$i]['url']} => {$Data['results'][$i]['title']}";
 
 			$Whatsapp->SendMessage($To, $Message);
 		}
