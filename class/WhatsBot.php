@@ -1,4 +1,6 @@
 <?php
+	require_once 'Exception.php';
+
 	require_once 'whatsapi/whatsprot.class.php';
 	require_once 'WhatsBotListener.php';
 	require_once 'WhatsBotParser.php';
@@ -59,7 +61,7 @@
 				);
 			}
 			else
-				exit('Can\'t load config...');
+				throw new WhatsBotException('Can\'t load config...');
 
 			$this->InitThreads();
 		}
