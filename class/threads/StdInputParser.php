@@ -42,7 +42,7 @@
 						break;
 					case 'exit':
 						Utils::Write('Stopping WhatsBot. A module-based, user-friendly whatsapp bot. https://github.com/fermino/WhatsBot. By @fermino...');
-						Utils::Read(); // Cambiar algo en WhatsBot que evite pollMessage();
+						Utils::ReadLine(); // Cambiar algo en WhatsBot que evite pollMessage();
 						exit;
 						break;
 					default:
