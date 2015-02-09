@@ -18,4 +18,4 @@
 			return false;
 	}
 	else // Else send usage
-		$Whatsapp->SendMessage($From, 'Usage: !exchange <convert from> <convert to> <amount>. Example: !exchange usd eur 2');
+		$Whatsapp->SendMessage($From, 'Usage: !exchange <convert from> <convert to> <amount>. Example: !exchange usd eur 2'); // ModuleManager->GetHelp() ?

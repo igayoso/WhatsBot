@@ -1,6 +1,6 @@
 <?php
 	trait WhatsBotThread
-	{
+	{ // Add require Utils to constructor ?
 		private static $Tasks = array();
 
 		final public function GetTasks()
