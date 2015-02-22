@@ -3,38 +3,40 @@
 
 	class ConfigManager
 	{
-		private $Config = array();
+		private static $Path = 'config';
 
-		public function __construct()
+		private static $Config = array();
+
+		public static function Load()
 		{
-			if(is_dir('../config'))
+			if(is_dir(self::$Path))
 			{
-				$Files = array_values(array_filter(scandir('../config'), function($Path)
+				$Files = array_values(array_filter(scandir(self::$Path), function($Path)
 				{
 					return !is_dir($Path) && pathinfo($Path, PATHINFO_EXTENSION) === 'json';
 				}));
 
 				foreach($Files as $File)
 				{
-					$Data = Json::Read("../config/{$File}");
+					$Data = Json::Read(self::$Path . '/' . $File);
 
 					if($Data !== false)
-						$this->Config[substr($File, 0, strlen($File) - 5)] = $Data;
+						self::$Config[substr($File, 0, strlen($File) - 5)] = $Data;
 				}
 			}
 			else
 				throw new ConfigException("No such directory 'config'");
 		}
 
-		public function Reload()
+		public static function Reload()
 		{
-			$this->__construct();
+			self::Load();
 		}
 
-		public function Get($Filename)
+		public static function Get($Filename)
 		{
-			if(isset($this->Config[$Filename]))
-				return $this->Config[$Filename];
+			if(isset(self::$Config[$Filename]))
+				return self::$Config[$Filename];
 
 			return false;
 		}
@@ -42,3 +44,5 @@
 
 	class ConfigException extends Exception
 	{ }
+
+	ConfigManager::Load();
