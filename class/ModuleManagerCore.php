@@ -1,13 +1,13 @@
 <?php
-	require_once 'ModuleManagerLoad.php';
+	require_once 'ModuleManagerLoader.php';
 	require_once 'ModuleManagerExists.php';
-	require_once 'ModuleManagerGet.php';
+	require_once 'ModuleManagerGetter.php';
 
 	class ModuleManagerCore
 	{
-		use ModuleManagerLoad;
+		use ModuleManagerLoader;
 		use ModuleManagerExists;
-		use ModuleManagerGet;
+		use ModuleManagerGetter;
 
 		private $Modules = array
 		(
@@ -17,11 +17,3 @@
 			'multimedia' => array()
 		);
 	}
-
-	/* To do. 
-	 * Make this with interfaces
-	 * 
-	 * GetModules
-	 * GetModuleData
-	 * LoadModules() => return loaded modules
-	 */

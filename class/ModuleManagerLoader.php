@@ -1,6 +1,7 @@
 <?php
 	trait ModuleManagerLoad
 	{
+		// LoadModules() => return loaded modules
 		public function LoadModules()
 		{
 			$Modules = Config::Get('Modules');
