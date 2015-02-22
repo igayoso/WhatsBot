@@ -1,8 +1,4 @@
 {
-	"database":
-	{
-		"filename":"DB.sqlite"
-	},
 	"whatsapp":
 	{
 		"username":"",
