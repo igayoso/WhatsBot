@@ -1,6 +1,0 @@
-{
-	"endpoint":"https://api.imgur.com/3/image",
-	"clientid":"YOUR IMGUR CLIENT ID",
-	"uploadlimit":10485760,
-	"sendongroup":false
-}

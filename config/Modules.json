@@ -1,40 +1,22 @@
 {
 	"commands":
 	[
-		"echo",
-		"help",
-		"md5",
-		"search",
-		"wiki",
-		"exchange",
-		"translate"
+		"echo"
 	],
 	"domains":
 	[
-		"soundcloud.com",
-		"m.soundcloud.com"
+
 	],
 	"exts":
 	[
-		"gif",
-		"jpg",
-		"jpeg",
-		"png"
+
 	],
 	"media":
 	[
-		"image"
+
 	],
 	"parser":
 	{
-		"echo":
-		[
-			[
-				"echo", "say", "speak"
-			],
-			{
-				
-			}
-		]
+		
 	}
 }
