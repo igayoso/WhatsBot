@@ -1,6 +1,6 @@
 <?php
 	require_once 'whatsapi/whatsprot.class.php';
-	require_once 'Whatsapp.php';
+	require_once 'WhatsApp.php';
 
 	require_once 'Listener.php';
 	require_once 'Parser.php';
@@ -14,7 +14,7 @@
 	class WhatsBot
 	{
 		private $WP = null;
-		private $Whatsapp = null;
+		private $WhatsApp = null;
 
 		private $Listener = null;
 		private $Parser = null;
@@ -32,21 +32,21 @@
 
 			$Config = Config::Get('WhatsBot');
 
-			if(!empty($Config['whatsapp']['username']) && !empty($Config['whatsapp']['nickname']));
+			if(!empty($Config['WhatsApp']['username']) && !empty($Config['WhatsApp']['nickname']));
 			{
-				# Whatsapp
+				# WhatsApp
 
-				$this->WP = new WhatsProt($Config['whatsapp']['username'], null, $Config['whatsapp']['nickname'], $Debug);
+				$this->WP = new WhatsProt($Config['WhatsApp']['username'], null, $Config['WhatsApp']['nickname'], $Debug);
 
-				$this->Whatsapp = new Whatsapp($this->WP);
+				$this->WhatsApp = new WhatsApp($this->WP);
 
 				# WhatsBot
 
-				$this->ModuleManager = new ModuleManager($this->Whatsapp);
+				$this->ModuleManager = new ModuleManager($this->WhatsApp);
 
-				$this->Parser = new WhatsBotParser($this->Whatsapp, $this->ModuleManager);
+				$this->Parser = new WhatsBotParser($this->WhatsApp, $this->ModuleManager);
 				
-				$this->Listener = new WhatsBotListener($this->Whatsapp, $this->Parser);
+				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser);
 
 				# Load
 
@@ -56,8 +56,8 @@
 
 				# Bind Event Listener
 
-				$this->Whatsapp->EventManager()->SetDebug($Debug);
-				$this->Whatsapp->EventManager()->BindListener($this->Listener);
+				$this->WhatsApp->EventManager()->SetDebug($Debug);
+				$this->WhatsApp->EventManager()->BindListener($this->Listener);
 			}
 			else
 				throw new WhatsBotException('You have to setup the config file WhatsBot.json');
@@ -67,11 +67,11 @@
 		{
 			$Config = Config::Get('WhatsBot');
 
-			if(!empty($Config['whatsapp']['password']))
+			if(!empty($Config['WhatsApp']['password']))
 			{
-				$this->Whatsapp->Connect();
+				$this->WhatsApp->Connect();
 
-				$this->Whatsapp->LoginWithPassword($Config['whatsapp']['password']);
+				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['password']);
 			}
 			else
 				throw new WhatsBotException('You have to add the password to config/WhatsBot.json');
@@ -83,21 +83,21 @@
 
 			while(true)
 			{
-				if(!$this->Whatsapp->IsConnected())
+				if(!$this->WhatsApp->IsConnected())
 					$this->Start();
 
-				$this->Whatsapp->PollMessage();
+				$this->WhatsApp->PollMessage();
 
 				if(time() >= $StartTime + 60)
 				{
-					$this->Whatsapp->SendPing();
+					$this->WhatsApp->SendPing();
 
 					$StartTime = time();
 				}
 			}
 		}
 	}
-	
+
 	class WhatsBotException extends Exception
 	{ }
 
