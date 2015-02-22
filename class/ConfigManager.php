@@ -1,7 +1,7 @@
 <?php
 	require_once 'Includes/Json.php';
 
-	class ConfigManager
+	class Config
 	{
 		private static $Path = 'config';
 
@@ -48,4 +48,4 @@
 	class ConfigException extends Exception
 	{ }
 
-	ConfigManager::Load();
+	Config::Load();
