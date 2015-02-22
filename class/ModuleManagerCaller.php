@@ -38,6 +38,6 @@
 				'Name' => $Name,
 				'Text' => $Text,
 				'Params' => $Params
-			);
+			));
 		}
 	}

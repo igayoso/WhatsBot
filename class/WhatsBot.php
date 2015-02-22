@@ -51,7 +51,7 @@
 				# Load
 
 				// IncludeManager
-				$this->ModuleManager->Load();
+				$this->ModuleManager->LoadModules();
 				// ThreadManager
 
 				# Bind Event Listener

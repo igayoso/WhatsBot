@@ -1,5 +1,5 @@
 <?php
-	trait ModuleManagerGet
+	trait ModuleManagerGetter
 	{
 		/*
 		 * GetModules

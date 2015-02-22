@@ -1,5 +1,5 @@
 <?php
-	trait ModuleManagerLoad
+	trait ModuleManagerLoader
 	{
 		// LoadModules() => return loaded modules
 		public function LoadModules()
@@ -8,7 +8,7 @@
 
 			if($Modules !== false)
 			{
-				$Keys = array_keys($Modules)
+				$Keys = array_keys($Modules);
 
 				foreach($Keys as $Key)
 					foreach($Modules[$Key] as $Module)
