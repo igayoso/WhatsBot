@@ -32,11 +32,11 @@
 
 			$Config = Config::Get('WhatsBot');
 
-			if(!empty($Config['WhatsApp']['username']) && !empty($Config['WhatsApp']['nickname']));
+			if(!empty($Config['WhatsApp']['Username']) && !empty($Config['WhatsApp']['Nickname']));
 			{
 				# WhatsApp
 
-				$this->WP = new WhatsProt($Config['WhatsApp']['username'], null, $Config['WhatsApp']['nickname'], $Debug);
+				$this->WP = new WhatsProt($Config['WhatsApp']['Username'], null, $Config['WhatsApp']['Nickname'], $Debug);
 
 				$this->WhatsApp = new WhatsApp($this->WP);
 
@@ -67,11 +67,11 @@
 		{
 			$Config = Config::Get('WhatsBot');
 
-			if(!empty($Config['WhatsApp']['password']))
+			if(!empty($Config['WhatsApp']['Password']))
 			{
 				$this->WhatsApp->Connect();
 
-				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['password']);
+				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['Password']);
 			}
 			else
 				throw new WhatsBotException('You have to add the password to config/WhatsBot.json');
