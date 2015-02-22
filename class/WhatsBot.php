@@ -56,7 +56,6 @@
 
 				# Bind Event Listener
 
-				$this->WhatsApp->EventManager()->SetDebug($Debug);
 				$this->WhatsApp->EventManager()->BindListener($this->Listener);
 			}
 			else

@@ -10,6 +10,9 @@
 			$this->WhatsApp = $WhatsApp;
 		}
 
+		public function EventManager()
+		{ return $this->WhatsApp->EventManager(); }
+
 		// Functions
 		// Send{type}Message => Send{type} only ?
 	}
