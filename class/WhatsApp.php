@@ -13,6 +13,21 @@
 		public function EventManager()
 		{ return $this->WhatsApp->EventManager(); }
 
+		public function IsConnected()
+		{ return $this->WhatsApp->IsConnected(); }
+
+		public function Connect()
+		{ return $this->WhatsApp->Connect(); }
+
+		public function LoginWithPassword($Password)
+		{ return $this->WhatsApp->LoginWithPassword($Password); }
+
+		public function PollMessage($AutoReceipt = true)
+		{ return $this->WhatsApp->PollMessage($AutoReceipt); }
+
+		public function SendPing()
+		{ return $this->WhatsApp->SendPing(); }
+
 		// Functions
 		// Send{type}Message => Send{type} only ?
 	}
