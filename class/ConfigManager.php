@@ -25,7 +25,7 @@
 				}
 			}
 			else
-				throw new ConfigException("No such directory 'config'");
+				throw new ConfigException('No such directory ' . self::$Path);
 		}
 
 		public static function Reload()
@@ -33,10 +33,13 @@
 			self::Load();
 		}
 
-		public static function Get($Filename)
+		public static function Get($Filename, $Throw = true)
 		{
 			if(isset(self::$Config[$Filename]))
 				return self::$Config[$Filename];
+
+			if($Throw)
+				throw new ConfigException("Can't read config file {$Filename}.json");
 
 			return false;
 		}
