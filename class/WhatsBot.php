@@ -32,7 +32,7 @@
 
 			$Config = Config::Get('WhatsBot');
 
-			if(!empty($Config['WhatsApp']['Username']) && !empty($Config['WhatsApp']['Nickname']));
+			if(!empty($Config['WhatsApp']['Username']) && !empty($Config['WhatsApp']['Nickname']))
 			{
 				# WhatsApp
 
