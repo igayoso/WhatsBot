@@ -1,4 +1,6 @@
 <?php
+	require_once 'ConfigManagerExceptions.php';
+
 	require_once 'Includes/Json.php';
 
 	class Config
@@ -44,8 +46,5 @@
 			return false;
 		}
 	}
-
-	class ConfigException extends Exception
-	{ }
 
 	Config::Load();

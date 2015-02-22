@@ -1,4 +1,6 @@
 <?php
+	require_once 'WhatsBotExceptions.php';
+	
 	require_once 'whatsapi/whatsprot.class.php';
 	require_once 'WhatsApp.php';
 
@@ -96,9 +98,6 @@
 			}
 		}
 	}
-
-	class WhatsBotException extends Exception
-	{ }
 
 	/* To do: 
 	 * Make an parser for modules (With https://github.com/nikic/PHP-Parser ?)
