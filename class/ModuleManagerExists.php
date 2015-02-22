@@ -1,7 +1,7 @@
 <?php
 	trait ModuleManagerExists
 	{
-		private function ModuleExists($Key, $Name)
+		protected function ModuleExists($Key, $Name)
 		{
 			return !empty($this->Modules[$Key][strtolower($Name)]);
 		}
