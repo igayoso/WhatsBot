@@ -52,6 +52,7 @@
 					$ID,
 					$Type,
 					$Time,
+					$Name,
 					$Text,
 					$Parsed
 				);
