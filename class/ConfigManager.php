@@ -1,4 +1,6 @@
 <?php
+	require_once 'Lang.php';
+
 	require_once 'ConfigManagerExceptions.php';
 
 	require_once 'Includes/Json.php';
@@ -27,7 +29,7 @@
 				}
 			}
 			else
-				throw new ConfigException('No such directory ' . self::$Path);
+				throw new ConfigException((new Lang('ConfigManager'))->Get('exception:no_such_directory', self::$Path));
 		}
 
 		public static function Reload()
@@ -41,7 +43,7 @@
 				return self::$Config[$Filename];
 
 			if($Throw)
-				throw new ConfigException("Can't read config file {$Filename}.json");
+				throw new ConfigException((new Lang('ConfigManager'))->Get('exception:cant_read_file', $Filename));
 
 			return false;
 		}

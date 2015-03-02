@@ -1,0 +1,4 @@
+{
+	"exception:no_such_directory":"No such directory %s",
+	"exception:cant_read_file":"Can't read config file %s.json"
+}
