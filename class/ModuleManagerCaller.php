@@ -1,24 +1,24 @@
 <?php
 	trait ModuleManagerCaller
 	{
-		private function CallModule($Key, $Name, Array $Params)
+		private function CallModule($Key, $ModuleName, Array $Params)
 		{
-			if($this->ModuleExists($Key, $Name))
+			if($this->ModuleExists($Key, $ModuleName))
 			{
 				$WhatsApp = $this->WhatsApp;
 				$ModuleManager = $this;
 
 				// Lang
 
-				$ModuleData = $this->GetModuleData($Key, $Name);
+				$Module = $this->GetModule($Key, $ModuleName);
 
-				if($ModuleData !== false)
+				if($Module !== false)
 				{
-					if(is_readable($ModuleData['file']))
+					if(is_readable($Module['file']))
 					{
 						extract($Params);
 
-						return include $ModuleData['file'];
+						return include $Module['file'];
 					}
 				}
 			}
