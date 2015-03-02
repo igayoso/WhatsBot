@@ -15,7 +15,7 @@
 
 	class WhatsBot
 	{
-		private $WP = null;
+		private $WhatsProt = null;
 		private $WhatsApp = null;
 
 		private $Listener = null;
@@ -38,9 +38,9 @@
 			{
 				# WhatsApp
 
-				$this->WP = new WhatsProt($Config['WhatsApp']['Username'], null, $Config['WhatsApp']['Nickname'], $Debug);
+				$this->WhatsProt = new WhatsProt($Config['WhatsApp']['Username'], null, $Config['WhatsApp']['Nickname'], $Debug);
 
-				$this->WhatsApp = new WhatsApp($this->WP);
+				$this->WhatsApp = new WhatsApp($this->WhatsProt);
 
 				# WhatsBot
 
@@ -123,7 +123,3 @@
 	/*
 	 * Implement: https://github.com/mgp25/WhatsAPI-Official/wiki/WhatsAPI-Documentation#whatsapp-workflow
 	 */
-
-
-
-	
