@@ -1,6 +1,7 @@
 {
-	"main":
+	"Main":
 	{
-		
+		"exception:config_empty":"You have to setup the config file config/%s",
+		"exception:config_empty_password":"You have to add the password to config/%s"
 	}
 }

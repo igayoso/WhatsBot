@@ -1,4 +1,5 @@
 <?php
+	require_once 'Lang.php';
 	require_once 'WhatsBotExceptions.php';
 	
 	require_once 'whatsapi/whatsprot.class.php';
@@ -61,7 +62,7 @@
 				$this->WhatsApp->EventManager()->BindListener($this->Listener);
 			}
 			else
-				throw new WhatsBotException('You have to setup the config file WhatsBot.json');
+				throw new WhatsBotException(Lang('exception:config_empty', 'WhatsBot.json'));
 		}
 
 		public function Start()
@@ -75,7 +76,7 @@
 				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['Password']);
 			}
 			else
-				throw new WhatsBotException('You have to add the password to config/WhatsBot.json');
+				throw new WhatsBotException(Lang('exception:config_empty_password', 'WhatsBot.json'));
 		}
 
 		public function Listen()

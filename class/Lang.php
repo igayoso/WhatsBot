@@ -4,9 +4,9 @@
 	class Lang
 	{
 		private $Section = null;
-		private $Data = array('main' => array());
+		private $Data = array('Main' => array());
 
-		public function __construct($Section = 'main')
+		public function __construct($Section = 'Main')
 		{
 			$this->Section = $Section;
 
@@ -19,15 +19,24 @@
 		public function __invoke($String)
 		{
 			if(!empty($this->Data[$this->Section][$String]))
+			{
+				$Args = func_get_args();
+
+				if(count($Args) > 1)
+				{
+					$Args[0] = $this->Data[$this->Section][$String];
+					
+					return call_user_func_array('sprintf', $Args);
+				}
+
 				return $this->Data[$this->Section][$String];
+			}
 
 			return false;
 		}
 	}
 
-	function Lang($String, $Section = 'main')
+	function Lang($String)
 	{
-		$Lang = new Lang($Section);
-
-		return $Lang($String);
+		return call_user_func_array(new Lang, func_get_args());
 	}
