@@ -1,35 +1,6 @@
 <?php
 	class Utils
 	{ // To do: Utils:: => static:: or self::
-		public static function GetJson($Filename)
-		{
-			if(is_file($Filename) && is_readable($Filename))
-			{
-				$Data = file_get_contents($Filename);
-
-				if($Data !== false)
-				{
-					$Data = json_decode($Data, true);
-
-					if($Data !== null)
-						return $Data;
-				}
-			}
-
-			return false;
-		}
-
-		public static function SaveJson($Filename, $Data)
-		{
-			$Data = json_encode($Data);
-
-			if($Data !== false)
-				if(file_put_contents($Filename, $Data) == strlen($Data))
-					return true;
-
-			return false;
-		}
-
 		public static function CleanTemp($Dir = 'tmp')
 		{
 			$Files = glob("{$Dir}/*");
