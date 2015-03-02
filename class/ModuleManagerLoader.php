@@ -12,7 +12,7 @@
 
 				foreach($Keys as $Key)
 					foreach($Modules[$Key] as $Module)
-						$this->LoadModule($Key, $Modules[$Key]);
+						$this->LoadModule($Key, $Module);
 
 				return true;
 			}
@@ -22,14 +22,14 @@
 
 		private function LoadModule($Key, $Name)
 		{
-			if(in_array($Key, array_keys($this->Modules)))
+			if($this->KeyExists($Key))
 			{
 				$Path = "class/Modules/{$Key}_{$Name}";
 
 				$JPath = "{$Path}.json";
 				$PPath = "{$Path}.php";
 
-				if(basename(realpath($JPath)) === 'Modules')
+				if(basename(dirname(realpath($JPath))) === 'Modules')
 				{
 					$Json = Json::Read($JPath);
 
