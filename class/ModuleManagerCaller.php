@@ -5,17 +5,17 @@
 		{
 			if($this->ModuleExists($Key, $ModuleName))
 			{
-				$WhatsApp = $this->WhatsApp;
-				$ModuleManager = $this;
-
-				// Lang
-
 				$Module = $this->GetModule($Key, $ModuleName);
 
 				if($Module !== false)
 				{
 					if(is_readable($Module['file']))
 					{
+						$WhatsApp = $this->WhatsApp;
+						$ModuleManager = $this;
+
+						$Lang = new Lang("{Key}_{$ModuleName}");
+
 						extract($Params);
 
 						return include $Module['file'];
