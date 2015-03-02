@@ -11,9 +11,6 @@
 
 		private $Modules = array
 		(
-			'command' => array(),
-			'domain' => array(),
-			'extension' => array(),
-			'multimedia' => array()
+			'command' => array()
 		);
 	}

@@ -53,19 +53,4 @@
 		{
 			return $this->LoadModule('command', $Name);
 		}
-
-		public function LoadDomainModule($Name)
-		{
-			return $this->LoadModule('domain', $Name);
-		}
-
-		public function LoadExtensionModule($Name)
-		{
-			return $this->LoadModule('extension', $Name);
-		}
-
-		public function LoadMultiMediaModule($Name)
-		{
-			return $this->LoadModule('multimedia', $Name);
-		}
 	}

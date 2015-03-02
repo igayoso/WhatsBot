@@ -24,19 +24,4 @@
 		{
 			return $this->GetModule('command', $Name);
 		}
-
-		public function GetDomainModule($Name)
-		{
-			return $this->GetModule('domain', $Name);
-		}
-
-		public function GetExtensionModule($Name)
-		{
-			return $this->GetModule('extension', $Name);
-		}
-
-		public function GetMultiMediaModule($Name)
-		{
-			return $this->GetModule('multimedia', $Name);
-		}
 	}

@@ -16,19 +16,4 @@
 		{
 			return $this->ModuleExists('command', $Name);
 		}
-
-		public function DomainModuleExists($Name)
-		{
-			return $this->ModuleExists('domain', $Name);
-		}
-
-		public function ExtensionModuleExists($Name)
-		{
-			return $this->ModuleExists('extension', $Name);
-		}
-
-		public function MultiMediaModuleExists($Name)
-		{
-			return $this->ModuleExists('multimedia');
-		}
 	}
