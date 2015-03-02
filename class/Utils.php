@@ -19,33 +19,6 @@
 			return true;
 		}
 
-		public static function MakeFrom($FromGroup, $FromUser)
-		{
-			if($FromGroup != null)
-				$From = array
-				(
-					'from' => 'group',
-					'g' => $FromGroup,
-					'u' => $FromUser
-				);
-			else
-				$From = array
-				(
-					'from' => 'pv',
-					'u' => $FromUser
-				);
-
-			return $From;
-		}
-
-		public static function GetFrom($FromData)
-		{
-			if($FromData['from'] == 'group')
-				return $FromData['g'];
-			else
-				return $FromData['u'];
-		}
-
 		/*public static function IsAdmin($From)
 		{
 			if(is_array($From))
