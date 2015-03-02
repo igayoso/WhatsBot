@@ -19,11 +19,11 @@
 			$this->Char = $Char;
 		}
 
-		public function ParseTextMessage($Me, $FromData, $ID, $Type, $Time, $Name, $Text)
+		public function ParseTextMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text)
 		{
 			if(!empty($Text) && $Text[0] === $this->Char)
 			{
-				$this->ParseCommandMessage($Me, $FromData, $ID, $Type, $Time, $Name, $Text);
+				$this->ParseCommandMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text);
 			}
 
 			// Parser
@@ -37,7 +37,7 @@
 
 		// Test if module is only available for admins
 
-		private function ParseCommandMessage($Me, $FromData, $ID, $Type, $Time, $Name, $Text)
+		private function ParseCommandMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text)
 		{
 			$Parsed = explode(' ', substr($Text, 1));
 
@@ -48,7 +48,8 @@
 					$Parsed[0],
 
 					$Me,
-					$FromData,
+					$From,
+					$User,
 					$ID,
 					$Type,
 					$Time,

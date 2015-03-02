@@ -26,12 +26,13 @@
 			return false;
 		}
 
-		public function CallCommandModule($ModuleName, $Me, $From, $ID, $Type, $Time, $Name, $Text, $Params)
+		public function CallCommandModule($ModuleName, $Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $Params)
 		{
 			return $this->CallModule('command', $ModuleName, array
 			(
 				'Me' => $Me,
 				'From' => $From,
+				'User' => $User,
 				'ID' => $ID,
 				'Type' => $Type,
 				'Time' => $Time,
