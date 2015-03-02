@@ -32,7 +32,7 @@
 
 		public static function Reload()
 		{
-			self::Load();
+			return self::Load();
 		}
 
 		public static function Get($Filename, $Throw = true)

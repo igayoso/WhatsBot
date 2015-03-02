@@ -132,14 +132,6 @@
 			Utils::Write($String, false);
 		}
 
-		/*public static function getConfig($Key)
-		{
-			$Data = file_get_contents('config/WhatsBot.json');
-			$Data = json_decode($Data, true);
-
-			return (isset($Data[$Key])) ? $Data[$Key] : false;
-		}*/
-
 		public static function CallFunction(&$Object, $Function, $Params = array())
 		{
 			if(!empty($Object) && !empty($Function))
