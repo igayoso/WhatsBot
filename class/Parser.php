@@ -21,7 +21,7 @@
 
 		public function ParseTextMessage($Me, $FromData, $ID, $Type, $Time, $Name, $Text)
 		{
-			if(!empty($Text) && $Text[0] === $Char)
+			if(!empty($Text) && $Text[0] === $this->Char)
 			{
 				$this->ParseCommandMessage($Me, $FromData, $ID, $Type, $Time, $Name, $Text);
 			}
