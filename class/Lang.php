@@ -1,42 +1,44 @@
 <?php
-	require_once 'ConfigManager.php';
+	require_once 'Includes/Json.php';
 
 	class Lang
 	{
 		private $Section = null;
-		private $Data = array('Main' => array());
+		private $Data = array();
 
-		public function __construct($Section = 'Main')
+		public function __construct($Section)
 		{
 			$this->Section = $Section;
 
-			$Data = Config::Get('Lang');
+			$Data = Json::Read("lang/{$Section}.json");
 
 			if(is_array($Data))
 				$this->Data = $Data;
 		}
 
-		public function __invoke($String)
+		public function Get($Key)
 		{
-			if(!empty($this->Data[$this->Section][$String]))
+			if(!empty($this->Data[$Key]))
 			{
 				$Args = func_get_args();
 
 				if(count($Args) > 1)
 				{
-					$Args[0] = $this->Data[$this->Section][$String];
-					
+					$Args[0] = $this->Data[$Key];
+
 					return call_user_func_array('sprintf', $Args);
 				}
 
-				return $this->Data[$this->Section][$String];
+				return $this->Data[$Key];
 			}
 
 			return false;
 		}
-	}
 
-	function Lang($String)
-	{
-		return call_user_func_array(new Lang, func_get_args());
+		// Set()
+
+		public function __invoke($Key)
+		{
+			return call_user_func_array(array($this, 'Get'), func_get_args());
+		}
 	}

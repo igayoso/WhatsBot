@@ -25,11 +25,16 @@
 		private $ModuleManager = null;
 
 
+		private $Lang = null;
+
+
 		private $Debug = false;
 
 
 		public function __construct($Debug = false)
 		{
+			$this->Lang = new Lang('Main');
+
 			$this->Debug = $Debug;
 
 
@@ -62,7 +67,7 @@
 				$this->WhatsApp->EventManager()->BindListener($this->Listener);
 			}
 			else
-				throw new WhatsBotException(Lang('exception:config_empty', 'WhatsBot.json'));
+				throw new WhatsBotException($this->Lang->Get('exception:config_empty', 'WhatsBot.json'));
 		}
 
 		public function Start()
@@ -76,7 +81,7 @@
 				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['Password']);
 			}
 			else
-				throw new WhatsBotException(Lang('exception:config_empty_password', 'WhatsBot.json'));
+				throw new WhatsBotException($this->Lang->Get('exception:config_empty_password', 'WhatsBot.json'));
 		}
 
 		public function Listen()
