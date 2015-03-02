@@ -19,6 +19,16 @@
 			$this->StartTime = time(); // Maybe a class/function
 		}
 
+		public function onGetMessage($Me, $From, $ID, $Type, $Time, $Name, $Text)
+		{
+			$this->Parser->ParseTextMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $Text);
+		}
+
+		public function onGetGroupMessage($Me, $FromGroupJID, $FromUserJID, $ID, $Type, $Time, $Name, $Text)
+		{
+			$this->Parser->ParseTextMessage($Me, $FromGroupJID, $FromUserJID, $ID, $Type, $Time, $Name, $Text);
+		}
+
 		// Events
 
 		/* To do: Hacer otra clase (Listener), que se encargue de loguear todo a la BD. Bindear ambas clases al EventManager 
