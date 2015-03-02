@@ -1,6 +1,6 @@
 <?php
 	class Json
-	{
+	{ // Non static context => new Json($Filename) => ->Read() ->Write($Data)
 		public static function Read($Filename)
 		{
 			if(is_readable($Filename))

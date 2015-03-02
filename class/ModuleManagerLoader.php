@@ -1,4 +1,8 @@
 <?php
+	require_once 'ConfigManager.php';
+
+	require_once 'Includes/Json.php';
+
 	trait ModuleManagerLoader
 	{
 		// LoadModules() => return loaded modules

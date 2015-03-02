@@ -10,6 +10,8 @@
 
 	require_once 'ModuleManager.php';
 
+	require_once 'IncludeManager.php';
+
 
 	require_once 'ConfigManager.php';
 
@@ -24,6 +26,8 @@
 
 		private $ModuleManager = null;
 
+		private $IncludeManager = null;
+
 
 		private $Lang = null;
 
@@ -33,7 +37,12 @@
 
 		public function __construct($Debug = false)
 		{
+			$this->IncludeManager = new IncludeManager;
+			$this->IncludeManager->LoadIncludes();
+
+
 			$this->Lang = new Lang('Main');
+
 
 			$this->Debug = $Debug;
 
@@ -58,9 +67,8 @@
 
 				# Load
 
-				// IncludeManager
 				$this->ModuleManager->LoadModules();
-				// ThreadManager
+				// ThreadManager (into Start())
 
 				# Bind Event Listener
 
@@ -128,4 +136,9 @@
 
 	/*
 	 * Implement: https://github.com/mgp25/WhatsAPI-Official/wiki/WhatsAPI-Documentation#whatsapp-workflow
+	 */
+
+	/*
+	 * Ideas: 
+	 * Detect lang from country code
 	 */
