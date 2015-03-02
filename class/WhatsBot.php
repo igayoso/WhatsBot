@@ -113,32 +113,19 @@
 		}
 	}
 
-	/* To do: 
-	 * Make an parser for modules (With https://github.com/nikic/PHP-Parser ?)
-	 * Flood detection / protection
+	/* 
+	 * To do: 
 	 * 
-	 * https://github.com/mgp25/WhatsAPI-Official/issues/164#issuecomment-64790667
-	 * Add syncing before send message (Array with numbers synceds? [IF DISCONNECT?])
+	 * Flood protection
+	 * https://github.com/mgp25/WhatsAPI-Official/issues/164#issuecomment-64821350
+	 *  - Sync before send message. Sync if not in array. If disconnect reset array
+	 * Fix #28 reconnect issue
+	 * CLI only
+	 * Implement WhatsApp workflow (https://github.com/mgp25/WhatsAPI-Official/wiki/WhatsAPI-Documentation#whatsapp-workflow)
 	 * 
-	 * Implement? https://github.com/mgp25/WhatsAPI-Official/issues/169
+	 *****
 	 * 
-	 * Only CLI use
-	 * 
-	 * Delete references? http://php.net/manual/es/language.oop5.references.php
-	 */
-
-	/* To do (new-structure): 
-	 * Fix Utils::IsAdmin
-	 * Fix !setstatus
-	 * Test /soundcloud/
-	 * Test !search (updated)
-	 */
-
-	/*
-	 * Implement: https://github.com/mgp25/WhatsAPI-Official/wiki/WhatsAPI-Documentation#whatsapp-workflow
-	 */
-
-	/*
 	 * Ideas: 
+	 * 
 	 * Detect lang from country code
 	 */
