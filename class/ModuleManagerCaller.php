@@ -53,7 +53,7 @@
 				'Time' => $Time,
 				'Name' => $Name,
 				'Text' => $Text,
-				'URL' => $URL
+				'URL' => $URL,
 				'Domain' => $Domain
 			));
 		}
