@@ -53,7 +53,7 @@
 			{
 				# WhatsApp
 
-				$this->WhatsProt = new WhatsProt($Config['WhatsApp']['Username'], null, $Config['WhatsApp']['Nickname'], $Debug);
+				$this->WhatsProt = new WhatsProt($Config['WhatsApp']['Username'], $Config['WhatsApp']['Nickname'], $Debug);
 
 				$this->WhatsApp = new WhatsApp($this->WhatsProt);
 
