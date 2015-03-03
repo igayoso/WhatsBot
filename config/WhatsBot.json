@@ -1,12 +1,8 @@
 {
-	"whatsapp":
+	"WhatsApp":
 	{
-		"username":"",
-		"password":"",
-		"nickname":"",
-		"admins":
-		[
-			
-		]
+		"Username":"",
+		"Password":"",
+		"Nickname":""
 	}
 }
