@@ -1,4 +1,5 @@
 [
 	["Json.php", true],
-	["Command.php", true]
+	["Command.php", true],
+	["URL.php", true]
 ]
