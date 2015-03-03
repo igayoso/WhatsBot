@@ -11,6 +11,7 @@
 
 		private $Modules = array
 		(
-			'Command' => array()
+			'Command' => array(),
+			'Domain' => array()
 		);
 	}

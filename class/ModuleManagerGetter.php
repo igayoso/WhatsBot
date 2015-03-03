@@ -24,4 +24,9 @@
 		{
 			return $this->GetModule('Command', $Name);
 		}
+
+		public function GetDomainModule($Name)
+		{
+			return $this->GetModule('Domain', $Name);
+		}
 	}

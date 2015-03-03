@@ -57,4 +57,9 @@
 		{
 			return $this->LoadModule('Command', $Name);
 		}
+
+		public function LoadDomainModule($Name)
+		{
+			return $this->LoadModule('Domain', $Name);
+		}
 	}

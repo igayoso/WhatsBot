@@ -2,5 +2,8 @@
 	"Command":
 	[
 		"echo"
+	],
+	"Domain":
+	[
 	]
 }

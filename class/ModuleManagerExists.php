@@ -16,4 +16,9 @@
 		{
 			return $this->ModuleExists('Command', $Name);
 		}
+
+		public function DomainModuleExists($Name)
+		{
+			return $this->ModuleExists('Domain', $Name);
+		}
 	}

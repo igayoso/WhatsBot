@@ -3,6 +3,8 @@
 
 	require_once 'ModuleManager.php';
 
+	require_once 'Includes/URL.php';
+
 	class WhatsBotParser
 	{
 		private $WhatsApp = null;
@@ -24,6 +26,13 @@
 			if(!empty($Text) && $Text[0] === $this->Char)
 			{
 				$this->ParseCommandMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text);
+			}
+			elseif(is_array($URLs = URL::ParseFor($Text)))
+			{
+				foreach($URLs as $URL)
+				{
+					$this->ParseURLMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $URL);
+				}
 			}
 
 			// Parser
@@ -62,5 +71,40 @@
 
 				return $Response;
 			}
+
+			return false;
+		}
+
+		private function ParseURLMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $URL)
+		{
+			$Domain = URL::Parse($URL, PHP_URL_HOST);
+			// Extension;
+
+			if($Domain !== false) // || Exception
+			{
+				if($this->ModuleManager->DomainModuleExists($Domain))
+				{
+					$Response = $this->ModuleManager->CallDomainModule
+					(
+						$Domain,
+
+						$Me,
+						$From,
+						$User,
+						$ID,
+						$Type,
+						$Time,
+						$Name,
+						$Text,
+
+						$URL
+					);
+				}
+				// Else if exists extension module
+
+				// $this->Send();
+			}
+
+			return false;
 		}
 	}
