@@ -14,7 +14,7 @@
 						$WhatsApp = $this->WhatsApp;
 						$ModuleManager = $this;
 
-						$Lang = new Lang("{Key}_{$ModuleName}");
+						$Lang = new Lang("{$Key}_{$ModuleName}");
 
 						extract($Params);
 

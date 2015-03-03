@@ -1,5 +1,6 @@
 {
-	"command":
+	"Command":
 	[
+		"echo"
 	]
 }

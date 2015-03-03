@@ -32,6 +32,9 @@
 		public function SendPing()
 		{ return $this->WhatsApp->SendPing(); }
 
+		public function SendMessage($To, $Message, $ID = null)
+		{ return $this->WhatsApp->SendMessage($To, $Message, $ID); }
+
 		// Functions
 		// Send{type}Message => Send{type} only ?
 	}
