@@ -57,17 +57,6 @@
 			return substr_count($JID, '@') == 1 && substr_count($JID, '-') == 1 && substr($JID, -5) === '@g.us';
 		}
 
-		public static function GetURLs($Text)
-		{
-			preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs);
-			$URLs = $URLs[0];
-
-			if($URLs)
-				return $URLs;
-
-			return false;
-		}
-
 		public static function GetRemoteFile($URL, $SucessHeaders = array(200, 301, 302)) // $ParseURL = true? || $SuccessHeaders ==> $SuccessCodes?
 		{
 			if(!is_array($SucessHeaders))
