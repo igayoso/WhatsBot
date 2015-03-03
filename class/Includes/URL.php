@@ -3,7 +3,7 @@
 	{
 		public static function ParseFor($String)
 		{
-			preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $String, $URLs);
+			preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#i', $String, $URLs);
 			$URLs = $URLs[0];
 
 			if($URLs)
