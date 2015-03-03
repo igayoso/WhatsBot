@@ -14,6 +14,6 @@
 
 		public function CommandModuleExists($Name)
 		{
-			return $this->ModuleExists('command', $Name);
+			return $this->ModuleExists('Command', $Name);
 		}
 	}

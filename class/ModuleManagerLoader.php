@@ -41,8 +41,8 @@
 					{
 						$this->Modules[$Key][strtolower($Name)] = array
 						(
-							'data' => $Json,
-							'file' => $PPath
+							'Data' => $Json,
+							'File' => $PPath
 						);
 
 						return true;
@@ -55,6 +55,6 @@
 
 		public function LoadCommandModule($Name)
 		{
-			return $this->LoadModule('command', $Name);
+			return $this->LoadModule('Command', $Name);
 		}
 	}

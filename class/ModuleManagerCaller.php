@@ -9,7 +9,7 @@
 
 				if($Module !== false)
 				{
-					if(is_readable($Module['file']))
+					if(is_readable($Module['File']))
 					{
 						$WhatsApp = $this->WhatsApp;
 						$ModuleManager = $this;
@@ -18,7 +18,7 @@
 
 						extract($Params);
 
-						return include $Module['file'];
+						return include $Module['File'];
 					}
 				}
 			}
@@ -28,7 +28,7 @@
 
 		public function CallCommandModule($ModuleName, $Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $Params)
 		{
-			return $this->CallModule('command', $ModuleName, array
+			return $this->CallModule('Command', $ModuleName, array
 			(
 				'Me' => $Me,
 				'From' => $From,

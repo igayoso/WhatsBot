@@ -22,6 +22,6 @@
 
 		public function GetCommandModule($Name)
 		{
-			return $this->GetModule('command', $Name);
+			return $this->GetModule('Command', $Name);
 		}
 	}
