@@ -57,13 +57,6 @@
 			return substr_count($JID, '@') == 1 && substr_count($JID, '-') == 1 && substr($JID, -5) === '@g.us';
 		}
 
-		public static function GetText($ModuleName, $OriginalText, $Else = false)
-		{
-			$Text = substr($OriginalText, strlen($ModuleName) + 2);
-
-			return ($Text !== false) ? $Text : $Else;
-		}
-
 		public static function GetURLs($Text)
 		{
 			preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs);
