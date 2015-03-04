@@ -1,5 +1,5 @@
 <?php
-	require_once 'Includes/Json.php';
+	require_once 'Others/Json.php';
 
 	class Lang
 	{

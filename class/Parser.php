@@ -3,7 +3,7 @@
 
 	require_once 'ModuleManager.php';
 
-	require_once 'Includes/URL.php';
+	require_once 'Others/URL.php';
 
 	class WhatsBotParser
 	{

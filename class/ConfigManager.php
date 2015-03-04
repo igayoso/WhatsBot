@@ -3,7 +3,7 @@
 
 	require_once 'ConfigManagerExceptions.php';
 
-	require_once 'Includes/Json.php';
+	require_once 'Others/Json.php';
 
 	class Config
 	{
