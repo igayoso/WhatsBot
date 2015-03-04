@@ -1,12 +1,10 @@
 <?php
-	require_once 'WhatsAppJID.php';
-
 	require_once 'whatsapi/whatsprot.class.php';
+
+	require_once 'WhatsApp/Message.php';
 
 	class WhatsApp
 	{
-		use WhatsAppJID;
-
 		private $WhatsApp = null;
 
 		public function __construct(WhatsProt $WhatsApp)
