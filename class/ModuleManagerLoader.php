@@ -1,7 +1,7 @@
 <?php
 	require_once 'ConfigManager.php';
 
-	require_once 'Includes/Json.php';
+	require_once 'Others/Json.php';
 
 	trait ModuleManagerLoader
 	{
