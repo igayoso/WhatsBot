@@ -57,4 +57,21 @@
 				'Domain' => $Domain
 			));
 		}
+
+		public function CallExtensionModule($Extension, $Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $URL)
+		{
+			return $this->CallModule('Extension', $Extension, array
+			(
+				'Me' => $Me,
+				'From' => $From,
+				'User' => $User,
+				'ID' => $ID,
+				'Type' => $Type,
+				'Time' => $Time,
+				'Name' => $Name,
+				'Text' => $Text,
+				'URL' => $URL,
+				'Extension' => $Extension
+			));
+		}
 	}

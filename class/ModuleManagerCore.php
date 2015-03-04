@@ -12,6 +12,7 @@
 		private $Modules = array
 		(
 			'Command' => array(),
-			'Domain' => array()
+			'Domain' => array(),
+			'Extension' => array()
 		);
 	}

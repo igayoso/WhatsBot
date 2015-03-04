@@ -21,4 +21,9 @@
 		{
 			return $this->ModuleExists('Domain', $Name);
 		}
+
+		public function ExtensionModuleExists($Name)
+		{
+			return $this->ModuleExists('Extension', $Name);
+		}
 	}

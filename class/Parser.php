@@ -4,6 +4,7 @@
 	require_once 'ModuleManager.php';
 
 	require_once 'Others/URL.php';
+	require_once 'Others/Path.php';
 
 	class WhatsBotParser
 	{
@@ -78,9 +79,9 @@
 		private function ParseURLMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $URL)
 		{
 			$Domain = URL::Parse($URL, PHP_URL_HOST);
-			// Extension;
+			$Extension = Path::GetExtension($URL);
 
-			if($Domain !== false) // || Exception
+			if($Domain !== false)
 			{
 				if($this->ModuleManager->DomainModuleExists($Domain))
 				{
@@ -99,10 +100,29 @@
 
 						$URL
 					);
-				}
-				// Else if exists extension module
 
-				// $this->Send();
+					// $this->Send();
+				}
+				elseif($Extension !== false && $this->ModuleManager->ExtensionModuleExists($Extension))
+				{
+					$Response = $this->ModuleManager->CallExtensionModule
+					(
+						$Extension,
+
+						$Me,
+						$From,
+						$User,
+						$ID,
+						$Type,
+						$Time,
+						$Name,
+						$Text,
+
+						$URL
+					);
+
+					// $this->Send();
+				}
 			}
 
 			return false;

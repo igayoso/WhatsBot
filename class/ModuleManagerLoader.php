@@ -35,7 +35,7 @@
 
 				if(basename(dirname(realpath($JPath))) === 'Modules')
 				{
-					$Json = Json::Read($JPath);
+					$Json = Json::Read($JPath); // Show errors
 
 					if($Json !== false && is_readable($PPath))
 					{
@@ -61,5 +61,10 @@
 		public function LoadDomainModule($Name)
 		{
 			return $this->LoadModule('Domain', $Name);
+		}
+
+		public function LoadExtensionModule($Name)
+		{
+			return $this->LoadModule('Extension', $Name);
 		}
 	}

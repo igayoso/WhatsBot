@@ -29,4 +29,9 @@
 		{
 			return $this->GetModule('Domain', $Name);
 		}
+
+		public function GetExtensionModule($Name)
+		{
+			return $this->GetModule('Extension', $Name);
+		}
 	}
