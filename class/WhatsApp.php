@@ -1,7 +1,7 @@
 <?php
 	require_once 'whatsapi/whatsprot.class.php';
 
-	require_once 'WhatsApp/Message.php';
+	require_once 'WhatsApp/Functions.php';
 
 	class WhatsApp
 	{
