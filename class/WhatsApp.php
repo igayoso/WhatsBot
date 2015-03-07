@@ -12,26 +12,41 @@
 			$this->WhatsApp = $WhatsApp;
 		}
 
+		# Config
+
 		public function EventManager()
 		{ return $this->WhatsApp->EventManager(); }
 
-		public function IsConnected()
-		{ return $this->WhatsApp->IsConnected(); }
+		# Connection
 
 		public function Connect()
 		{ return $this->WhatsApp->Connect(); }
 
+		public function IsConnected()
+		{ return $this->WhatsApp->IsConnected(); }
+
+		public function Disconnect()
+		{ return $this->WhatsApp->Disconnect(); }
+		
+		# Login
+
 		public function LoginWithPassword($Password)
 		{ return $this->WhatsApp->LoginWithPassword($Password); }
+
+		# Listen
 
 		public function PollMessage($AutoReceipt = true)
 		{ return $this->WhatsApp->PollMessage($AutoReceipt); }
 
-		public function SendPing()
-		{ return $this->WhatsApp->SendPing(); }
+		# Messages
 
 		public function SendMessage($To, $Message, $ID = null)
 		{ return $this->WhatsApp->SendMessage($To, $Message, $ID); }
+
+		# Others
+
+		public function SendPing()
+		{ return $this->WhatsApp->SendPing(); }
 
 		// Functions
 		// Send{type}Message => Send{type} only ?
