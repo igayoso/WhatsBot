@@ -128,4 +128,9 @@
 	 * Ideas: 
 	 * 
 	 * Detect lang from country code
+	 * 
+	 *****
+	 * Questions: 
+	 * 
+	 * Send presence?
 	 */
