@@ -40,8 +40,17 @@
 
 		# Messages
 
+		public function SendAudio($To, $Path, $StoreURLMedia = false, $Size = 0, $Hash = '')
+		{ return $this->WhatsApp->SendMessageAudio($To, $Path, $StoreURLMedia, $Size, $Hash); }
+
+		public function SendImage($To, $Path, $Caption = '', $StoreURLMedia = false, $Size = 0, $Hash = '')
+		{ return $this->WhatsApp->SendMessageImage($To, $Path, $StoreURLMedia, $Size, $Hash, $Caption); }
+
 		public function SendMessage($To, $Message, $ID = null)
 		{ return $this->WhatsApp->SendMessage($To, $Message, $ID); }
+
+		public function SendVideo($To, $Path, $Caption = '', $StoreURLMedia = false, $Size = 0, $Hash = '')
+		{ return $this->WhatsApp->SendMessageVideo($To, $Path, $StoreURLMedia, $Size, $Hash, $Caption); }
 
 		# Others
 
@@ -52,10 +61,7 @@
 		 * checkCredentials()
 		 * codeRegister($code)
 		 * codeRequest($method = 'sms', $countryCode = null, $langCode = null)
-		 * eventManager()
 		 * getMessages()
-		 * login() // Don't use this one!
-		 * loginWithPassword($password)
 		 * sendActiveStatus()
 		 * sendBroadcastAudio($targets, $path, $storeURLmedia = false, $fsize = 0, $fhash = "")
 		 * sendBroadcastImage($targets, $path, $storeURLmedia = false, $fsize = 0, $fhash = "", $caption = "")
@@ -82,11 +88,8 @@
 		 * sendGroupsLeave($gjids)
 		 * sendGroupsParticipantsAdd($groupId, $participants)
 		 * sendGroupsParticipantsRemove($groupId, $participants)
-		 * sendMessageAudio($to, $filepath, $storeURLmedia = false, $fsize = 0, $fhash = "")
 		 * sendMessageComposing($to)
 		 * sendMessagePaused($to)
-		 * sendMessageImage($to, $filepath, $storeURLmedia = false, $fsize = 0, $fhash = "", $caption = "")
-		 * sendMessageVideo($to, $filepath, $storeURLmedia = false, $fsize = 0, $fhash = "", $caption = "")
 		 * sendMessageLocation($to, $long, $lat, $name = null, $url = null)
 		 * sendChatState($to, $state)
 		 * sendNextMessage()
@@ -103,8 +106,6 @@
 		 * sendVcard($to, $name, $vCard)
 		 * sendBroadcastVcard($targets, $name, $vCard)
 		 */
-
-		// Send{type}Message => Send{type} only ?
 
 		// Send Composing
 	}
