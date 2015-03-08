@@ -78,6 +78,8 @@
 			));
 		}
 
+		// https://github.com/mgp25/WhatsAPI-Official/issues/496 Wait for fix and add more events
+
 		/* Events: 
 		 * onClose($mynumber, $error)
 		 * onCodeRegister( $mynumber, $login, $password, $type, $expiration, $kind, $price, $cost, $currency, $price_expiration )
