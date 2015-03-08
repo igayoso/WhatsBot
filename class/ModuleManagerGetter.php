@@ -34,4 +34,9 @@
 		{
 			return $this->GetModule('Extension', $Name);
 		}
+
+		public function GetMediaModule($Name)
+		{
+			return $this->GetModule('Media', $Name);
+		}
 	}

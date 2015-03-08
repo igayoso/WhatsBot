@@ -26,4 +26,9 @@
 		{
 			return $this->ModuleExists('Extension', $Name);
 		}
+
+		public function MediaModuleExists($Name)
+		{
+			return $this->ModuleExists('Media', $Name);
+		}
 	}

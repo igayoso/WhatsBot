@@ -13,6 +13,7 @@
 		(
 			'Command' => array(),
 			'Domain' => array(),
-			'Extension' => array()
+			'Extension' => array(),
+			'Media' => array()
 		);
 	}

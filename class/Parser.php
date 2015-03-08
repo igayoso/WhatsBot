@@ -38,8 +38,6 @@
 
 			// Parser
 
-			// URLs
-
 			// Send help if is pv ?
 
 			// AI ?
@@ -126,5 +124,23 @@
 			}
 
 			return false;
+		}
+
+		public function ParseMediaMessage($Me, $From, $User, $ID, $Type, $Time, $Name, Array $Data)
+		{
+			$Response = $this->ModuleManager->CallMediaModule
+			(
+				$Type,
+
+				$Me,
+				$From,
+				$User,
+				$ID,
+				$Time,
+				$Name,
+				$Data
+			);
+
+			// $this->Send();
 		}
 	}

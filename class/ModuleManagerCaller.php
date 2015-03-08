@@ -74,4 +74,19 @@
 				'Extension' => $Extension
 			));
 		}
+
+		public function CallMediaModule($Type, $Me, $From, $User, $ID, $Time, $Name, Array $Data)
+		{
+			$Data = array_merge($Data, array
+			(
+				'Me' => $Me,
+				'From' => $From,
+				'User' => $User,
+				'ID' => $ID,
+				'Time' => $Time,
+				'Name' => $Name
+			));
+
+			return $this->CallModule('Media', $Type, $Data);
+		}
 	}

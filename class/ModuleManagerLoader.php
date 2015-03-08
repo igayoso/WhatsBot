@@ -67,4 +67,9 @@
 		{
 			return $this->LoadModule('Extension', $Name);
 		}
+
+		public function LoadMediaModule($Name)
+		{
+			return $this->LoadModule('Media', $Name);
+		}
 	}
