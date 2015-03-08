@@ -1,6 +1,7 @@
 <?php
 	require_once 'ConfigManager.php';
 
+	require_once 'Others/Std.php';
 	require_once 'Others/Json.php';
 
 	trait ModuleManagerLoader
@@ -8,18 +9,24 @@
 		// LoadModules() => return loaded modules
 		public function LoadModules()
 		{
+			Std::Out('[INFO] [MODULES] Loading');
+
 			$Modules = Config::Get('Modules');
 
-			if($Modules !== false)
-			{
+			if(is_array($Modules))
+			{ // Show number of loaded modules
 				$Keys = array_keys($Modules);
 
 				foreach($Keys as $Key)
 					foreach($Modules[$Key] as $Module)
 						$this->LoadModule($Key, $Module);
 
+				Std::Out('[INFO] [MODULES] Loaded');
+
 				return true;
 			}
+
+			Std::Out('[WARNING] [MODULES] Config file is not an array');
 
 			return false;
 		}
@@ -37,17 +44,26 @@
 				{
 					$Json = Json::Read($JPath); // Show errors
 
-					if($Json !== false && is_readable($PPath))
+					if($Json !== false)
 					{
-						$this->Modules[$Key][strtolower($Name)] = array
-						(
-							'Data' => $Json,
-							'File' => $PPath
-						);
+						if(is_readable($PPath)) // Lint
+						{
+							$this->Modules[$Key][strtolower($Name)] = array
+							(
+								'Data' => $Json,
+								'File' => $PPath
+							);
 
-						return true;
+							return true;
+						}
+						else
+							Std::Out("[INFO] [MODULES] Can't load {$Key}::{$Name}. PHP file doesn't exists");
 					}
+					else
+						Std::Out("[INFO] [MODULES] Can't load {$Key}::{$Name}. Json file is not readable");
 				}
+				else
+					Std::Out("[INFO] [MODULES] Can't load {$Key}::{$Name}. It is not in Modules folder");
 			}
 
 			return false;

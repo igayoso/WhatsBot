@@ -1,27 +1,37 @@
 <?php
+	require_once 'Others/Std.php';
+
 	trait ModuleManagerCaller
 	{
 		private function CallModule($Key, $ModuleName, Array $Params)
 		{
-			$Module = $this->GetModule($Key, $ModuleName);
-
-			if($Module !== false)
+			if($this->ModuleExists($Key, $ModuleName))
 			{
-				if(is_readable($Module['File']))
+				$Module = $this->GetModule($Key, $ModuleName);
+
+				if($Module !== false)
 				{
-					$WhatsApp = $this->WhatsApp;
-					$ModuleManager = $this;
+					if(is_readable($Module['File']))
+					{
+						$WhatsApp = $this->WhatsApp;
+						$ModuleManager = $this;
 
-					$Lang = new Lang("{$Key}_{$ModuleName}");
+						$Lang = new Lang("{$Key}_{$ModuleName}");
 
-					extract($Params);
+						extract($Params);
 
-					return include $Module['File'];
+						return include $Module['File'];
+					}
+
+					Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. PHP file is not readable");
+					return -3;
 				}
 
+				Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. Get error (not exists?)");
 				return -2;
 			}
 
+			// This will be parsed (WhatsBotParser::Send($Code)), so we don't need to test if module exists before calling
 			return -1;
 		}
 

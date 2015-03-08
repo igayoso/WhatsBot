@@ -1,4 +1,6 @@
 <?php
+	require_once 'Others/Std.php';
+
 	trait ModuleManagerGetter
 	{
 		public function GetModules($Key)
@@ -15,6 +17,8 @@
 
 			if($this->ModuleExists($Key, $Name))
 				return $this->Modules[$Key][$Name];
+
+			Std::Out("[WARNING] [MODULES] Trying to get not loaded module. {$Key}::{$Name}");
 
 			return false;
 		}

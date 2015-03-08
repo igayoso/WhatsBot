@@ -1,9 +1,14 @@
 <?php
+	require_once 'Others/Std.php';
+
 	trait ModuleManagerExists
 	{
 		private function KeyExists($Key)
 		{
-			return in_array($Key, array_keys($this->Modules));
+			$Exists = in_array($Key, array_keys($this->Modules));
+
+			if(!$Exists)
+				Std::Out("[WARNING] [MODULES] Key {$Key} doesn't exists");
 		}
 
 		protected function ModuleExists($Key, $Name)
