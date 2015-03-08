@@ -54,6 +54,30 @@
 			));
 		}
 
+		public function onGetVideo($Me, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption)
+		{
+			$this->onGetGroupVideo($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption)
+		}
+
+		public function onGetGroupVideo($Me, $FromGroupJID, $FromUserJID, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption)
+		{
+			// Download data
+
+			$this->Parser->ParseMediaMessage($Me, $FromGroupJID, $FromUserJID, $ID, 'video', $Time, $Name, array
+			(
+				'URL' => $URL,
+				'File' => $File,
+				'Size' => $Size,
+				'MIME' => $MIME,
+				'Hash' => $Hash,
+				'Duration' => $Duration,
+				'VCodec' => $VCodec,
+				'ACodec' => $ACodec,
+				'Preview' => $Preview,
+				'Caption' => $Caption
+			));
+		}
+
 		/* Events: 
 		 * onClose($mynumber, $error)
 		 * onCodeRegister( $mynumber, $login, $password, $type, $expiration, $kind, $price, $cost, $currency, $price_expiration )
@@ -86,8 +110,6 @@
 		 * onGetServicePricing( $mynumber, $price, $cost, $currency, $expiration )
 		 * onGetStatus( $mynumber, $from, $requested, $id, $time, $data )
 		 * onGetSyncResult( $result )
-		 * onGetVideo( $mynumber, $from, $id, $type, $time, $name, $url, $file, $size, $mimeType, $fileHash, $duration, $vcodec, $acodec, $preview, $caption )
-		 * onGetGroupVideo( $mynumber, $from_group_jid, $from_user_jid, $id, $type, $time, $name, $url, $file, $size, $mimeType, $fileHash, $duration, $vcodec, $acodec, $preview, $caption )
 		 * onGetvCard( $mynumber, $from, $id, $type, $time, $name, $vcardname, $vcard )
 		 * onGroupCreate( $mynumber, $groupId )
 		 * onGroupisCreated( $mynumber, $creator, $gid, $subject, $admin, $creation, $members = array()){}
