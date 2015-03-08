@@ -1,5 +1,5 @@
 {
 	"exception:no_such_directory":"No such directory %s",
 	"exception:no_such_file":"No such file config/%s.json",
-	"error:no_such_file":"No such file config/%s.json. Try to Config::Load()"
+	"error:no_such_file":"[WARNING] [CONFIG] No such file config/%s.json. Try to Config::Load()"
 }
