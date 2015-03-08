@@ -99,7 +99,7 @@
 			));
 		}
 
-		// https://github.com/mgp25/WhatsAPI-Official/issues/496 Wait for fix and add more events
+		// Add onGetLocation & onGetvCard
 
 		/* Events: 
 		 * onClose($mynumber, $error)
