@@ -42,9 +42,9 @@
 
 			$this->Parser->ParseMediaMessage($Me, $FromGroupJID, $FromUserJID, $ID, 'image', $Time, $Name, array
 			(
-				'Size' => $Size,
 				'URL' => $URL,
 				'File' => $File,
+				'Size' => $Size,
 				'MIME' => $MIME,
 				'Hash' => $Hash,
 				'Width' => $Width,
