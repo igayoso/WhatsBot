@@ -1,5 +1,6 @@
 <?php
 	require_once 'Others/Json.php';
+	require_once 'Others/Std.php';
 
 	class Lang
 	{
@@ -14,6 +15,8 @@
 
 			if(is_array($Data))
 				$this->Data = $Data;
+			else
+				Std::Write("[WARNING] [LANG] Can't load lang/{$Section}.json");
 		}
 
 		public function Get($Key)
@@ -31,6 +34,8 @@
 
 				return $this->Data[$Key];
 			}
+
+			Std::Write("[WARNING] [LANG] {$this->Section}::{$Key} doesn't exists");
 
 			return false;
 		}
