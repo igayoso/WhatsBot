@@ -1,6 +1,4 @@
 <?php
-	require_once 'Lang.php';
-
 	require_once 'ConfigManagerExceptions.php';
 
 	require_once 'Others/Std.php';
@@ -12,12 +10,8 @@
 
 		private static $Config = array();
 
-		private static $Lang = null;
-
 		public static function Load()
 		{
-			self::$Lang = new Lang('ConfigManager');
-
 			if(is_dir(self::$Path))
 			{
 				$Files = array_values(array_filter(scandir(self::$Path), function($Path)
@@ -34,7 +28,7 @@
 				}
 			}
 			else
-				throw new ConfigException(self::$Lang->Get('exception:no_such_directory', self::$Path));
+				throw new ConfigException('No such directory ' . self::$Path);
 		}
 
 		public static function Reload()
@@ -47,10 +41,10 @@
 			if(isset(self::$Config[$Filename]))
 				return self::$Config[$Filename];
 
-			Std::Out(self::$Lang->Get('error:no_such_file', $Filename));
+			Std::Out("[WARNING] [CONFIG] No such file config/{$Filename}.json. Try to Config::Load()");
 
 			if($Throw)
-				throw new ConfigException(self::$Lang->Get('exception:no_such_file', $Filename));
+				throw new ConfigException("No such file config/{$Filename}.json");
 
 			return false;
 		}
