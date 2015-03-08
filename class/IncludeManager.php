@@ -7,24 +7,28 @@
 	{
 		public function LoadIncludes()
 		{
-			Std::Out("[INFO] [INCLUDES] Loading");
+			Std::Out('[INFO] [INCLUDES] Loading');
 
 			$Includes = Config::Get('Includes');
 
 			if(is_array($Includes))
 			{
 				foreach($Includes as $Include)
-				{
+				{ // Show number of loaded files
 					if(is_array($Include))
 						$this->LoadInclude($Include[0], $Include[1]);
 					else
 						$this->LoadInclude($Include[0], false);
 				}
 
-				Std::Out("[INFO] [INCLUDES] Loaded");
+				Std::Out('[INFO] [INCLUDES] Loaded');
+
+				return true;
 			}
-			else
-				Std::Out("[WARNING] [INCLUDES] Config file is not an array");
+
+			Std::Out('[WARNING] [INCLUDES] Config file is not an array');
+
+			return false;
 		}
 
 		private function LoadInclude($Filename, $Require)
