@@ -31,7 +31,7 @@
 				return -2;
 			}
 
-			// This will be parsed (WhatsBotParser::Send($Code)), so we don't need to test if module exists before calling
+			// This will be parsed (WhatsBotParser->SendResponse($Code)), so we don't need to test if module exists before calling
 			return -1;
 		}
 

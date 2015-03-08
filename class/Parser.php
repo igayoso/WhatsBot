@@ -66,9 +66,7 @@
 					$Parsed
 				);
 
-				// $this->Send();
-
-				return $Response;
+				return $this->SendResponse($Response);
 			}
 
 			return false;
@@ -99,7 +97,7 @@
 						$URL
 					);
 
-					// $this->Send();
+					return $this->SendResponse($Response);
 				}
 				elseif($Extension !== false && $this->ModuleManager->ExtensionModuleExists($Extension))
 				{
@@ -119,7 +117,7 @@
 						$URL
 					);
 
-					// $this->Send();
+					return $this->SendResponse($Response);
 				}
 			}
 
@@ -141,6 +139,12 @@
 				$Data
 			);
 
-			// $this->Send();
+			return $this->SendResponse($Response);
+		}
+
+
+		private function SendResponse($Code)
+		{
+			// (?
 		}
 	}
