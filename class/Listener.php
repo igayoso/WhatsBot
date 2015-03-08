@@ -31,6 +31,27 @@
 			$this->Parser->ParseTextMessage($Me, $FromGroupJID, $FromUserJID, $ID, $Type, $Time, $Name, $Text);
 		}
 
+		public function onGetAudio($Me, $From1, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Duration, $ACodec, $From2)
+		{
+			// Download data
+
+			# Nota del autor: gracias por esto, desarrolladores de WhatsAPI... Los eventos así no tienen constancia. 
+
+			$FromGroupJID = $From1;
+			$FromUserJID = $From2 == null ? $From1 : $From2;
+
+			$this->Parser->ParseMediaMessage($Me, $FromGroupJID, $FromUserJID, $ID, 'audio', $Time, $Name, array
+			(
+				'URL' => $URL,
+				'File' => $File,
+				'Size' => $Size,
+				'MIME' => $MIME,
+				'Hash' => $Hash,
+				'Duration' => $Duration,
+				'ACodec' => $ACodec
+			));
+		}
+
 		public function onGetImage($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
 		{
 			$this->onGetGroupImage($Me, $From, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption);
@@ -94,7 +115,6 @@
 		 * onDisconnect( $mynumber, $socket ) 
 		 * onDissectPhone( $mynumber, $phonecountry, $phonecc, $phone, $phonemcc, $phoneISO3166, $phoneISO639, $phonemnc ) 
 		 * onDissectPhoneFailed( $mynumber )
-		 * onGetAudio( $mynumber, $from, $id, $type, $time, $name, $size, $url, $file, $mimeType, $fileHash, $duration, $acodec )
 		 * onGetBroadcastLists( $mynumber, $broadcastLists )
 		 * onGetError( $mynumber, $from, $id, $data )
 		 * onGetExtendAccount( $mynumber, $kind, $status, $creation, $expiration )
