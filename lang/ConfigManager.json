@@ -1,4 +1,5 @@
 {
 	"exception:no_such_directory":"No such directory %s",
-	"exception:cant_read_file":"Can't read config file %s.json"
+	"exception:no_such_file":"No such file config/%s.json",
+	"error:no_such_file":"No such file config/%s.json. Try to Config::Load()"
 }
