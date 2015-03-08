@@ -19,6 +19,8 @@
 			$this->StartTime = time(); // Maybe a class/function
 		}
 
+		# Messages
+
 		public function onGetMessage($Me, $From, $ID, $Type, $Time, $Name, $Text)
 		{
 			$this->Parser->ParseTextMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $Text);
@@ -27,6 +29,29 @@
 		public function onGetGroupMessage($Me, $FromGroupJID, $FromUserJID, $ID, $Type, $Time, $Name, $Text)
 		{
 			$this->Parser->ParseTextMessage($Me, $FromGroupJID, $FromUserJID, $ID, $Type, $Time, $Name, $Text);
+		}
+
+		public function onGetImage($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
+		{
+			$this->onGetGroupImage($Me, $From, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption);
+		}
+
+		public function onGetGroupImage($Me, $FromGroupJID, $FromUserJID, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
+		{
+			// Download data
+
+			$this->Parser->ParseMediaMessage($Me, $FromGroupJID, $FromUserJID, $ID, 'image', $Time, $Name, array
+			(
+				'Size' => $Size,
+				'URL' => $URL,
+				'File' => $File,
+				'MIME' => $MIME,
+				'Hash' => $Hash,
+				'Width' => $Width,
+				'Height' => $Height,
+				'Preview' => $Preview,
+				'Caption' => $Caption
+			));
 		}
 
 		/* Events: 
@@ -51,8 +76,6 @@
 		 * onGetGroups( $mynumber, $groupList )
 		 * onGetGroupsInfo( $mynumber, $groupList )
 		 * onGetGroupsSubject( $mynumber, $group_jid, $time, $author, $name, $subject )
-		 * onGetImage( $mynumber, $from, $id, $type, $time, $name, $size, $url, $file, $mimeType, $fileHash, $width, $height, $preview, $caption )
-		 * onGetGroupImage( $mynumber, $from_group_jid, $from_user_jid, $id, $type, $time, $name, $size, $url, $file, $mimeType, $fileHash, $width, $height, $preview, $caption )
 		 * onGetLocation( $mynumber, $from, $id, $type, $time, $name, $nameLocation, $longitude, $latitude, $url, $preview )
 		 * onGetNormalizedJid( $mynumber, $data )
 		 * onGetPrivacyBlockedList( $mynumber, $data )
