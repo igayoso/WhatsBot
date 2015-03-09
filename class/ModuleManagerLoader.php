@@ -40,7 +40,7 @@
 				$JPath = "{$Path}.json";
 				$PPath = "{$Path}.php";
 
-				if(basename(dirname(realpath($JPath))) === 'Modules')
+				if(basename(dirname(realpath($JPath))) === 'Modules') // Use Path::
 				{
 					$Json = Json::Read($JPath); // Show errors
 
