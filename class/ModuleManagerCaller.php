@@ -23,18 +23,23 @@
 
 						extract($Params);
 
-						return include $Module['File'];
+						$Response = include $Module['File'];
+
+						return $Response === 1 ? true : $Response;
 					}
 
 					Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. PHP file is not readable");
+
 					return WARNING_NOT_FILE;
 				}
 
 				Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. Get error (not exists?)");
+
 				return WARNING_GET_ERROR;
 			}
 
 			// This will be parsed (WhatsBotParser->SendResponse($Code)), so we don't need to test if module exists before calling
+
 			return WARNING_NOT_LOADED;
 		}
 
