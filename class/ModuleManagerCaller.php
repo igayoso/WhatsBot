@@ -23,9 +23,7 @@
 
 						extract($Params);
 
-						$Response = include $Module['File'];
-
-						return $Response === 1 ? true : $Response;
+						return include $Module['File'];
 					}
 
 					Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. PHP file is not readable");

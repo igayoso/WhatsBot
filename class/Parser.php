@@ -9,7 +9,7 @@
 	require_once 'Others/Path.php';
 
 
-	const SEND_USAGE = 1;
+	const SEND_USAGE = 2;
 	const INTERNAL_ERROR = false;
 
 
