@@ -19,13 +19,13 @@
 					}
 					else
 					{
-						Std::Write("[WARNING] [JSON] Can't decode {$Filename}");
+						Std::Out("[WARNING] [JSON] Can't decode {$Filename}");
 						return;
 					}
 				}
 			}
 
-			Std::Write("[WARNING] [JSON] No such file {$Filename}");
+			Std::Out("[WARNING] [JSON] No such file {$Filename}");
 
 			return false;
 		}
