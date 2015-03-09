@@ -1,6 +1,8 @@
 <?php
 	require_once 'Others/Std.php';
+	
 	require_once 'Others/Command.php';
+	require_once 'Others/Unirest.php';
 
 	trait ModuleManagerCaller
 	{
