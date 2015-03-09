@@ -3,6 +3,8 @@
 
 	require_once 'ModuleManager.php';
 
+	require_once 'Lang.php';
+
 	require_once 'Others/URL.php';
 	require_once 'Others/Path.php';
 
@@ -66,7 +68,7 @@
 					$Parsed
 				);
 
-				return $this->SendResponse($Response);
+				return $this->SendResponse($From, $Response);
 			}
 
 			return false;
@@ -97,7 +99,7 @@
 						$URL
 					);
 
-					return $this->SendResponse($Response);
+					return $this->SendResponse($From, $Response);
 				}
 				elseif($Extension !== false && $this->ModuleManager->ExtensionModuleExists($Extension))
 				{
@@ -117,7 +119,7 @@
 						$URL
 					);
 
-					return $this->SendResponse($Response);
+					return $this->SendResponse($From, $Response);
 				}
 			}
 
@@ -139,12 +141,34 @@
 				$Data
 			);
 
-			return $this->SendResponse($Response);
+			return $this->SendResponse($From, $Response);
 		}
 
 
-		private function SendResponse($Code)
+		private function SendResponse($To, $Code)
 		{
-			// (?
+			$Lang = new Lang('Main');
+
+			switch($Code)
+			{
+				case -1:
+					$Message = $Lang('message:not_loaded_module');
+
+					if($Message !== false)
+						$Message = "That module doesn't exists...";
+
+					$this->WhatsApp->SendMessage($To, $Message);
+					break;
+				case -2:
+				case -3:
+				case false:
+					$Message = $Lang('message:internal_error');
+
+					if($Message !== false)
+						$Message = 'Internal error...';
+
+					$this->WhatsApp->SendMessage($To, $Message);
+					break;
+			}
 		}
 	}

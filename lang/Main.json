@@ -1,0 +1,4 @@
+{
+	"message:not_loaded_module":"That module doesn't exists...",
+	"message:internal_error":"Internal error..."
+}
