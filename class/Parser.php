@@ -73,7 +73,9 @@
 					$Parsed
 				);
 
-				return $this->SendResponse($From, $Response);
+				$this->SendResponse($From, $Response);
+
+				return $Response;
 			}
 
 			return false;
@@ -104,7 +106,9 @@
 						$URL
 					);
 
-					return $this->SendResponse($From, $Response);
+					$this->SendResponse($From, $Response);
+
+					return $Response;
 				}
 				elseif($Extension !== false && $this->ModuleManager->ExtensionModuleExists($Extension))
 				{
@@ -124,7 +128,9 @@
 						$URL
 					);
 
-					return $this->SendResponse($From, $Response);
+					$this->SendResponse($From, $Response);
+
+					return $Response;
 				}
 			}
 
@@ -146,7 +152,10 @@
 				$Data
 			);
 
-			return $this->SendResponse($From, $Response);
+			if($Response !== WARNING_NOT_LOADED)
+				$this->SendResponse($From, $Response);
+
+			return $Response;
 		}
 
 
