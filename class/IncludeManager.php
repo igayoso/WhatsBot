@@ -43,7 +43,10 @@
 					return include_once $Path;
 			}
 
-			Std::Out("[INFO] [INCLUDES] Can't load {$Filename} (Require: " . ($Require ? 'true' : 'false') . '). It is not in Includes folder');
+			Std::Out("[WARNING] [INCLUDES] Can't load {$Filename} (Require: " . ($Require ? 'true' : 'false') . '). It is not in Includes folder');
+
+			if($Require)
+				exit;
 
 			return false;
 		}
