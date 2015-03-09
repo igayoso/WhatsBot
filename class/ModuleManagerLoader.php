@@ -57,13 +57,13 @@
 							return true;
 						}
 						else
-							Std::Out("[INFO] [MODULES] Can't load {$Key}::{$Name}. PHP file doesn't exists");
+							Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. PHP file doesn't exists");
 					}
 					else
-						Std::Out("[INFO] [MODULES] Can't load {$Key}::{$Name}. Json file is not readable");
+						Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. Json file is not readable");
 				}
 				else
-					Std::Out("[INFO] [MODULES] Can't load {$Key}::{$Name}. It is not in Modules folder");
+					Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. It is not in Modules folder");
 			}
 
 			return false;

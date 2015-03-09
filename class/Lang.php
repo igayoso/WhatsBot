@@ -35,7 +35,7 @@
 				return $this->Data[$Key];
 			}
 
-			Std::Out("[WARNING] [LANG] {$this->Section}::{$Key} doesn't exists");
+			Std::Out("[WARNING] [LANG] Key {$this->Section}::{$Key} doesn't exists");
 
 			return false;
 		}
