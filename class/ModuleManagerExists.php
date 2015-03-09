@@ -9,6 +9,8 @@
 
 			if(!$Exists)
 				Std::Out("[WARNING] [MODULES] Key {$Key} doesn't exists");
+
+			return $Exists;
 		}
 
 		protected function ModuleExists($Key, $Name)
