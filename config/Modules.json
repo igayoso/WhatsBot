@@ -1,7 +1,8 @@
 {
 	"Command":
 	[
-		"echo"
+		"echo",
+		"translate"
 	],
 	"Domain":
 	[
