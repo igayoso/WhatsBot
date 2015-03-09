@@ -2,6 +2,7 @@
 	require_once 'whatsapi/whatsprot.class.php';
 
 	require_once 'WhatsApp/Functions.php';
+	require_once 'Lang.php';
 
 	class WhatsApp
 	{
@@ -45,9 +46,6 @@
 
 		public function SendImage($To, $Path, $Caption = '', $StoreURLMedia = false, $Size = 0, $Hash = '')
 		{ return $this->WhatsApp->SendMessageImage($To, $Path, $StoreURLMedia, $Size, $Hash, $Caption); }
-
-		public function SendMessage($To, $Message, $ID = null)
-		{ return $this->WhatsApp->SendMessage($To, $Message, $ID); }
 
 		public function SendVideo($To, $Path, $Caption = '', $StoreURLMedia = false, $Size = 0, $Hash = '')
 		{ return $this->WhatsApp->SendMessageVideo($To, $Path, $StoreURLMedia, $Size, $Hash, $Caption); }
@@ -108,4 +106,34 @@
 		 */
 
 		// Send Composing
+
+		private $LangSection = null;
+
+		public function SetLangSection($Section)
+		{ $this->LangSection = $Section; }
+
+		public function SendMessage($To, $Key)
+		{
+			$Args = func_get_args();
+			array_shift($Args);
+
+			$Message = call_user_func_array(array(new Lang($this->LangSection), 'Get'), $Args);
+
+			if($Message !== false)
+				$this->SendRawMessage($To, $Message);
+			else
+			{
+				if($Key === 'message:internal_error')
+					$this->SendRawMessage($To, 'Internal error...');
+				elseif($Key === 'message::module_not_loaded')
+					$this->SendRawMessage($To, 'That module doesn\'t exists');
+				else
+					$this->SendRawMessage($To, "Lang error. Key not found: {$this->LangSection}::{$Key}");
+			}
+		}
+
+		public function SendRawMessage($To, $Message)
+		{
+			return $this->WhatsApp->SendMessage($To, $Message);
+		}
 	}

@@ -16,10 +16,10 @@
 				{
 					if(is_readable($Module['File']))
 					{
+						$this->WhatsApp->SetLangSection("{$Key}_{$ModuleName}");
+						
 						$WhatsApp = $this->WhatsApp;
 						$ModuleManager = $this;
-
-						$Lang = new Lang("{$Key}_{$ModuleName}");
 
 						extract($Params);
 
@@ -27,15 +27,15 @@
 					}
 
 					Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. PHP file is not readable");
-					return -3;
+					return WARNING_NOT_FILE;
 				}
 
 				Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. Get error (not exists?)");
-				return -2;
+				return WARNING_GET_ERROR;
 			}
 
 			// This will be parsed (WhatsBotParser->SendResponse($Code)), so we don't need to test if module exists before calling
-			return -1;
+			return WARNING_NOT_LOADED;
 		}
 
 		public function CallCommandModule($ModuleName, $Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $Params)

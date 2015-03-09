@@ -8,6 +8,11 @@
 	require_once 'Others/URL.php';
 	require_once 'Others/Path.php';
 
+
+	const SEND_USAGE = 1;
+	const INTERNAL_ERROR = false;
+
+
 	class WhatsBotParser
 	{
 		private $WhatsApp = null;
@@ -147,28 +152,21 @@
 
 		private function SendResponse($To, $Code)
 		{
-			$Lang = new Lang('Main');
-
-			switch($Code)
+			if($Code === INTERNAL_ERROR || $Code === WARNING_GET_ERROR || $Code === WARNING_NOT_FILE)
 			{
-				case -1:
-					$Message = $Lang('message:not_loaded_module');
+				$this->WhatsApp->SetLangSection('Main');
 
-					if($Message !== false)
-						$Message = "That module doesn't exists...";
-
-					$this->WhatsApp->SendMessage($To, $Message);
-					break;
-				case -2:
-				case -3:
-				case false:
-					$Message = $Lang('message:internal_error');
-
-					if($Message !== false)
-						$Message = 'Internal error...';
-
-					$this->WhatsApp->SendMessage($To, $Message);
-					break;
+				$this->WhatsApp->SendMessage($To, 'message:internal_error');
+			}
+			elseif($Code === WARNING_NOT_LOADED)
+			{
+				$this->WhatsApp->SetLangSection('Main');
+				
+				$this->WhatsApp->SendMessage($To, 'message:module_not_loaded');
+			}
+			elseif($Code === SEND_USAGE)
+			{
+				$this->WhatsApp->SendMessage($To, 'usage');
 			}
 		}
 	}
