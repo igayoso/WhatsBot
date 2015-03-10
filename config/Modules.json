@@ -2,6 +2,7 @@
 	"Command":
 	[
 		"echo",
+		"exchange",
 		"translate"
 	],
 	"Domain":
