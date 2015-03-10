@@ -1,5 +1,4 @@
 {
-	"help":"Say whatever you want. ",
-	"usage":"!echo <text>",
-	"write_something":"You have to write something..."
+	"help":"Says whatever you want",
+	"usage":"Usage: !echo <text>. Example: !echo I'm a bot"
 }

@@ -1,12 +1,7 @@
 <?php
-	/* WhatsBot Module
-	 * 
-	 * Author: @fermino
-	 * 
-	 * Type: command
-	 * Name: echo
-	 * 
-	 * Usage: !echo <text>
-	 */
+	$Message = Command::GetText($ModuleName, $Text);
 
-	$WhatsApp->SendMessage($From, Command::GetText($ModuleName, $Text, $Lang('write_something')));
+	if($Message !== false)
+		$WhatsApp->SendRawMessage($From, $Message);
+	else
+		return SEND_USAGE;
