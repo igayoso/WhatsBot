@@ -10,8 +10,13 @@
 
 		private static $Config = array();
 
-		public static function Load()
+		public static function Load($Reloading = false)
 		{
+			$Reloading = $Reloading ? 'Rel' : 'L';
+
+			Std::Out();
+			Std::Out("[INFO] [CONFIG] {$Reloading}oading");
+
 			if(is_dir(self::$Path))
 			{
 				$Files = array_values(array_filter(scandir(self::$Path), function($Path)
@@ -26,6 +31,8 @@
 					if($Data !== false)
 						self::$Config[substr($File, 0, strlen($File) - 5)] = $Data;
 				}
+
+				Std::Out('[INFO] [CONFIG] Ready!');
 			}
 			else
 				throw new ConfigException('No such directory ' . self::$Path);
@@ -33,7 +40,7 @@
 
 		public static function Reload()
 		{
-			return self::Load();
+			return self::Load(true);
 		}
 
 		public static function Get($Filename, $Throw = false)
@@ -49,5 +56,3 @@
 			return false;
 		}
 	}
-
-	Config::Load();

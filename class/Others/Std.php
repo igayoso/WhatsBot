@@ -6,7 +6,7 @@
 			return trim(fgets(STDIN));
 		}
 
-		public static function Out($String, $WithNewLine = true)
+		public static function Out($String = null, $WithNewLine = true)
 		{
 			$String .= $WithNewLine ? PHP_EOL : null;
 

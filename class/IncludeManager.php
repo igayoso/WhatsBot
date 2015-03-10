@@ -7,6 +7,7 @@
 	{
 		public function LoadIncludes()
 		{
+			Std::Out();
 			Std::Out('[INFO] [INCLUDES] Loading');
 
 			$Includes = Config::Get('Includes');
@@ -21,7 +22,7 @@
 						$this->LoadInclude($Include[0], false);
 				}
 
-				Std::Out('[INFO] [INCLUDES] Loaded');
+				Std::Out('[INFO] [INCLUDES] Ready!');
 
 				return true;
 			}

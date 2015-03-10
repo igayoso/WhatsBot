@@ -15,6 +15,9 @@
 	require_once 'ConfigManager.php';
 
 
+	require_once 'Others/Std.php';
+
+
 	class WhatsBot
 	{
 		private $WhatsProt = null;
@@ -33,11 +36,16 @@
 
 		public function __construct($Debug = false)
 		{
-			$this->IncludeManager = new IncludeManager;
-			$this->IncludeManager->LoadIncludes();
-
+			Std::Out();
+			Std::Out('[INFO] [WHATSBOT] Loading. Debug = ' . ($Debug ? 'true' : 'false'));
 
 			$this->Debug = $Debug;
+
+			Config::Load();
+
+
+			$this->IncludeManager = new IncludeManager;
+			$this->IncludeManager->LoadIncludes();
 
 
 			$Config = Config::Get('WhatsBot');
@@ -45,6 +53,9 @@
 			if(!empty($Config['WhatsApp']['Username']) && !empty($Config['WhatsApp']['Nickname']))
 			{
 				# WhatsApp
+
+				Std::Out();
+				Std::Out("[INFO] [WHATSBOT] I am {$Config['WhatsApp']['Nickname']} ({$Config['WhatsApp']['Username']})");
 
 				$this->WhatsProt = new WhatsProt($Config['WhatsApp']['Username'], $Config['WhatsApp']['Nickname'], $Debug);
 
@@ -65,7 +76,10 @@
 
 				# Bind Event Listener
 
+				Std::Out();
+				Std::Out('[INFO] [EVENTS] Binding listener');
 				$this->WhatsApp->EventManager()->BindListener($this->Listener);
+				Std::Out('[INFO] [EVENTS] Ready!');
 			}
 			else
 				throw new WhatsBotException("You have to setup the config file config/WhatsBot.json");
@@ -77,9 +91,19 @@
 
 			if(!empty($Config['WhatsApp']['Password']))
 			{
-				$this->WhatsApp->Connect();
+				Std::Out();
+				Std::Out('[INFO] [WHATSBOT] Connecting');
 
+				if($this->WhatsApp->Connect())
+					Std::Out('[INFO] [WHATSBOT] Connected!');
+				else
+					Std::Out('[WARNING] [WHATSBOT] Connection error');
+
+
+				Std::Out();
+				Std::Out('[INFO] [WHATSBOT] Logging in');
 				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['Password']);
+				Std::Out('[INFO] [WHATSBOT] Ready!');
 			}
 			else
 				throw new WhatsBotException("You have to add the password to config/WhatsBot.json");
@@ -89,6 +113,12 @@
 		{
 			$StartTime = time();
 
+			Std::Out();
+			Std::Out("[INFO] [WHATSBOT] Start time is {$StartTime}");
+
+			Std::Out();
+			Std::Out('[INFO] [WHATSBOT] Listening...');
+			
 			while(true)
 			{
 				if(!$this->WhatsApp->IsConnected())

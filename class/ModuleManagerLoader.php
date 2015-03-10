@@ -9,6 +9,7 @@
 		// LoadModules() => return loaded modules
 		public function LoadModules()
 		{
+			Std::Out();
 			Std::Out('[INFO] [MODULES] Loading');
 
 			$Modules = Config::Get('Modules');
@@ -21,7 +22,7 @@
 					foreach($Modules[$Key] as $Module)
 						$this->LoadModule($Key, $Module);
 
-				Std::Out('[INFO] [MODULES] Loaded');
+				Std::Out('[INFO] [MODULES] Ready!');
 
 				return true;
 			}
