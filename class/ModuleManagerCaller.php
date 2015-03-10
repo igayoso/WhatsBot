@@ -1,8 +1,14 @@
 <?php
+	require_once 'Lang.php';
+
 	require_once 'Others/Std.php';
 	
 	require_once 'Others/Command.php';
 	require_once 'Others/Unirest.php';
+
+
+	const WARNING_LANG_ERROR = -4;
+
 
 	trait ModuleManagerCaller
 	{
@@ -17,6 +23,7 @@
 					if(is_readable($Module['File']))
 					{
 						$this->WhatsApp->SetLangSection("{$Key}_{$ModuleName}");
+						$Lang = new Lang("{$Key}_{$ModuleName}");
 						
 						$WhatsApp = $this->WhatsApp;
 						$ModuleManager = $this;

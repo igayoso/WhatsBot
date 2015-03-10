@@ -126,10 +126,15 @@
 				if($Key === 'message:internal_error')
 					$this->SendRawMessage($To, 'Internal error...');
 				elseif($Key === 'message::module_not_loaded')
-					$this->SendRawMessage($To, 'That module doesn\'t exists');
+					$this->SendRawMessage($To, 'That module doesn\'t exists. Try !help to see a list of available modules');
 				else
-					$this->SendRawMessage($To, "Lang error. Key not found: {$this->LangSection}::{$Key}");
+					$this->SendLangError($To, $Key);
 			}
+		}
+
+		public function SendLangError($To, $Key)
+		{
+			return $this->SendRawMessage($To, "Lang error. Key not found: {$this->LangSection}::{$Key}");
 		}
 
 		public function SendRawMessage($To, $Message)
