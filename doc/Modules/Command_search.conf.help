@@ -1,0 +1,9 @@
+=================================
+| Command::Search configuration |
+=================================
+
+config/GoogleSearch.json
+{
+	boolean 'large' => if true search will return 8 results, else 4 (optional)
+	string 	'key' => google search api key (optional)
+}
