@@ -3,6 +3,7 @@
 	[
 		"echo",
 		"exchange",
+		"md5",
 		"translate"
 	],
 	"Domain":

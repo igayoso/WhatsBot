@@ -1,0 +1,6 @@
+{
+	"help":"MD5(String)",
+	"usage":"Usage: !md5 <string>. Example: !md5 I'm a pretty string :D",
+
+	"message:md5":"md5(%s) = %s"
+}
