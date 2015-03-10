@@ -3,6 +3,7 @@
 	[
 		"echo",
 		"exchange",
+		"help",
 		"md5",
 		"translate"
 	],
