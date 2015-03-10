@@ -10,7 +10,7 @@
 
 		$Result = Google::ConvertCurrency($Params[1], $Params[2], $Params[3], $Params[4]);
 
-		if($Result !== false)
+		if($Result != false)
 			$WhatsApp->SendMessage($From, 'message:converted', $Result['Amount'], $Result['From'], $Result['Converted'], $Result['To']);
 		else
 			$WhatsApp->SendMessage($From, 'message:cant_connect');

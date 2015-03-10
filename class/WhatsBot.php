@@ -1,5 +1,7 @@
 <?php
 	require_once 'WhatsBotExceptions.php';
+
+	require_once 'ConfigManager.php';
 	
 	require_once 'whatsapi/whatsprot.class.php';
 	require_once 'WhatsApp.php';
@@ -11,12 +13,7 @@
 
 	require_once 'IncludeManager.php';
 
-
-	require_once 'ConfigManager.php';
-
-
 	require_once 'Others/Std.php';
-
 
 	class WhatsBot
 	{

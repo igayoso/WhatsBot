@@ -3,7 +3,7 @@
 	{
 		$Result = Google::Translate($Params[1], $Params[2], $Text);
 
-		if($Result !== false)
+		if($Result != false)
 			$WhatsApp->SendMessage($From, 'message:translated', $Params[2], $Text, $Result);
 		else
 			$WhatsApp->SendMessage($From, 'message:cant_connect');
