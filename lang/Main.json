@@ -1,4 +1,4 @@
 {
-	"message:module_not_loaded":"That module doesn't exists...",
+	"message:module_not_loaded":"That module doesn't exists. Try !help to see a list of available modules",
 	"message:internal_error":"Internal error..."
 }
