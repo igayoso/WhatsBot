@@ -12,7 +12,9 @@
 				$To = strtoupper($To);
 				$Amount = intval($Amount);
 
-				$Data = Unirest\Request::get("https://www.google.com/finance/converter?a={$Amount}&from={$From}&to={$To}");
+				$URL = "https://www.google.com/finance/converter?a={$Amount}&from={$From}&to={$To}";
+
+				$Data = Unirest\Request::get($URL);
 
 				if($Data->code === 200)
 				{
@@ -32,6 +34,8 @@
 						);
 					}
 				}
+				else
+					Std::Out("[WARNING] [API Google::Currency] Response code {$Data->code}. Request to {$URL}");
 
 				return false;
 			}

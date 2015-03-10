@@ -52,6 +52,8 @@
 						return $Return;
 					}
 				}
+				else
+					Std::Out("[WARNING] [API Google::Search] Response code {$Data->code}. Request to {$URL}");
 
 				return false;
 			}

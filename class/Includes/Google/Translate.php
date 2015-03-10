@@ -10,7 +10,9 @@
 			{
 				$Text = rawurlencode($Text);
 
-				$Data = Unirest\Request::get("http://translate.google.com/translate_a/t?client=t&text={$Text}&hl=en&sl={$From}&tl={$To}&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1"); // https?
+				$URL = "http://translate.google.com/translate_a/t?client=t&text={$Text}&hl=en&sl={$From}&tl={$To}&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
+				
+				$Data = Unirest\Request::get($URL); // https?
 				
 				if($Data->code === 200)
 				{
@@ -28,6 +30,8 @@
 						return $Translated;
 					}
 				}
+				else
+					Std::Out("[WARNING] [API Google::Translate] Response code {$Data->code}. Request to {$URL}");
 
 				return false;
 			}
