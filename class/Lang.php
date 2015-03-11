@@ -9,9 +9,6 @@
 
 		public function __construct($Section)
 		{
-			Std::Out();
-			Std::Out('[INFO] [LANG] Loading');
-
 			$this->Section = $Section;
 
 			$Data = Json::Read("lang/{$Section}.json");
@@ -20,8 +17,6 @@
 				$this->Data = $Data;
 			else
 				Std::Out("[WARNING] [LANG] Can't load lang/{$Section}.json");
-
-			Std::Out('[INFO] [LANG] Ready!');
 		}
 
 		public function Get($Key)
