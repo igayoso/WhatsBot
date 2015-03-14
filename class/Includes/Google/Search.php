@@ -34,8 +34,8 @@
 					{
 						$Return = array
 						(
-							'count' => $Data['responseData']['cursor']['estimatedResultCount'],
-							'time' => $Data['responseData']['cursor']['searchResultTime'],
+							'count' => intval($Data['responseData']['cursor']['estimatedResultCount']), // Add dots? 170000 => 170.000
+							'time' => floatval($Data['responseData']['cursor']['searchResultTime']),
 							'results' => array()
 						);
 
@@ -44,8 +44,8 @@
 							$Return['results'][] = array
 							(
 								'url' => $Result['unescapedUrl'],
-								'title' => $Result['titleNoFormatting'],
-								'content' => $Result['content']
+								'title' => html_entity_decode($Result['titleNoFormatting']),
+								'content' => strip_tags(html_entity_decode($Result['content']))
 							);
 						}
 
