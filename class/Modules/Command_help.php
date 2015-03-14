@@ -1,7 +1,7 @@
 <?php
 	if(empty($Params[1]))
 	{
-		$Modules = $ModuleManager->GetModules('Command');
+		$Modules = $ModuleManager->GetModules('Command'); // sort?
 
 		if(is_array($Modules))
 		{
@@ -26,18 +26,25 @@
 	{
 		if($ModuleManager->CommandModuleExists($Params[1]))
 		{
-			$Lang = new Lang("Command_{$Params[1]}");
+			$Module = $ModuleManager->GetCommandModule($Params[1]);
 
-			$Help = $Lang('help');
-			$Usage = $Lang('usage');
+			if($Module !== false)
+			{
+				$Lang = new Lang("Command_{$Module['File']}");
 
-			if($Help === false)
-				return array(WARNING_LANG_ERROR, 'help');
-			if($Usage === false)
-				return array(WARNING_LANG_ERROR, 'usage');
+				$Help = $Lang('help');
+				$Usage = $Lang('usage');
 
-			$WhatsApp->SendRawMessage($From, "Command::{$Params[1]}: {$Help}");
-			$WhatsApp->SendRawMessage($From, $Usage);
+				if($Help === false)
+					return array(WARNING_LANG_ERROR, 'help');
+				if($Usage === false)
+					return array(WARNING_LANG_ERROR, 'usage');
+
+				$WhatsApp->SendRawMessage($From, "Command::{$Params[1]}: {$Help}");
+				$WhatsApp->SendRawMessage($From, $Usage);
+			}
+			else
+				return WARNING_GET_ERROR;
 		}
 		else
 			return WARNING_NOT_LOADED;

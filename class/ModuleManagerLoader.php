@@ -34,9 +34,19 @@
 
 		private function LoadModule($Key, $Name)
 		{
+			if(is_array($Name) && !empty($Name[0]) && !empty($Name[1]))
+			{
+				$Filename = $Name[1];
+				$Name = $Name[0];
+			}
+			else
+			{
+				$Filename = $Name;
+			}
+
 			if($this->KeyExists($Key))
 			{
-				$Path = "class/Modules/{$Key}_{$Name}";
+				$Path = "class/Modules/{$Key}_{$Filename}";
 
 				$JPath = "{$Path}.json";
 				$PPath = "{$Path}.php";
@@ -51,8 +61,9 @@
 						{
 							$this->Modules[$Key][strtolower($Name)] = array
 							(
-								'Data' => $Json,
-								'File' => $PPath
+								'Path' => $PPath,
+								'File' => $Filename,
+								'Data' => $Json
 							);
 
 							return true;

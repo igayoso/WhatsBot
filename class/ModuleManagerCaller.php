@@ -20,17 +20,19 @@
 
 				if($Module !== false)
 				{
-					if(is_readable($Module['File']))
+					if(is_readable($Module['Path']))
 					{
-						$this->WhatsApp->SetLangSection("{$Key}_{$ModuleName}");
-						$Lang = new Lang("{$Key}_{$ModuleName}");
+						$LangSection = "{$Key}_{$Module['File']}";
+
+						$this->WhatsApp->SetLangSection($LangSection);
+						$Lang = new Lang($LangSection);
 						
 						$WhatsApp = $this->WhatsApp;
 						$ModuleManager = $this;
 
 						extract($Params);
 
-						return include $Module['File'];
+						return include $Module['Path'];
 					}
 
 					Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. PHP file is not readable");
