@@ -29,6 +29,8 @@
 
 
 		private $Debug = false;
+		
+		private $StartTime = null;
 
 
 		public function __construct($Debug = false)
@@ -60,7 +62,7 @@
 
 				# WhatsBot
 
-				$this->ModuleManager = new ModuleManager($this->WhatsApp);
+				$this->ModuleManager = new ModuleManager($this, $this->WhatsApp);
 
 				$this->Parser = new WhatsBotParser($this->WhatsApp, $this->ModuleManager);
 				
@@ -108,10 +110,10 @@
 
 		public function Listen()
 		{
-			$StartTime = time();
+			$this->StartTime = time();
 
 			Std::Out();
-			Std::Out("[INFO] [WHATSBOT] Start time is {$StartTime}");
+			Std::Out("[INFO] [WHATSBOT] Start time is {$this->StartTime}");
 
 			Std::Out();
 			Std::Out('[INFO] [WHATSBOT] Listening...');
@@ -123,7 +125,7 @@
 
 				$this->WhatsApp->PollMessage();
 
-				if(time() >= $StartTime + 60)
+				if(time() >= $this->StartTime + 60)
 				{
 					$this->WhatsApp->SendPing();
 
@@ -131,6 +133,10 @@
 				}
 			}
 		}
+
+
+		public function GetStartTime()
+		{ return $this->StartTime; }
 	}
 
 	/* 

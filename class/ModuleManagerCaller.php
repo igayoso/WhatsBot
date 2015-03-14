@@ -14,6 +14,9 @@
 	{
 		private function CallModule($Key, $ModuleName, Array $Params)
 		{
+			if($this->WhatsBot->GetStartTime() > intval($Params['Time']))
+				return true;
+
 			if($this->ModuleExists($Key, $ModuleName))
 			{
 				$Module = $this->GetModule($Key, $ModuleName);

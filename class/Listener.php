@@ -15,8 +15,6 @@
 		{
 			$this->WhatsApp = $WhatsApp;
 			$this->Parser = $Parser;
-
-			$this->StartTime = time(); // Maybe a class/function
 		}
 
 		# Messages
