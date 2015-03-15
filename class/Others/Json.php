@@ -31,12 +31,21 @@
 		}
 
 		public static function Write($Filename, $Data)
-		{ // Add Std
+		{
 			$Data = json_encode($Data);
 
 			if($Data !== false)
-				if(file_put_contents($Filename, $Data) === strlen($Data))
+			{
+				$ToWrite = strlen($Data);
+				$Writed = file_put_contents($Filename, $Data);
+
+				if($Writed === $ToWrite)
 					return true;
+				else
+					Std::Out("[WARNING] [JSON] {$Filename} {$Writed} bytes writed of {$ToWrite}");
+			}
+			else
+				Std::Out("[WARNING] [JSON] Can't encode {$Filename}");
 
 			return false;
 		}
