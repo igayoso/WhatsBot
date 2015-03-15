@@ -7,7 +7,14 @@
 	require_once 'Others/Unirest.php';
 
 
+	const WARNING_NOT_LOADED = -1;
+	const WARNING_GET_ERROR = -2;
+	const WARNING_NOT_FILE = -3;
 	const WARNING_LANG_ERROR = -4;
+
+	const SEND_USAGE = 2;
+	
+	const INTERNAL_ERROR = false;
 
 
 	trait ModuleManagerCaller

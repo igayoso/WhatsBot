@@ -8,11 +8,6 @@
 	require_once 'Others/URL.php';
 	require_once 'Others/Path.php';
 
-
-	const SEND_USAGE = 2;
-	const INTERNAL_ERROR = false;
-
-
 	class WhatsBotParser
 	{
 		private $WhatsApp = null;
