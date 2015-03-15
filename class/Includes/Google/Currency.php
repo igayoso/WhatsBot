@@ -33,6 +33,8 @@
 							'ConvertedWithoutRound' => $Converted,
 						);
 					}
+
+					// else?
 				}
 				else
 					Std::Out("[WARNING] [API Google::Currency] Response code {$Data->code}. Request to {$URL}");

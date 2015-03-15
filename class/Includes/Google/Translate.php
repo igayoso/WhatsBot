@@ -29,6 +29,8 @@
 
 						return $Translated;
 					}
+
+					// else?
 				}
 				else
 					Std::Out("[WARNING] [API Google::Translate] Response code {$Data->code}. Request to {$URL}");
