@@ -30,9 +30,9 @@
 			return false;
 		}
 
-		public static function Write($Filename, $Data)
+		public static function Write($Filename, $Data, $Options = JSON_PRETTY_PRINT)
 		{
-			$Data = json_encode($Data);
+			$Data = json_encode($Data, $Options);
 
 			if($Data !== false)
 			{

@@ -71,11 +71,11 @@
 			return false;
 		}
 
-		public static function Set($Filename, $Data)
+		public static function Set($Filename, $Data, $Options = JSON_PRETTY_PRINT)
 		{
 			$Path = self::$Path . DIRECTORY_SEPARATOR . $Filename . '.json';
 
-			$Return = Json::Write($Path, $Data);
+			$Return = Json::Write($Path, $Data, $Options);
 
 			self::LoadConfig($Filename);
 
