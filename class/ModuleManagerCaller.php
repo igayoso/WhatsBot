@@ -1,5 +1,6 @@
 <?php
 	require_once 'Lang.php';
+	require_once 'AdminManager.php';
 
 	require_once 'Others/Std.php';
 	
@@ -12,8 +13,10 @@
 	const WARNING_NOT_FILE = -3;
 	const WARNING_LANG_ERROR = -4;
 
+	const NOT_ADMIN = -5;
+
 	const SEND_USAGE = 2;
-	
+
 	const INTERNAL_ERROR = false;
 
 

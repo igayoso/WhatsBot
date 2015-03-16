@@ -172,6 +172,12 @@
 			{
 				$this->WhatsApp->SendMessage($To, 'usage');
 			}
+			elseif($Code === NOT_ADMIN)
+			{
+				$this->WhatsApp->SetLangSection('Main');
+				
+				$this->WhatsApp->SendMessage($To, 'message:not_admin');
+			}
 			elseif(!empty($Code[0]) && $Code[0] === WARNING_LANG_ERROR)
 			{
 				$this->WhatsApp->SendLangError($To, $Code[1]);
