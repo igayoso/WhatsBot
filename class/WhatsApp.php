@@ -105,8 +105,6 @@
 		 * sendBroadcastVcard($targets, $name, $vCard)
 		 */
 
-		// Send Composing
-
 		private $LangSection = null;
 
 		public function SetLangSection($Section)
@@ -120,15 +118,15 @@
 			$Message = call_user_func_array(array(new Lang($this->LangSection), 'Get'), $Args);
 
 			if($Message !== false)
-				$this->SendRawMessage($To, $Message);
+				return $this->SendRawMessage($To, $Message);
 			else
 			{
 				if($Key === 'message:internal_error')
-					$this->SendRawMessage($To, 'Internal error...');
+					return $this->SendRawMessage($To, 'Internal error...');
 				elseif($Key === 'message::module_not_loaded')
-					$this->SendRawMessage($To, 'That module doesn\'t exists. Try !help to see a list of available modules');
+					return $this->SendRawMessage($To, 'That module doesn\'t exists. Try !help to see a list of available modules');
 				else
-					$this->SendLangError($To, $Key);
+					return $this->SendLangError($To, $Key);
 			}
 		}
 
@@ -138,7 +136,8 @@
 		}
 
 		public function SendRawMessage($To, $Message)
-		{
+		{ // Validate from
+		  // Send composing
 			return $this->WhatsApp->SendMessage($To, $Message);
 		}
 	}
