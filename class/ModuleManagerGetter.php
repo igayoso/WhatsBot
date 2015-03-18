@@ -3,6 +3,11 @@
 
 	trait ModuleManagerGetter
 	{
+		public function GetKeys()
+		{
+			return array_keys($this->Modules);
+		}
+
 		public function GetModules($Key)
 		{
 			if($this->KeyExists($Key))

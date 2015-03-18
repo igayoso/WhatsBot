@@ -1,13 +1,13 @@
 <?php
 	require_once 'ModuleManagerExists.php';
-	require_once 'ModuleManagerLoader.php';
 	require_once 'ModuleManagerGetter.php';
+	require_once 'ModuleManagerLoader.php';
 
 	class ModuleManagerCore
 	{
 		use ModuleManagerExists;
-		use ModuleManagerLoader;
 		use ModuleManagerGetter;
+		use ModuleManagerLoader;
 
 		private $Modules = array
 		(

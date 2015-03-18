@@ -5,7 +5,7 @@
 	{
 		private function KeyExists($Key)
 		{
-			$Exists = in_array($Key, array_keys($this->Modules));
+			$Exists = in_array($Key, $this->GetKeys());
 
 			if(!$Exists)
 				Std::Out("[WARNING] [MODULES] Key {$Key} doesn't exists");
