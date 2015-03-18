@@ -35,7 +35,7 @@
 					$Saved = Config::Set('Admins', $Admins);
 
 					if($Saved)
-						Std::Out("[INFO] [ADMIN] {$Number}" . (empty($Nickname) ? null : ":{$Nickname}") . " added");
+						Std::Out("[INFO] [ADMIN] {$Number}" . (empty($Nickname) ? null : ":{$Nickname}") . ' added');
 					else
 						Std::Out("[WARNING] [ADMIN] Error while trying to add {$Number}" . (empty($Nickname) ? null : ":{$Nickname}"));
 
@@ -43,7 +43,7 @@
 				}
 				else
 				{
-					Std::Out("[INFO] [ADMIN] {$Number}" . (empty($Nickname) ? null : ":{$Nickname}") . " already exists in admin list");
+					Std::Out("[INFO] [ADMIN] {$Number}" . (empty($Nickname) ? null : ":{$Nickname}") . ' already exists in admin list');
 
 					return 1;
 				}
@@ -53,7 +53,7 @@
 				$Saved = Config::Set('Admins', array(array($Number, $Nickname)));
 
 				if($Saved)
-					Std::Out("[INFO] [ADMIN] {$Number}" . (empty($Nickname) ? null : ":{$Nickname}") . " added");
+					Std::Out("[INFO] [ADMIN] {$Number}" . (empty($Nickname) ? null : ":{$Nickname}") . ' added');
 				else
 					Std::Out("[WARNING] [ADMIN] Error while trying to add {$Number}" . (empty($Nickname) ? null : ":{$Nickname}"));
 
@@ -61,7 +61,41 @@
 			}
 		}
 
-		// Delete (Index key | Nickname)
+		public static function Delete($Index)
+		{
+			$Admins = Config::Get('Admins');
+
+			if($Admins !== false)
+			{
+				$Index = intval($Index);
+
+				if(isset($Admins[$Index]))
+				{
+					$Admin = $Admins[$Index];
+
+					unset($Admins[$Index]);
+
+					$Saved = Config::Set('Admins', $Admins);
+
+					if($Saved)
+					{
+						Std::Out("[INFO] [ADMIN] {$Admin[0]}" . (empty($Admin[1]) ? null : ":{$Admin[1]}") . 'deleted');
+
+						return array($Index, $Admin[0], $Admin[1]);
+					}
+					else
+					{
+						Std::Out("[WARNING] [ADMIN] Error while trying to delete {$Admin[0]}" . (empty($Admin[1]) ? null : ":{$Admin[1]}"));
+						
+						return false;
+					}
+				}
+
+				return 1;
+			}
+
+			return false;
+		}
 
 		private static function GetNumber($Number)
 		{
