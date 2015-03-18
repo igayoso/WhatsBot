@@ -29,7 +29,7 @@
 				if($this->ModuleExists($Key, $ModuleName))
 				{
 					$Module = $this->GetModule($Key, $ModuleName);
-var_dump($Module);
+
 					if($Module !== false)
 					{
 						if(is_readable($Module['Path']))
