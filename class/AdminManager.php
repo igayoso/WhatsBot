@@ -79,7 +79,7 @@
 
 					if($Saved)
 					{
-						Std::Out("[INFO] [ADMIN] {$Admin[0]}" . (empty($Admin[1]) ? null : ":{$Admin[1]}") . 'deleted');
+						Std::Out("[INFO] [ADMIN] {$Admin[0]}" . (empty($Admin[1]) ? null : ":{$Admin[1]}") . ' deleted');
 
 						return array($Index, $Admin[0], $Admin[1]);
 					}
