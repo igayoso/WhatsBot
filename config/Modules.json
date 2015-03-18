@@ -1,6 +1,7 @@
 {
 	"Command":
 	[
+		"admin",
 		"echo",
 		"exchange",
 		"help",
