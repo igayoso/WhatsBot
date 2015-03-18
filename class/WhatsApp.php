@@ -110,7 +110,7 @@
 		public function SetLangSection($Section)
 		{ $this->LangSection = $Section; }
 
-		public function SendMessage($To, $Key)
+		public function SendMessage($To, $Key, $Pre = null)
 		{
 			$Args = func_get_args();
 			array_shift($Args);
@@ -118,7 +118,7 @@
 			$Message = call_user_func_array(array(new Lang($this->LangSection), 'Get'), $Args);
 
 			if($Message !== false)
-				return $this->SendRawMessage($To, $Message);
+				return $this->SendRawMessage($To, $Pre . $Message);
 			else
 			{
 				if($Key === 'message:internal_error')

@@ -30,18 +30,10 @@
 
 			if($Module !== false)
 			{
-				$Lang = new Lang("Command_{$Module['File']}");
+				$this->WhatsApp->SetLangSection("Command_{$Module['File']}");
 
-				$Help = $Lang('help');
-				$Usage = $Lang('usage');
-
-				if($Help === false)
-					return array(WARNING_LANG_ERROR, 'help');
-				if($Usage === false)
-					return array(WARNING_LANG_ERROR, 'usage');
-
-				$WhatsApp->SendRawMessage($From, "Command::{$Params[1]}: {$Help}");
-				$WhatsApp->SendRawMessage($From, $Usage);
+				$WhatsApp->SendMessage($From, 'help', 'Command::' . ucfirst(strtolower($Params[1])) . ': ');
+				$WhatsApp->SendMessage($From, 'usage');
 			}
 			else
 				return WARNING_GET_ERROR;
