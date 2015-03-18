@@ -24,44 +24,48 @@
 	{
 		private function CallModule($Key, $ModuleName, Array $Params)
 		{
-			if($this->WhatsBot->GetStartTime() > intval($Params['Time']))
-				return true;
-
-			if($this->ModuleExists($Key, $ModuleName))
+			if($this->IsNewMessage($Params['Time']))
 			{
-				$Module = $this->GetModule($Key, $ModuleName);
-
-				if($Module !== false)
+				if($this->ModuleExists($Key, $ModuleName))
 				{
-					if(is_readable($Module['Path']))
+					$Module = $this->GetModule($Key, $ModuleName);
+var_dump($Module);
+					if($Module !== false)
 					{
-						$LangSection = "{$Key}_{$Module['File']}";
+						if(is_readable($Module['Path']))
+						{
+							return $this->ExecuteModule($Key, $ModuleName, $Module, $Params);
+						}
 
-						$this->WhatsApp->SetLangSection($LangSection);
-						$Lang = new Lang($LangSection);
-						
-						$WhatsApp = $this->WhatsApp;
-						$ModuleManager = $this;
-
-						extract($Params);
-
-						return include $Module['Path'];
+						Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. PHP file is not readable");
+						return WARNING_NOT_FILE;
 					}
 
-					Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. PHP file is not readable");
-
-					return WARNING_NOT_FILE;
+					Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. Get error (not exists?)");
+					return WARNING_GET_ERROR;
 				}
 
-				Std::Out("[WARNING] [MODULES] Can't call {$Key}::{$ModuleName}. Get error (not exists?)");
-
-				return WARNING_GET_ERROR;
+				return WARNING_NOT_LOADED;
 			}
 
-			// This will be parsed (WhatsBotParser->SendResponse($Code)), so we don't need to test if module exists before calling
-
-			return WARNING_NOT_LOADED;
+			return true;
 		}
+
+		private function ExecuteModule($Key, $ModuleName, $Module, Array $Params)
+		{
+			$LangSection = "{$Key}_{$Module['File']}";
+
+			$this->WhatsApp->SetLangSection($LangSection);
+			$Lang = new Lang($LangSection);
+
+			$WhatsApp = $this->WhatsApp;
+			$ModuleManager = $this;
+
+			extract($Params);
+
+			return include $Module['Path'];
+		}
+
 
 		public function CallCommandModule($ModuleName, $Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $Params)
 		{
@@ -126,5 +130,10 @@
 			));
 
 			return $this->CallModule('Media', $Type, $Data);
+		}
+
+		private function IsNewMessage($Time)
+		{
+			return $this->WhatsBot->GetStartTime() < intval($Time);
 		}
 	}
