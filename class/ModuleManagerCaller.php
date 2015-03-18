@@ -132,6 +132,30 @@
 			return $this->CallModule('Media', $Type, $Data);
 		}
 
+		public function CallSpecialModule($ModuleName, $Me, $From, $User, $ID, $Time, $Name, Array $Data)
+		{
+			$Data = array_merge($Data, array
+			(
+				'Me' => $Me,
+				'From' => $From,
+				'User' => $User,
+				'ID' => $ID,
+				'Time' => $Time,
+				'Name' => $Name
+			));
+
+			$Module = array
+			(
+				'Path' => "class/Modules/__{$ModuleName}.php",
+				'File' => $ModuleName
+			);
+
+			if(is_readable($Module['Path']))
+				return $this->ExecuteModule('_', $ModuleName, $Module, $Data);
+
+			return true;
+		}
+
 		private function IsNewMessage($Time)
 		{
 			return $this->WhatsBot->GetStartTime() < intval($Time);

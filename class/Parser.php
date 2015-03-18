@@ -102,8 +102,6 @@
 					);
 
 					$this->SendResponse($From, $Response);
-
-					return $Response;
 				}
 				elseif($Extension !== false && $this->ModuleManager->ExtensionModuleExists($Extension))
 				{
@@ -124,9 +122,27 @@
 					);
 
 					$this->SendResponse($From, $Response);
-
-					return $Response;
 				}
+
+				$Response = $this->ModuleManager->CallSpecialModule
+				(
+					'URL',
+
+					$Me,
+					$From,
+					$User,
+					$ID,
+					$Time,
+					$Name,
+
+					array
+					(
+						'Type' => $Type,
+						'URL' => $URL
+					)
+				);
+
+				$this->SendResponse($From, $Response);
 			}
 
 			return false;
