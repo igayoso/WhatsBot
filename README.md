@@ -15,7 +15,8 @@ Downloads:
  * Stable: [v1.0](https://github.com/fermino/WhatsBot/releases/tag/v1.0)
  * Development: [master](https://github.com/fermino/WhatsBot/archive/master.zip)
 
-
+Testing & Beta Features
+=======================
 
 See <https://github.com/fermino/WhatsBot/blob/master/TESTING.md>, a list of beta features, maybe you can help :)
 
