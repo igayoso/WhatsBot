@@ -7,8 +7,7 @@ WhatsBot
 
 A module-based, user-friendly whatsapp bot...
 
-Visit our IRC channel (chat room) through [WebChat](https://webchat.hira.io/?nick=UserWeb?#WhatsBot), or use your IRC Client: 
-`irc.hira.io` `#WhatsBot`
+Visit our IRC channel (chat room) through [WebChat](https://webchat.hira.io/?nick=UserWeb?#WhatsBot), or use your IRC Client at `irc.hira.io` `#WhatsBot`
 
 Latest stable code: 
 ===================
