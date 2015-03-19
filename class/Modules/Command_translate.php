@@ -1,5 +1,5 @@
 <?php
-	if(!empty($Params[1]) && !empty($Params[2]) && ($Text = substr($Text, strlen("!{$ModuleName} {$Params[1]} {$Params[2]} "))) !== false)
+	if(!empty($Params[1]) && !empty($Params[2]) && ($Text = Command::GetText($ModuleName, $Text, false, array($Params[1], $Params[2]))) !== false)
 	{
 		$Result = Google::Translate($Params[1], $Params[2], $Text);
 

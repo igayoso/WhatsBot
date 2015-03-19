@@ -35,7 +35,9 @@
 					case 'add':
 						if($Params[3] !== null)
 						{
-							$Added = Admin::Add($Params[3], $Params[4]);
+							$Nickname = Command::GetText($ModuleName, $Text, null, array($Params[1], $Params[2], $Params[3]));
+
+							$Added = Admin::Add($Params[3], $Nickname);
 
 							if($Added === true)
 								return $WhatsApp->SendMessage($From, 'message:list:add:added', $Params[3]);
