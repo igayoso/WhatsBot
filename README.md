@@ -24,4 +24,4 @@ News
 2015-02-15: I'm rewriting WhatsBot. Please be patient and wait for the new code. If you have some code to add, make a pull request and I will send you an email with the new structure. 
 You can see the code at branch [v1.0a](https://github.com/fermino/WhatsBot/tree/v1.0a)
 ***
-2015-03-18: WhatsBot v1.0 is released. It comes with more features (or less, Thread System and Object Parser will come in 1.1/2 update). The code is a lot better than 0.1 (CodeClimate 3.03 => 3.7). If you want to help, you are welcome ;)
+2015-03-18: WhatsBot v1.0 is released. It comes with more features (or less, Thread System and Object Parser will come in 1.1/2 update). The code is a lot better than v0.1 (CodeClimate 3.03 => 3.7). If you want to help, you are welcome ;)
