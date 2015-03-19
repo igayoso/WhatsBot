@@ -32,7 +32,7 @@
 			{
 				$this->WhatsApp->SetLangSection("Command_{$Module['File']}");
 
-				$WhatsApp->SendMessage($From, 'help', 'Command::' . ucfirst(strtolower($Params[1])) . ': ');
+				$WhatsApp->SendMessage($From, 'help', array('Command::' . ucfirst(strtolower($Params[1])) . ': '));
 				$WhatsApp->SendMessage($From, 'usage');
 			}
 			else

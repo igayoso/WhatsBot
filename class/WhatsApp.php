@@ -118,7 +118,7 @@
 			$Message = call_user_func_array(array(new Lang($this->LangSection), 'Get'), $Args);
 
 			if($Message !== false)
-				return $this->SendRawMessage($To, $Pre . $Message);
+				return $this->SendRawMessage($To, (is_array($Pre) && !empty($Pre[0]) ? $Pre[0] : null) . $Message);
 			else
 			{
 				if($Key === 'message:internal_error')
