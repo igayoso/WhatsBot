@@ -75,7 +75,7 @@
 
 					unset($Admins[$Index]);
 
-					$Saved = Config::Set('Admins', $Admins);
+					$Saved = Config::Set('Admins', array_values($Admins));
 
 					if($Saved)
 					{
