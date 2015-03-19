@@ -1,30 +1,31 @@
 <?php
 	class WhatsApiEventsManager
 	{
-		private $Debug = false;
-
 		private $Classes = array();
+		private $Functions = array();
 
-		public function setDebug($Debug)
+		public function BindListener($Class)
 		{
-			$this->Debug = $Debug;
+			$this->Classes[] = $Class;
 		}
 
-		public function bindClass(&$Class)
+		public function BindEvent($Event, $Function)
 		{
-			$this->Classes[] = &$Class;
-
-			if($this->Debug)
-				Utils::Write('Class ' . get_class($Class) . ' binded...');
+			$this->Functions[] = array($Event, $Function);
 		}
 
-		public function fire($Event, Array $Params)
+		public function Fire($Event, Array $Params = array())
 		{
-			if($this->Debug)
-				Utils::Write("Event fired: {$Event}");
+			foreach($this->Classes as $Class)
+				if(method_exists($Class, $Event) && is_callable(array($Class, $Event)))
+					call_user_func_array(array($Class, $Event), $Params);
 
-			for($i = 0; $i < count($this->Classes); $i++)
-				if(method_exists($this->Classes[$i], $Event) && is_callable(array($this->Classes[$i], $Event), true)) // To do: If method is private it returns true, fix!
-					call_user_func_array(array($this->Classes[$i], $Event), $Params);
+			$Functions = array_filter($this->Functions, function($Value)
+			{
+				return $Value[0] === $Event;
+			});
+
+			foreach($Functions as $Function)
+				call_user_func_array($Function[1], $Params);
 		}
 	}

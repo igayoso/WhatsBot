@@ -1,0 +1,5 @@
+{
+	"message:title":"%s",
+	"message:cant_parse":"Can't parse the page source",
+	"message:cant_get_source":"Can't download the page source. Try with another page or contact the admin"
+}

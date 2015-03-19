@@ -1,23 +1,49 @@
 <?php
+	require_once 'Others/Json.php';
+	require_once 'Others/Std.php';
+
 	class Lang
 	{
 		private $Section = null;
-		private $Data = array('main' => array());
+		private $Data = array();
 
-		public function __construct($Section = 'main')
+		public function __construct($Section)
 		{
 			$this->Section = $Section;
 
-			$Data = Utils::GetJson('data/Lang.json');
+			$Data = Json::Read("lang/{$Section}.json");
+
 			if(is_array($Data))
 				$this->Data = $Data;
+			else
+				Std::Out("[WARNING] [LANG] Can't load lang/{$Section}.json");
 		}
 
-		public function __invoke($String)
+		public function Get($Key)
 		{
-			if(!empty($this->Data[$this->Section][$String]))
-				return $this->Data[$this->Section][$String];
+			if(!empty($this->Data[$Key]))
+			{
+				$Args = func_get_args();
+
+				if(count($Args) > 1)
+				{
+					$Args[0] = $this->Data[$Key];
+
+					return call_user_func_array('sprintf', $Args);
+				}
+
+				return $this->Data[$Key];
+			}
+
+			Std::Out("[WARNING] [LANG] Key {$this->Section}::{$Key} doesn't exists");
 
 			return false;
+		}
+
+		// Set()
+
+		public function __invoke($Key)
+		{
+			return call_user_func_array(array($this, 'Get'), func_get_args());
 		}
 	}

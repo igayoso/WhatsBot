@@ -1,0 +1,7 @@
+{
+	"help":"Lists available modules or shows a module's help",
+	"usage":"Usage: !help [<module>]. Example: !help (list modules) or !help echo (see echo's help)",
+
+	"message:available_list":"Available modules:",
+	"message:list_pattern":" <%s>"
+}

@@ -1,35 +1,6 @@
 <?php
 	class Utils
 	{ // To do: Utils:: => static:: or self::
-		public static function GetJson($Filename)
-		{
-			if(is_file($Filename) && is_readable($Filename))
-			{
-				$Data = file_get_contents($Filename);
-
-				if($Data !== false)
-				{
-					$Data = json_decode($Data, true);
-
-					if($Data !== null)
-						return $Data;
-				}
-			}
-
-			return false;
-		}
-
-		public static function SaveJson($Filename, $Data)
-		{
-			$Data = json_encode($Data);
-
-			if($Data !== false)
-				if(file_put_contents($Filename, $Data) == strlen($Data))
-					return true;
-
-			return false;
-		}
-
 		public static function CleanTemp($Dir = 'tmp')
 		{
 			$Files = glob("{$Dir}/*");
@@ -46,33 +17,6 @@
 				rmdir($Dir);
 
 			return true;
-		}
-
-		public static function MakeFrom($FromGroup, $FromUser)
-		{
-			if($FromGroup != null)
-				$From = array
-				(
-					'from' => 'group',
-					'g' => $FromGroup,
-					'u' => $FromUser
-				);
-			else
-				$From = array
-				(
-					'from' => 'pv',
-					'u' => $FromUser
-				);
-
-			return $From;
-		}
-
-		public static function GetFrom($FromData)
-		{
-			if($FromData['from'] == 'group')
-				return $FromData['g'];
-			else
-				return $FromData['u'];
 		}
 
 		/*public static function IsAdmin($From)
@@ -111,24 +55,6 @@
 		public static function IsGroupJID($JID)
 		{
 			return substr_count($JID, '@') == 1 && substr_count($JID, '-') == 1 && substr($JID, -5) === '@g.us';
-		}
-
-		public static function GetText($ModuleName, $OriginalText, $Else = false)
-		{
-			$Text = substr($OriginalText, strlen($ModuleName) + 2);
-
-			return ($Text !== false) ? $Text : $Else;
-		}
-
-		public static function GetURLs($Text)
-		{
-			preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $Text, $URLs);
-			$URLs = $URLs[0];
-
-			if($URLs)
-				return $URLs;
-
-			return false;
 		}
 
 		public static function GetRemoteFile($URL, $SucessHeaders = array(200, 301, 302)) // $ParseURL = true? || $SuccessHeaders ==> $SuccessCodes?
@@ -170,31 +96,6 @@
 
 			return isset($Headers['Content-Length']) ? (int)$Headers['Content-Length'] : false;
 		}
-
-		public static function ReadLine()
-		{
-			return trim(fgets(fopen('php://stdin', 'r')));
-		}
-
-		public static function Write($Text, $WithNewLine = true)
-		{
-			file_put_contents('php://output', $Text . ($WithNewLine ? PHP_EOL : null));
-		}
-
-		public static function WriteNewLine($NewLines = 1)
-		{
-			$String = str_repeat(PHP_EOL, $NewLines);
-
-			Utils::Write($String, false);
-		}
-
-		/*public static function getConfig($Key)
-		{
-			$Data = file_get_contents('config/WhatsBot.json');
-			$Data = json_decode($Data, true);
-
-			return (isset($Data[$Key])) ? $Data[$Key] : false;
-		}*/
 
 		public static function CallFunction(&$Object, $Function, $Params = array())
 		{

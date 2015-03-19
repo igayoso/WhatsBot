@@ -1,153 +1,162 @@
 <?php
-	require_once 'Exception.php';
+	require_once 'WhatsBotExceptions.php';
 
+	require_once 'ConfigManager.php';
+	
 	require_once 'whatsapi/whatsprot.class.php';
-	require_once 'WhatsBotListener.php';
-	require_once 'WhatsBotParser.php';
-	require_once 'ModuleManager.php';
-	require_once 'ThreadManager.php';
-	require_once 'Updater.php';
-	require_once 'WhatsBotCaller.php';
-	require_once 'WhatsappBridge.php';
-	require_once 'DB/DB.php';
-	require_once 'Utils.php';
-	require_once 'Lang.php';
+	require_once 'WhatsApp.php';
 
-	final class WhatsBot
+	require_once 'Listener.php';
+	require_once 'Parser.php';
+
+	require_once 'ModuleManager.php';
+
+	require_once 'IncludeManager.php';
+
+	require_once 'Others/Std.php';
+
+	class WhatsBot
 	{
-		private $Whatsapp = null;
-		private $Password = null;
+		private $WhatsProt = null;
+		private $WhatsApp = null;
 
 		private $Listener = null;
-
 		private $Parser = null;
 
 		private $ModuleManager = null;
-		private $ThreadManager = null;
-		private $Updater = null;
 
-		private $Caller = null;
-		private $Bridge = null;
+		private $IncludeManager = null;
 
-		private $DB = null;
+
+		private $Debug = false;
+		
+		private $StartTime = null;
+
 
 		public function __construct($Debug = false)
 		{
-			$this->Updater = new Updater();
+			Std::Out();
+			Std::Out('[INFO] [WHATSBOT] Loading. Debug = ' . ($Debug ? 'true' : 'false'));
 
-			Utils::Write('Checking updates...');
-			$this->Updater->CheckUpdates();
-			Utils::WriteNewLine();
+			$this->Debug = $Debug;
 
-			Utils::Write('Cleaning temp directory...');
-			Utils::CleanTemp(); // If true
-			Utils::Write('Temp directory cleaned...');
+			Config::Load();
 
-			Utils::WriteNewLine();
 
-			$Config = Utils::GetJson('config/WhatsBot.json');
+			$this->IncludeManager = new IncludeManager;
+			$this->IncludeManager->LoadIncludes();
 
-			if($Config !== false && !empty($Config['database']['filename']) && !empty($Config['whatsapp']['username']) && !empty($Config['whatsapp']['identity']) && !empty($Config['whatsapp']['password']) && !empty($Config['whatsapp']['nickname']))
+
+			$Config = Config::Get('WhatsBot');
+
+			if(!empty($Config['WhatsApp']['Username']) && !empty($Config['WhatsApp']['Nickname']))
 			{
-				$this->InitDB($Config['database']['filename']);
+				# WhatsApp
 
-				$this->InitWhatsAPI
-				(
-					$Config['whatsapp']['username'],
-					$Config['whatsapp']['identity'],
-					$Config['whatsapp']['password'],
-					$Config['whatsapp']['nickname'],
-					$Debug
-				);
+				Std::Out();
+				Std::Out("[INFO] [WHATSBOT] I am {$Config['WhatsApp']['Nickname']} ({$Config['WhatsApp']['Username']})");
+
+				$this->WhatsProt = new WhatsProt($Config['WhatsApp']['Username'], $Config['WhatsApp']['Nickname'], $Debug);
+
+				$this->WhatsApp = new WhatsApp($this->WhatsProt);
+
+				# WhatsBot
+
+				$this->ModuleManager = new ModuleManager($this, $this->WhatsApp);
+
+				$this->Parser = new WhatsBotParser($this->WhatsApp, $this->ModuleManager);
+				
+				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser);
+
+				# Load
+
+				$this->ModuleManager->LoadModules();
+				// ThreadManager (into Start())
+
+				# Bind Event Listener
+
+				Std::Out();
+				Std::Out('[INFO] [EVENTS] Binding listener');
+				$this->WhatsApp->EventManager()->BindListener($this->Listener);
+				Std::Out('[INFO] [EVENTS] Ready!');
 			}
 			else
-				throw new WhatsBotException('Can\'t load config...');
-
-			$this->InitThreads();
+				throw new WhatsBotException("You have to setup the config file config/WhatsBot.json");
 		}
 
-		private function InitDB($Filename)
+		public function Start()
 		{
-			$this->DB = new WhatsBotDB($Filename);
-		}
+			$Config = Config::Get('WhatsBot');
 
-		private function InitWhatsAPI($Username, $Identity, $Password, $Nickname, $Debug)
-		{
-			$this->Whatsapp = new WhatsProt($Username, $Identity, $Nickname, $Debug);
+			if(!empty($Config['WhatsApp']['Password']))
+			{
+				Std::Out();
+				Std::Out('[INFO] [WHATSBOT] Connecting');
 
-			$this->Bridge = new WhatsappBridge($this->Whatsapp);
-			$this->Caller = new WhatsBotCaller($this->ModuleManager, $this->Bridge);
-			$this->ModuleManager = new ModuleManager($this->Caller);
-			$this->Parser = new WhatsBotParser($this->Bridge, $this->ModuleManager);
-			$this->Listener = new WhatsBotListener($this->Whatsapp, $this->Parser, $this->DB);
+				if($this->WhatsApp->Connect())
+					Std::Out('[INFO] [WHATSBOT] Connected!');
+				else
+					Std::Out('[WARNING] [WHATSBOT] Connection error');
 
-			$this->ModuleManager->LoadIncludes();
-			$this->ModuleManager->LoadModules();
 
-			$this->Whatsapp->eventManager()->setDebug($Debug);
-			$this->Whatsapp->eventManager()->bindClass($this->Listener);
-
-			Utils::Write('Connecting...');
-			$this->Whatsapp->connect();
-			Utils::WriteNewLine();
-
-			Utils::Write('Logging in...');
-			$this->Whatsapp->loginWithPassword($Password);
-			Utils::WriteNewLine();
-		}
-
-		private function InitThreads()
-		{
-			$this->ThreadManager = new ThreadManager($this->Bridge, $this->ModuleManager);
-
-			Utils::Write('Loading Threads...');
-			$this->ThreadManager->LoadThreads();
+				Std::Out();
+				Std::Out('[INFO] [WHATSBOT] Logging in');
+				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['Password']);
+				Std::Out('[INFO] [WHATSBOT] Ready!');
+			}
+			else
+				throw new WhatsBotException("You have to add the password to config/WhatsBot.json");
 		}
 
 		public function Listen()
 		{
-			Utils::Write('Listening...');
-			Utils::WriteNewLine();
+			$this->StartTime = time();
 
-			$StartTime = time();
+			Std::Out();
+			Std::Out("[INFO] [WHATSBOT] Start time is {$this->StartTime}");
 
+			Std::Out();
+			Std::Out('[INFO] [WHATSBOT] Listening...');
+			
 			while(true)
 			{
-				$this->Whatsapp->pollMessage();
-				$this->ThreadManager->ExecuteTasks();
+				if(!$this->WhatsApp->IsConnected())
+					$this->Start();
 
-				if(time() >= $StartTime + 30)
+				$this->WhatsApp->PollMessage();
+
+				if(time() >= $this->StartTime + 60)
 				{
-					$this->Whatsapp->sendPresence('active');
-					$this->Whatsapp->sendPing();
+					$this->WhatsApp->SendPing();
 
 					$StartTime = time();
 				}
 			}
 		}
+
+
+		public function GetStartTime()
+		{ return $this->StartTime; }
 	}
 
-	/* To do: 
-	 * Make an parser for modules (With https://github.com/nikic/PHP-Parser ?)
-	 * Flood detection / protection
+	/* 
+	 * To do: 
 	 * 
-	 * https://github.com/mgp25/WhatsAPI-Official/issues/164#issuecomment-64790667
-	 * Add syncing before send message (Array with numbers synceds? [IF DISCONNECT?])
+	 * Flood protection
+	 * https://github.com/mgp25/WhatsAPI-Official/issues/164#issuecomment-64821350
+	 *  - Sync before send message. Sync if not in array. If disconnect reset array
+	 * Fix #28 reconnect issue
+	 * CLI only
+	 * Implement WhatsApp workflow (https://github.com/mgp25/WhatsAPI-Official/wiki/WhatsAPI-Documentation#whatsapp-workflow)
 	 * 
-	 * Implement? https://github.com/mgp25/WhatsAPI-Official/issues/169
+	 *****
 	 * 
-	 * Only CLI use
+	 * Ideas: 
 	 * 
-	 * Delete references? http://php.net/manual/es/language.oop5.references.php
-	 */
-
-	/* To do (new-structure): 
-	 * Fix Utils::IsAdmin
-	 * Fix !setstatus
-	 * Test /soundcloud/
-	 * Test !search (updated)
-	 */
-
-	/*
-	 * Implement: https://github.com/mgp25/WhatsAPI-Official/wiki/WhatsAPI-Documentation#whatsapp-workflow
+	 * Detect lang from country code
+	 * 
+	 *****
+	 * Questions: 
+	 * 
+	 * Send presence?
 	 */

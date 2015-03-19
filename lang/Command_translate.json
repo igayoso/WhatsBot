@@ -1,0 +1,7 @@
+{
+	"help":"Translates some text",
+	"usage":"Usage: !translate <language from> <language to> <text>. Example: !translate en es Hello",
+
+	"message:translated":"In %s, \"%s\" means \"%s\"",
+	"message:cant_connect":"Sorry, we can't translate it. Are the parameters wrong? If you are the admin, ¡see the logs!"
+}
