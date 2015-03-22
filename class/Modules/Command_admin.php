@@ -80,6 +80,25 @@
 						return SEND_USAGE;
 				}
 				break;
+			case 'set':
+				switch($Params[2])
+				{
+					case 'status':
+						$Status = Command::GetText($ModuleName, $Text, false, array($Params[1], $Params[2]));
+
+						if($Status !== false)
+						{
+							$WhatsApp->SetStatus($Status);
+							
+							return $WhatsApp->SendMessage($From, 'message:set:status:changed', $Status);
+						}
+						else
+							return SEND_USAGE;
+						break;
+					default:
+						return SEND_USAGE;
+				}
+				break;
 			default:
 				return SEND_USAGE;
 		}

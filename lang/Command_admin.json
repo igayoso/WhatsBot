@@ -1,6 +1,6 @@
 {
 	"help":"Performs some admin tasks",
-	"usage":"Usage: \n\n!admin list - List of admins\n\n!admin list add <number> [<nickname>] - Adds an user to admin list\n\n!admin list delete <index> - Deletes an user from admin list. You can get the index with !admin list",
+	"usage":"Usage: \n\n!admin list - List of admins\n\n!admin list add <number> [<nickname>] - Adds an user to admin list\n\n!admin list delete <index> - Deletes an user from admin list. You can get the index with !admin list\n\n\n!admin set status - Set bot's status message",
 
 	"message:list::admin_list":"Admins: ",
 	"message:list::pattern":"\n[#%d] %s %s",
@@ -10,5 +10,7 @@
 
 	"message:list:delete:deleted":"%2$s:%3$s (%1$d) deleted from admin list",
 	"message:list:delete:doesnt_exists":"%s doesn't exists in admin list",
-	"message:list:delete:cant_delete_0":"You can't delete admin with ID 0"
+	"message:list:delete:cant_delete_0":"You can't delete admin with ID 0",
+
+	"message:set:status:changed":"Status message changed to: %s"
 }

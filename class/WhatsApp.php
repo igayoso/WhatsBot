@@ -45,8 +45,8 @@
 
 		# User
 
-		public function SetStatus($String)
-		{ return $this->WhatsApp->SendStatusUpdate($String); }
+		public function SetStatus($Message)
+		{ return $this->WhatsApp->SendStatusUpdate($Message); }
 
 		# Messages
 
