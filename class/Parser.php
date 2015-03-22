@@ -79,7 +79,7 @@
 		private function ParseURLMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $URL)
 		{
 			$Domain = URL::Parse($URL, PHP_URL_HOST);
-			$Extension = Path::GetExtension($URL);
+			$Extension = pathinfo(parse_url($URL, PHP_URL_PATH), PATHINFO_EXTENSION);
 
 			if($Domain !== false)
 			{
@@ -103,7 +103,7 @@
 
 					$this->SendResponse($From, $Response);
 				}
-				elseif($Extension !== false && $this->ModuleManager->ExtensionModuleExists($Extension))
+				elseif($Extension != false && $this->ModuleManager->ExtensionModuleExists($Extension))
 				{
 					$Response = $this->ModuleManager->CallExtensionModule
 					(
