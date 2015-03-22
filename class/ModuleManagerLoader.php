@@ -34,7 +34,7 @@
 
 		private function LoadModule($Key, $Name)
 		{
-			if(is_array($Name) && !empty($Name[0]) && !empty($Name[1]))
+			if(is_array($Name) && !empty($Name[0]) && !empty($Name[1])) // If some is empty?
 			{
 				$Filename = $Name[1];
 				$Name = $Name[0];

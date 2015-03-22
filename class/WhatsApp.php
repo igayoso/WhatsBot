@@ -41,6 +41,42 @@
 
 		# Messages
 
+		private $LangSection = null;
+
+		public function SetLangSection($Section)
+		{ $this->LangSection = $Section; }
+
+		public function SendMessage($To, $Key, $Pre = null)
+		{
+			$Args = func_get_args();
+			array_shift($Args);
+
+			$Message = call_user_func_array(array(new Lang($this->LangSection), 'Get'), $Args);
+
+			if($Message !== false)
+				return $this->SendRawMessage($To, (is_array($Pre) && !empty($Pre[0]) ? $Pre[0] : null) . $Message);
+			else
+			{
+				if($Key === 'message:internal_error')
+					return $this->SendRawMessage($To, 'Internal error...');
+				elseif($Key === 'message::module_not_loaded')
+					return $this->SendRawMessage($To, 'That module doesn\'t exists. Try !help to see a list of available modules');
+				else
+					return $this->SendLangError($To, $Key);
+			}
+		}
+
+		public function SendLangError($To, $Key)
+		{
+			return $this->SendRawMessage($To, "Lang error. Key not found: {$this->LangSection}::{$Key}");
+		}
+
+		public function SendRawMessage($To, $Message)
+		{ // Validate from
+		  // Send composing
+			return $this->WhatsApp->SendMessage($To, $Message);
+		}
+
 		public function SendAudio($To, $Path, $StoreURLMedia = false, $Size = 0, $Hash = '')
 		{ return $this->WhatsApp->SendMessageAudio($To, $Path, $StoreURLMedia, $Size, $Hash); }
 
@@ -104,40 +140,4 @@
 		 * sendVcard($to, $name, $vCard)
 		 * sendBroadcastVcard($targets, $name, $vCard)
 		 */
-
-		private $LangSection = null;
-
-		public function SetLangSection($Section)
-		{ $this->LangSection = $Section; }
-
-		public function SendMessage($To, $Key, $Pre = null)
-		{
-			$Args = func_get_args();
-			array_shift($Args);
-
-			$Message = call_user_func_array(array(new Lang($this->LangSection), 'Get'), $Args);
-
-			if($Message !== false)
-				return $this->SendRawMessage($To, (is_array($Pre) && !empty($Pre[0]) ? $Pre[0] : null) . $Message);
-			else
-			{
-				if($Key === 'message:internal_error')
-					return $this->SendRawMessage($To, 'Internal error...');
-				elseif($Key === 'message::module_not_loaded')
-					return $this->SendRawMessage($To, 'That module doesn\'t exists. Try !help to see a list of available modules');
-				else
-					return $this->SendLangError($To, $Key);
-			}
-		}
-
-		public function SendLangError($To, $Key)
-		{
-			return $this->SendRawMessage($To, "Lang error. Key not found: {$this->LangSection}::{$Key}");
-		}
-
-		public function SendRawMessage($To, $Message)
-		{ // Validate from
-		  // Send composing
-			return $this->WhatsApp->SendMessage($To, $Message);
-		}
 	}
