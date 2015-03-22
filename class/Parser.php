@@ -122,6 +122,8 @@
 					);
 
 					$this->SendResponse($From, $Response);
+
+					return;
 				}
 
 				$Response = $this->ModuleManager->CallSpecialModule
