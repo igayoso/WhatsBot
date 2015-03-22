@@ -28,6 +28,10 @@
 
 		public function Disconnect()
 		{ return $this->WhatsApp->Disconnect(); }
+
+
+		public function SendPing()
+		{ return $this->WhatsApp->SendPing(); }
 		
 		# Login
 
@@ -38,6 +42,11 @@
 
 		public function PollMessage($AutoReceipt = true)
 		{ return $this->WhatsApp->PollMessage($AutoReceipt); }
+
+		# User
+
+		public function SetStatus($String)
+		{ return $this->WhatsApp->SendStatusUpdate($String); }
 
 		# Messages
 
@@ -86,11 +95,6 @@
 		public function SendVideo($To, $Path, $Caption = '', $StoreURLMedia = false, $Size = 0, $Hash = '')
 		{ return $this->WhatsApp->SendMessageVideo($To, $Path, $StoreURLMedia, $Size, $Hash, $Caption); }
 
-		# Others
-
-		public function SendPing()
-		{ return $this->WhatsApp->SendPing(); }
-
 		/* Functions: 
 		 * checkCredentials()
 		 * codeRegister($code)
@@ -136,7 +140,6 @@
 		 * sendSetPrivacyBlockedList($blockedJids = array())
 		 * sendSetProfilePicture($path)
 		 * sendSetRecoveryToken($token)
-		 * sendStatusUpdate($txt)
 		 * sendVcard($to, $name, $vCard)
 		 * sendBroadcastVcard($targets, $name, $vCard)
 		 */
