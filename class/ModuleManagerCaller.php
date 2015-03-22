@@ -6,6 +6,7 @@
 	
 	require_once 'Others/Command.php';
 	require_once 'Others/Unirest.php';
+	require_once 'Others/Random.php';
 
 
 	const WARNING_NOT_LOADED = -1;
