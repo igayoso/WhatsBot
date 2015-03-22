@@ -15,7 +15,9 @@
 	],
 	"Extension":
 	[
-		
+		"png",
+		["jpg", "png"],
+		["gif", "png"]
 	],
 	"Media":
 	[
