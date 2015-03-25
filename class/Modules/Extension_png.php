@@ -1,6 +1,4 @@
 <?php
-	$MaxFileSize = 16777216;
-
 	try
 	{
 		$Image = Unirest\Request::get($URL);
@@ -9,7 +7,7 @@
 		{
 			$FileSize = strlen($Image->raw_body);
 
-			if($FileSize < $MaxFileSize)
+			if($FileSize < WhatsApp::MaxMediaSize)
 			{
 				$Filename = Random::Filename(strtolower($Extension));
 

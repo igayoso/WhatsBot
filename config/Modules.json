@@ -17,7 +17,9 @@
 	[
 		"png",
 		["jpg", "png"],
-		["gif", "png"]
+		["jpeg", "png"],
+		["gif", "png"],
+		["tiff", "png"]
 	],
 	"Media":
 	[
