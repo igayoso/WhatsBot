@@ -18,6 +18,10 @@
 		public function EventManager()
 		{ return $this->WhatsApp->EventManager(); }
 
+		# Consts
+
+		const MaxMediaSize = 16777216;
+
 		# Connection
 
 		public function Connect()
