@@ -95,6 +95,62 @@
 						else
 							return SEND_USAGE;
 						break;
+					case 'picture':
+						$URL = Command::GetText($ModuleName, $Text, false, array($Params[1], $Params[2]));
+						
+						if($URL !== false)
+						{
+							$ParsedURL = parse_url($URL);
+							$Extension = pathinfo($ParsedURL['path'], PATHINFO_EXTENSION);
+
+							if($ParsedURL != false && $Extension != false)
+							{
+								try
+								{
+									$Image = Unirest\Request::get($URL);
+
+									if($Image->code === 200)
+									{
+										$FileSize = strlen($Image->raw_body);
+
+										if($FileSize < WhatsApp::MaxMediaSize)
+										{
+											$Filename = Random::Filename(strtolower($Extension));
+
+											if(file_put_contents($Filename, $Image->raw_body) === $FileSize)
+											{
+												$WhatsApp->SetProfilePicture($Filename);
+
+												unlink($Filename);
+
+												return $WhatsApp->SendMessage($From, 'message:set:picture:setted'); // :changed ?
+											}
+											else
+												return INTERNAL_ERROR;
+										}
+										else
+											return $WhatsApp->SendMessage($From, 'message:set:picture:too_big');
+									}
+									else
+									{
+										Std::Out("[WARNING] [Command::Admin.Set.Picture] Reponse code {$Image->code}. Request to {$URL}");
+										
+										return $WhatsApp->SendMessage($From, 'message:set:picture:download_error');
+									}
+								}
+								catch(Exception $Exception)
+								{
+									Std::Out("[WARNING] [Command::Admin.Set.Picture] Exception: " . $Exception->getMessage());
+
+									return $WhatsApp->SendMessage($From, 'message:set:picture:download_error');
+								}
+							}
+							else
+								return $WhatsApp->SendMessage($From, 'message:set:picture:download_error');
+						}
+						else
+							return SEND_USAGE;
+						break;
 					default:
 						return SEND_USAGE;
 				}

@@ -1,6 +1,6 @@
 {
 	"help":"Performs some admin tasks",
-	"usage":"Usage: \n\n!admin list - List of admins\n\n!admin list add <number> [<nickname>] - Adds an user to admin list\n\n!admin list delete <index> - Deletes an user from admin list. You can get the index with !admin list\n\n\n!admin set status - Set bot's status message",
+	"usage":"Usage: \n\n!admin list - List of admins\n\n!admin list add <number> [<nickname>] - Adds an user to admin list\n\n!admin list delete <index> - Deletes an user from admin list. You can get the index with !admin list\n\n\n!admin set status <text> - Set bot's status message\n\n!admin set picture <url> - Set bot's profile picture",
 
 	"message:list::admin_list":"Admins: ",
 	"message:list::pattern":"\n[#%d] %s %s",
@@ -12,5 +12,9 @@
 	"message:list:delete:doesnt_exists":"%s doesn't exists in admin list",
 	"message:list:delete:cant_delete_0":"You can't delete admin with ID 0",
 
-	"message:set:status:changed":"Status message changed to: %s"
+	"message:set:status:changed":"Status message changed to: %s",
+
+	"message:set:picture:setted":"Profile picture changed",
+	"message:set:picture:too_big":"That image is too big...",
+	"message:set:picture:download_error":"There is a download error. Check the url!"
 }
