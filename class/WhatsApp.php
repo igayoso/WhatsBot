@@ -52,6 +52,9 @@
 		public function SetStatus($Message)
 		{ return $this->WhatsApp->SendStatusUpdate($Message); }
 
+		public function SetProfilePicture($Path)
+		{ return $this->WhatsApp->SendSetProfilePicture($Path); }
+
 		# Messages
 
 		private $LangSection = null;
@@ -142,7 +145,6 @@
 		 * sendPresenceSubscription($to)
 		 * sendSetGroupPicture($gjid, $path)
 		 * sendSetPrivacyBlockedList($blockedJids = array())
-		 * sendSetProfilePicture($path)
 		 * sendSetRecoveryToken($token)
 		 * sendVcard($to, $name, $vCard)
 		 * sendBroadcastVcard($targets, $name, $vCard)
