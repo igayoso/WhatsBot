@@ -59,6 +59,7 @@
 			$this->WhatsApp->SetLangSection($LangSection);
 			$Lang = new Lang($LangSection);
 
+			$WhatsBot = $this->WhatsBot;
 			$WhatsApp = $this->WhatsApp;
 			$ModuleManager = $this;
 
