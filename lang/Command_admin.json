@@ -1,6 +1,6 @@
 {
 	"help":"Performs some admin tasks",
-	"usage":"Usage: \n\n!admin list - List of admins\n\n!admin list add <number> [<nickname>] - Adds an user to admin list\n\n!admin list delete <index> - Deletes an user from admin list. You can get the index with !admin list\n\n\n!admin set status <text> - Set bot's status message\n\n!admin set picture <url> - Set bot's profile picture",
+	"usage":"Usage: \n\n!admin list - List of admins\n\n!admin list add <number> [<nickname>] - Adds an user to admin list\n\n!admin list delete <index> - Deletes an user from admin list. You can get the index with !admin list\n\n\n!admin set status <text> - Set bot's status message\n\n!admin set picture <url> - Set bot's profile picture\n\n\n!admin uptime - Returns bot's uptime",
 
 	"message:list::admin_list":"Admins: ",
 	"message:list::pattern":"\n[#%d] %s %s",
@@ -16,5 +16,10 @@
 
 	"message:set:picture:setted":"Profile picture changed",
 	"message:set:picture:too_big":"That image is too big...",
-	"message:set:picture:download_error":"There is a download error. Check the url!"
+	"message:set:picture:download_error":"There is a download error. Check the url!",
+
+	"message:uptime:days":"Started at %s\n%d days %d hours %d minutes %d seconds",
+	"message:uptime:hours":"Started at %s\n%d hours %d minutes %d seconds",
+	"message:uptime:minutes":"Started at %s\n%d minutes %d seconds",
+	"message:uptime:seconds":"Started at %s\n%d seconds"
 }

@@ -138,6 +138,24 @@
 				}
 			}
 		}
+		elseif($Params[1] === 'uptime')
+		{
+			$Start = $WhatsBot->GetStartTime();
+
+			$Date = gmdate('Y-m-d H:i:s', $Start);
+			$Diff = GetTimeDiff($Start, time());
+
+			if($Diff[0] > 0)
+				return $WhatsApp->SendMessage($From, 'message:uptime:days', $Date, $Diff[0], $Diff[1], $Diff[2], $Diff[3]);
+
+			if($Diff[1] > 0)
+				return $WhatsApp->SendMessage($From, 'message:uptime:hours', $Date, $Diff[1], $Diff[2], $Diff[3]);
+
+			if($Diff[2] > 0)
+				return $WhatsApp->SendMessage($From, 'message:uptime:minutes', $Date, $Diff[2], $Diff[3]);
+
+			return $WhatsApp->SendMessage($From, 'message:uptime:seconds', $Date, $Diff[3]);
+		}
 
 		return SEND_USAGE;
 	}
