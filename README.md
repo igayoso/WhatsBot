@@ -9,6 +9,8 @@ A module-based, user-friendly whatsapp bot...
 
 Visit our IRC channel (chat room) through [WebChat](https://webchat.hira.io/?nick=UserWeb?#WhatsBot), or use your IRC Client at `irc.hira.io` `#WhatsBot`
 
+Visit our [forum](http://forum.whatsbot.org)!
+
 Downloads: 
 ===================
 
@@ -27,3 +29,7 @@ News
 You can see the code at branch [v1.0a](https://github.com/fermino/WhatsBot/tree/v1.0a)
 ***
 2015-03-18: WhatsBot v1.0 is released. It comes with more features (or less, Thread System and Object Parser will come in 1.1/2 update). The code is a lot better than v0.2b (CodeClimate 3.03 => 3.7). If you want to help, you are welcome ;)
+***
+2015-03-31: With @alvarodh we are working in WhatsBot 2. We are making tests in a new bot, WhatsBot Relay (<https://github.com/fermino/WhatsBot-Relay>). Some features that it will have, will come in WhatsBot 2. 
+
+*WhatsBot development is stopped right now (you can always make issues or pull requests)*
