@@ -60,7 +60,7 @@
 		{
 			$Path = "clas/Threads/{$Name}.php";
 
-			if(basename(dirname(realpath($Path))) === 'Includes' && is_readable($Path))
+			if(basename(dirname(realpath($Path))) === 'Threads' && is_readable($Path))
 			{
 				include_once $Path;
 
