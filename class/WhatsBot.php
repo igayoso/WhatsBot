@@ -9,9 +9,11 @@
 	require_once 'Listener.php';
 	require_once 'Parser.php';
 
-	require_once 'ModuleManager.php';
-
 	require_once 'IncludeManager.php';
+
+	require_once 'ModuleManager.php';
+	require_once 'ThreadManager.php';
+
 
 	require_once 'Others/Std.php';
 
@@ -23,9 +25,10 @@
 		private $Listener = null;
 		private $Parser = null;
 
-		private $ModuleManager = null;
-
 		private $IncludeManager = null;
+
+		private $ModuleManager = null;
+		private $ThreadManager = null;
 
 
 		private $Debug = false;
@@ -63,6 +66,7 @@
 				# WhatsBot
 
 				$this->ModuleManager = new ModuleManager($this, $this->WhatsApp);
+				$this->ThreadManager = new ThreadManager($this->WhatsApp, $this->ModuleManager);
 
 				$this->Parser = new WhatsBotParser($this->WhatsApp, $this->ModuleManager);
 				
@@ -71,7 +75,7 @@
 				# Load
 
 				$this->ModuleManager->LoadModules();
-				// ThreadManager (into Start())
+				$this->ThreadManager->LoadThreads();
 
 				# Bind Event Listener
 
@@ -103,6 +107,9 @@
 				Std::Out('[INFO] [WHATSBOT] Logging in');
 				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['Password']);
 				Std::Out('[INFO] [WHATSBOT] Ready!');
+
+
+				$this->ThreadManager->StartThreads();
 			}
 			else
 				throw new WhatsBotException("You have to add the password to config/WhatsBot.json");
