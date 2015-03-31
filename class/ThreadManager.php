@@ -57,8 +57,8 @@
 		}
 
 		private function LoadThread($Name)
-		{
-			$Path = "clas/Threads/{$Name}.php";
+		{ // Add json with config
+			$Path = "class/Threads/{$Name}.php";
 
 			if(basename(dirname(realpath($Path))) === 'Threads' && is_readable($Path))
 			{
