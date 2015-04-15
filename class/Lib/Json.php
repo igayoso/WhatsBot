@@ -1,9 +1,9 @@
 <?php
-	require_once 'Std.php';
+	require_once '_Loader.php';
 
 	class Json
-	{ // Non static context => new Json($Filename) => ->Read() ->Write($Data)
-		public static function Read($Filename)
+	{
+		public static function Decode($Filename)
 		{
 			if(is_readable($Filename))
 			{
@@ -14,23 +14,18 @@
 					$Data = json_decode($Data, true);
 
 					if($Data !== null)
-					{
 						return $Data;
-					}
 					else
-					{
 						Std::Out("[WARNING] [JSON] Can't decode {$Filename}");
-						return;
-					}
 				}
 			}
-
-			Std::Out("[WARNING] [JSON] No such file {$Filename}");
+			else
+				Std::Out("[WARNING] [JSON] No such file {$Filename}");
 
 			return false;
 		}
 
-		public static function Write($Filename, $Data, $Options = JSON_PRETTY_PRINT)
+		public static function Encode($Filename, $Data, $Options = JSON_PRETTY_PRINT)
 		{
 			$Data = json_encode($Data, $Options);
 
@@ -42,7 +37,7 @@
 				if($Writed === $ToWrite)
 					return true;
 				else
-					Std::Out("[WARNING] [JSON] {$Filename} {$Writed} bytes writed of {$ToWrite}");
+					Std::Out("[WARNING] [JSON] {$Filename} : {$Writed} bytes writed of {$ToWrite}");
 			}
 			else
 				Std::Out("[WARNING] [JSON] Can't encode {$Filename}");
@@ -50,3 +45,5 @@
 			return false;
 		}
 	}
+
+	// JsonFile.php => new JsonFile($Filename) ->Decode ->Encode
