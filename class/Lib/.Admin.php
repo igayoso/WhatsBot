@@ -1,7 +1,5 @@
 <?php
-	require_once 'ConfigManager.php';
-
-	require_once 'Others/Std.php';
+	require_once '_Loader.php';
 
 	class Admin
 	{

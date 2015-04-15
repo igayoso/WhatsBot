@@ -4,7 +4,9 @@
 		'Std',
 		'Json',
 		'Config',
-		'Lang'
+		'Lang',
+
+		'.Admin'
 	);
 
 	foreach($Libs as $Lib)
