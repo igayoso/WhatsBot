@@ -1,6 +1,5 @@
 <?php
-	require_once 'Others/Json.php';
-	require_once 'Others/Std.php';
+	require_once '_Loader.php';
 
 	class Lang
 	{
@@ -11,7 +10,7 @@
 		{
 			$this->Section = $Section;
 
-			$Data = Json::Read("lang/{$Section}.json");
+			$Data = Json::Decode("lang/{$Section}.php");
 
 			if(is_array($Data))
 				$this->Data = $Data;
@@ -28,7 +27,7 @@
 				if(count($Args) > 1)
 				{
 					$Args[0] = $this->Data[$Key];
-
+					
 					return call_user_func_array('sprintf', $Args);
 				}
 
@@ -41,9 +40,4 @@
 		}
 
 		// Set()
-
-		public function __invoke($Key)
-		{
-			return call_user_func_array(array($this, 'Get'), func_get_args());
-		}
 	}
