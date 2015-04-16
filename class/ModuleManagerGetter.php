@@ -1,5 +1,5 @@
 <?php
-	require_once 'Others/Std.php';
+	require_once 'Lib/_Loader.php';
 
 	trait ModuleManagerGetter
 	{
@@ -48,4 +48,7 @@
 		{
 			return $this->GetModule('Media', $Name);
 		}
+
+		abstract private function KeyExists($Key);
+		abstract protected function ModuleExists($Key, $Name);
 	}
