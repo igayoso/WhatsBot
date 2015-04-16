@@ -10,7 +10,7 @@
 			$this->User = $User;
 			$this->ID = $ID;
 			$this->Type = $Type;
-			$this->Time = $Time;
+			$this->Time = intval($Time);
 			$this->Name = $Name;
 		}
 
