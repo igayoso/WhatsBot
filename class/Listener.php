@@ -1,4 +1,6 @@
 <?php
+	require_once 'Lib/_Loader.php';
+
 	require_once 'WhatsApp.php';
 	require_once 'WhatsApp/TextMessage.php';
 
