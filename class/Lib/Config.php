@@ -26,7 +26,7 @@
 			throw new Exception('No such config directory');
 		}
 
-		private function LoadFile($File)
+		private static function LoadFile($File)
 		{
 			if(substr($File, strlen($File) - 5) !== '.json')
 				$File .= '.json';
