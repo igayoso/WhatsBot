@@ -1,5 +1,5 @@
 <?php
-	require_once 'Others/Std.php';
+	require_once 'Lib/_Loader.php';
 
 	trait ModuleManagerExists
 	{
