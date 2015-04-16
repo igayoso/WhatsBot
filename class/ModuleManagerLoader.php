@@ -1,12 +1,8 @@
 <?php
-	require_once 'ConfigManager.php';
-
-	require_once 'Others/Std.php';
-	require_once 'Others/Json.php';
+	require_once 'Lib/_Loader.php';
 
 	trait ModuleManagerLoader
 	{
-		// LoadModules() => return loaded modules
 		public function LoadModules()
 		{
 			Std::Out();
@@ -15,16 +11,18 @@
 			$Modules = Config::Get('Modules');
 
 			if(is_array($Modules))
-			{ // Show number of loaded modules
+			{
 				$Keys = array_keys($Modules);
+
+				// $Loaded = array();
 
 				foreach($Keys as $Key)
 					foreach($Modules[$Key] as $Module)
-						$this->LoadModule($Key, $Module);
+						$this->LoadModule($Key, $Module); // $Loaded[$Key][$Module] = $this->LoadModule($Key, $Module) => illegal offset type if $Module is alias (array)
 
-				Std::Out('[INFO] [MODULES] Ready!');
+				Std::Out('[INFO] [MODULES] Ready!'); // ($N loaded modules)
 
-				return true;
+				return true; // return $Loaded;
 			}
 
 			Std::Out('[WARNING] [MODULES] Config file is not an array');
@@ -34,31 +32,34 @@
 
 		private function LoadModule($Key, $Name)
 		{
-			if(is_array($Name) && !empty($Name[0]) && !empty($Name[1])) // If some is empty?
+			if(is_array($Name))
 			{
-				$Filename = $Name[1];
-				$Name = $Name[0];
+				if(!empty($Name[0]) && !empty($Name[1]))
+				{
+					$Filename = $Name[1];
+					$Name = $Name[0];
+				}
+				else
+					return false;
 			}
 			else
-			{
 				$Filename = $Name;
-			}
 
 			if($this->KeyExists($Key))
 			{
-				$Path = "class/Modules/{$Key}_{$Filename}";
+				$JPath = "class/Modules/{$Key}_{$Filename}.json";
+				$PPath = "class/Modules/{$Key}_{$Filename}.php";
 
-				$JPath = "{$Path}.json";
-				$PPath = "{$Path}.php";
-
-				if(basename(dirname(realpath($JPath))) === 'Modules') // Use Path::
+				if(basename(dirname(realpath($JPath))) === 'Modules')
 				{
-					$Json = Json::Read($JPath); // Show errors
+					$Json = Json::Decode($JPath);
 
 					if($Json !== false)
 					{
-						if(is_readable($PPath)) // Lint
+						if(is_readable($PPath))
 						{
+							// Lint
+
 							$this->Modules[$Key][strtolower($Name)] = array
 							(
 								'Path' => $PPath,
@@ -69,7 +70,7 @@
 							return true;
 						}
 						else
-							Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. PHP file doesn't exists");
+							Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. PHP file is not readable");
 					}
 					else
 						Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. Json file is not readable");
@@ -100,4 +101,6 @@
 		{
 			return $this->LoadModule('Media', $Name);
 		}
+
+		abstract public function KeyExists($Key);
 	}
