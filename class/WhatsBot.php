@@ -1,20 +1,14 @@
 <?php
-	require_once 'WhatsBotExceptions.php';
+	require_once 'Lib/_Loader.php';
 
-	require_once 'ConfigManager.php';
-	
-	require_once 'whatsapi/whatsprot.class.php';
+	require_once 'WhatsAPI/whatsprot.class.php';
+
 	require_once 'WhatsApp.php';
 
 	require_once 'Listener.php';
 	require_once 'Parser.php';
 
-	require_once 'IncludeManager.php';
-
 	require_once 'ModuleManager.php';
-
-
-	require_once 'Others/Std.php';
 
 	class WhatsBot
 	{
@@ -24,29 +18,20 @@
 		private $Listener = null;
 		private $Parser = null;
 
-		private $IncludeManager = null;
-
 		private $ModuleManager = null;
 
-
 		private $Debug = false;
-		
 		private $StartTime = null;
-
 
 		public function __construct($Debug = false)
 		{
 			Std::Out();
-			Std::Out('[INFO] [WHATSBOT] Loading. Debug = ' . ($Debug ? 'true' : 'false'));
+			Std::Out('[INFO] [WHATSBOT] Loading. Debug = ' . var_export($Debug, true));
 
 			$this->Debug = $Debug;
 
 			Config::Load();
-
-
-			$this->IncludeManager = new IncludeManager;
-			$this->IncludeManager->LoadIncludes();
-
+			LoadLibs();
 
 			$Config = Config::Get('WhatsBot');
 
@@ -55,7 +40,7 @@
 				# WhatsApp
 
 				Std::Out();
-				Std::Out("[INFO] [WHATSBOT] I am {$Config['WhatsApp']['Nickname']} ({$Config['WhatsApp']['Username']})");
+				Std::Out("[INFO] [WHATSBOT] I'm {$Config['WhatsApp']['Nickname']} ({$Config['WhatsApp']['Username']})");
 
 				$this->WhatsProt = new WhatsProt($Config['WhatsApp']['Username'], $Config['WhatsApp']['Nickname'], $Debug);
 
@@ -66,23 +51,19 @@
 				$this->ModuleManager = new ModuleManager($this, $this->WhatsApp);
 
 				$this->Parser = new WhatsBotParser($this->WhatsApp, $this->ModuleManager);
-				
+
 				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser);
 
 				# Load
 
-				$this->ModuleManager->LoadModules();
-				// ThreadManager (into Start())
+				//$this->ModuleManager->LoadModules();
 
-				# Bind Event Listener
+				# Binding
 
-				Std::Out();
-				Std::Out('[INFO] [EVENTS] Binding listener');
 				$this->WhatsApp->EventManager()->BindListener($this->Listener);
-				Std::Out('[INFO] [EVENTS] Ready!');
 			}
 			else
-				throw new WhatsBotException("You have to setup the config file config/WhatsBot.json");
+				throw new Exception('You have to setup the config file config/WhatsBot.json');
 		}
 
 		public function Start()
@@ -99,26 +80,25 @@
 				else
 					Std::Out('[WARNING] [WHATSBOT] Connection error');
 
-
 				Std::Out();
 				Std::Out('[INFO] [WHATSBOT] Logging in');
 				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['Password']);
 				Std::Out('[INFO] [WHATSBOT] Ready!');
 			}
 			else
-				throw new WhatsBotException("You have to add the password to config/WhatsBot.json");
+				throw new Exception('You have to setup the whatsapp password in config/WhatsBot.json');
 		}
 
 		public function Listen()
 		{
-			$this->StartTime = time();
+			$Time = $this->StartTime = time();
 
 			Std::Out();
 			Std::Out("[INFO] [WHATSBOT] Start time is {$this->StartTime}");
 
 			Std::Out();
 			Std::Out('[INFO] [WHATSBOT] Listening...');
-			
+
 			while(true)
 			{
 				if(!$this->WhatsApp->IsConnected())
@@ -126,11 +106,11 @@
 
 				$this->WhatsApp->PollMessage();
 
-				if(time() >= $this->StartTime + 60)
+				if(time() >= $Time + 60)
 				{
 					$this->WhatsApp->SendPing();
 
-					$StartTime = time();
+					$Time = time();
 				}
 			}
 		}
