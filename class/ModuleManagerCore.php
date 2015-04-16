@@ -1,4 +1,6 @@
 <?php
+	require_once 'Lib/_Loader.php';
+
 	require_once 'ModuleManagerExists.php';
 	require_once 'ModuleManagerGetter.php';
 	require_once 'ModuleManagerLoader.php';
