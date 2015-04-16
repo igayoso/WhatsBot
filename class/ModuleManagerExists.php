@@ -3,7 +3,7 @@
 
 	trait ModuleManagerExists
 	{
-		private function KeyExists($Key)
+		protected function KeyExists($Key)
 		{
 			$Exists = in_array($Key, $this->GetKeys());
 

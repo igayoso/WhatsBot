@@ -102,5 +102,5 @@
 			return $this->LoadModule('Media', $Name);
 		}
 
-		abstract private function KeyExists($Key);
+		abstract protected function KeyExists($Key);
 	}

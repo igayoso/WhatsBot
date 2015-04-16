@@ -49,6 +49,6 @@
 			return $this->GetModule('Media', $Name);
 		}
 
-		abstract private function KeyExists($Key);
+		abstract protected function KeyExists($Key);
 		abstract protected function ModuleExists($Key, $Name);
 	}
