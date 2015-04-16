@@ -1,8 +1,7 @@
 <?php
-	require_once 'whatsapi/whatsprot.class.php';
+	require_once 'Lib/_Loader.php';
 
-	require_once 'WhatsApp/Functions.php';
-	require_once 'Lang.php';
+	require_once 'WhatsAPI/whatsprot.class.php';
 
 	class WhatsApp
 	{
@@ -75,7 +74,7 @@
 			{
 				if($Key === 'message:internal_error')
 					return $this->SendRawMessage($To, 'Internal error...');
-				elseif($Key === 'message::module_not_loaded')
+				elseif($Key === 'message:module_not_loaded')
 					return $this->SendRawMessage($To, 'That module doesn\'t exists. Try !help to see a list of available modules');
 				else
 					return $this->SendLangError($To, $Key);
@@ -83,7 +82,7 @@
 		}
 
 		public function SendLangError($To, $Key)
-		{
+		{ // Send sprintf params
 			return $this->SendRawMessage($To, "Lang error. Key not found: {$this->LangSection}::{$Key}");
 		}
 
