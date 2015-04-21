@@ -16,14 +16,15 @@
 			return false;
 		}
 
-		protected function GetModule($Key, $Name)
+		protected function GetModule($Key, $Name, $ShowWarn = true)
 		{
 			$Name = strtolower($Name);
 
 			if($this->ModuleExists($Key, $Name))
 				return $this->Modules[$Key][$Name];
 
-			Std::Out("[WARNING] [MODULES] Trying to get not loaded module. {$Key}::{$Name}");
+			if($ShowWarn)
+				Std::Out("[WARNING] [MODULES] Trying to get not loaded module. {$Key}::{$Name}");
 
 			return false;
 		}
