@@ -56,7 +56,7 @@
 
 				# Load
 
-				//$this->ModuleManager->LoadModules();
+				$this->ModuleManager->LoadModules();
 
 				# Binding
 
