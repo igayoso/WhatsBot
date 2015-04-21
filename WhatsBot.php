@@ -1,6 +1,6 @@
 <?php
 	require_once 'class/WhatsBot.php';
-	require_once 'class/Others/Std.php';
+
 
 	# Config
 	$Debug = false;
