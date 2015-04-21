@@ -10,7 +10,7 @@
 		{
 			$this->Section = $Section;
 
-			$Data = Json::Decode("lang/{$Section}.php");
+			$Data = Json::Decode("lang/{$Section}.json");
 
 			if(is_array($Data))
 				$this->Data = $Data;
