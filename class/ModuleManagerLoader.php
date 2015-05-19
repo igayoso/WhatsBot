@@ -1,6 +1,8 @@
 <?php
 	require_once 'Lib/_Loader.php';
 
+	require_once 'Module.php';
+
 	trait ModuleManagerLoader
 	{
 		public function LoadModules()
@@ -12,17 +14,36 @@
 
 			if(is_array($Modules))
 			{
+				$Loaded = array();
+
 				$Keys = array_keys($Modules);
 
-				// $Loaded = array();
-
 				foreach($Keys as $Key)
+				{
 					foreach($Modules[$Key] as $Module)
-						$this->LoadModule($Key, $Module); // $Loaded[$Key][$Module] = $this->LoadModule($Key, $Module) => illegal offset type if $Module is alias (array)
+					{
+						if(is_string($Module))
+							$Module = array($Module, $Module);
+
+						if(is_array($Module) && !empty($Module[0]) && !empty($Module[1]))
+						{
+							$Name = strtolower($Module[0]);
+
+							$Loaded[$Key][$Name] = $this->LoadModule($Key, $Name, $Module[1]);
+						}
+						else
+						{
+							Std::Out('[WARNING] [MODULES] {$Key}::');
+							Std::Out(var_export($Module, true));
+							Std::Out('0 => $Name');
+							Std::Out('1 => $AliasOf');
+						}
+					}
+				}
 
 				Std::Out('[INFO] [MODULES] Ready!'); // ($N loaded modules)
 
-				return true; // return $Loaded;
+				return $Loaded;
 			}
 
 			Std::Out('[WARNING] [MODULES] Config file is not an array');
@@ -30,77 +51,40 @@
 			return false;
 		}
 
-		private function LoadModule($Key, $Name)
+		public function LoadModule($Key, $Name, $AliasOf)
 		{
-			if(is_array($Name))
-			{
-				if(!empty($Name[0]) && !empty($Name[1]))
-				{
-					$Filename = $Name[1];
-					$Name = $Name[0];
-				}
-				else
-					return false;
-			}
-			else
-				$Filename = $Name;
-
 			if($this->KeyExists($Key))
 			{
-				$JPath = "class/Modules/{$Key}_{$Filename}.json";
-				$PPath = "class/Modules/{$Key}_{$Filename}.php";
+				$Name = strtolower($Name);
+				$AliasOf = strtolower($AliasOf);
 
-				if(basename(dirname(realpath($JPath))) === 'Modules')
-				{
-					$Json = Json::Decode($JPath);
+				$this->Modules[$Key][$Name] = new Module($this, $this->WhatsBot, $this->WhatsApp, $Key, $Name, $AliasOf);
 
-					if($Json !== false)
-					{
-						if(is_readable($PPath))
-						{
-							// Lint
+				$Loaded = $this->Modules[$Key][$Name]->IsLoaded();
 
-							$this->Modules[$Key][strtolower($Name)] = array
-							(
-								'Path' => $PPath,
-								'File' => $Filename,
-								'Data' => $Json
-							);
+				if(!$Loaded)
+					unset($this->Module[$Key][$Name]);
 
-							return true;
-						}
-						else
-							Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. PHP file is not readable");
-					}
-					else
-						Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. Json file is not readable");
-				}
-				else
-					Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. It is not in Modules folder");
+				return $Loaded;
 			}
 
 			return false;
 		}
 
-		public function LoadCommandModule($Name)
+		public function UnloadModule($Key, $Name)
 		{
-			return $this->LoadModule('Command', $Name);
+			$Name = strtolower($Name);
+
+			if($this->ModuleExists($Key, $Name))
+			{
+				unset($this->Modules[$Key][$Name]);
+
+				return true;
+			}
+
+			return false;
 		}
 
-		public function LoadDomainModule($Name)
-		{
-			return $this->LoadModule('Domain', $Name);
-		}
-
-		public function LoadExtensionModule($Name)
-		{
-			return $this->LoadModule('Extension', $Name);
-		}
-
-		public function LoadMediaModule($Name)
-		{
-			return $this->LoadModule('Media', $Name);
-		}
-
-		abstract protected function KeyExists($Key);
+		abstract public function KeyExists($Key);
+		abstract public function ModuleExists($Key, $Name, $ShowWarn = true);
 	}
