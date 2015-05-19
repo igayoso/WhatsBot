@@ -1,6 +1,8 @@
 <?php
 	require_once 'Lib/_Loader.php';
 
+	require_once 'Module.php';
+
 	trait ModuleManagerGetter
 	{
 		public function GetKeys()
@@ -16,40 +18,19 @@
 			return false;
 		}
 
-		protected function GetModule($Key, $Name, $ShowWarn = true)
+		public function GetModule($Key, $Name, $ShowWarn = true)
 		{
 			$Name = strtolower($Name);
 
-			if($this->ModuleExists($Key, $Name))
+			if($this->ModuleExists($Key, $Name, $ShowWarn) === Module::LOADED)
 				return $this->Modules[$Key][$Name];
 
 			if($ShowWarn)
 				Std::Out("[WARNING] [MODULES] Trying to get not loaded module. {$Key}::{$Name}");
 
-			return false;
+			return Module::NOT_LOADED;
 		}
 
-
-		public function GetCommandModule($Name)
-		{
-			return $this->GetModule('Command', $Name);
-		}
-
-		public function GetDomainModule($Name)
-		{
-			return $this->GetModule('Domain', $Name);
-		}
-
-		public function GetExtensionModule($Name)
-		{
-			return $this->GetModule('Extension', $Name);
-		}
-
-		public function GetMediaModule($Name)
-		{
-			return $this->GetModule('Media', $Name);
-		}
-
-		abstract protected function KeyExists($Key);
-		abstract protected function ModuleExists($Key, $Name);
+		abstract public function KeyExists($Key);
+		abstract public function ModuleExists($Key, $Name, $ShowWarn = true);
 	}
