@@ -1,9 +1,11 @@
 <?php
 	require_once 'Lib/_Loader.php';
 
+	require_once 'Module.php';
+
 	trait ModuleManagerExists
 	{
-		protected function KeyExists($Key)
+		public function KeyExists($Key)
 		{
 			$Exists = in_array($Key, $this->GetKeys());
 
@@ -13,29 +15,18 @@
 			return $Exists;
 		}
 
-		protected function ModuleExists($Key, $Name)
+		public function ModuleExists($Key, $Name, $ShowWarn = true)
 		{
-			return !empty($this->Modules[$Key][strtolower($Name)]);
+			$Name = strtolower($Name);
+
+			if(!empty($this->Modules[$Key][$Name]))
+				return Module::LOADED;
+
+			if($ShowWarn)
+				Std::Out("[WARNING] [MODULES] Module {$Key}::{$Name} doesn't exists");
+
+			return Module::NOT_LOADED;
 		}
 
-
-		public function CommandModuleExists($Name)
-		{
-			return $this->ModuleExists('Command', $Name);
-		}
-
-		public function DomainModuleExists($Name)
-		{
-			return $this->ModuleExists('Domain', $Name);
-		}
-
-		public function ExtensionModuleExists($Name)
-		{
-			return $this->ModuleExists('Extension', $Name);
-		}
-
-		public function MediaModuleExists($Name)
-		{
-			return $this->ModuleExists('Media', $Name);
-		}
+		abstract public function GetKeys();
 	}
