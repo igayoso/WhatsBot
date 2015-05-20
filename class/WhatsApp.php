@@ -26,11 +26,11 @@
 		public function Connect()
 		{ return $this->WhatsApp->Connect(); }
 
-		public function IsConnected()
-		{ return $this->WhatsApp->IsConnected(); }
-
 		public function Disconnect()
 		{ return $this->WhatsApp->Disconnect(); }
+
+		public function IsConnected()
+		{ return $this->WhatsApp->IsConnected(); }
 
 
 		public function SendPing()
@@ -72,18 +72,31 @@
 				return $this->SendRawMessage($To, (is_array($Pre) && !empty($Pre[0]) ? $Pre[0] : null) . $Message);
 			else
 			{
-				if($Key === 'message:internal_error')
-					return $this->SendRawMessage($To, 'Internal error...');
-				elseif($Key === 'message:module_not_loaded')
+				if($Key === 'message:module::not_loaded')
 					return $this->SendRawMessage($To, 'That module doesn\'t exists. Try !help to see a list of available modules');
+				elseif($Key === 'message:not_admin')
+					return $this->SendRawMessage($To, 'You need admin rights in order to do that');
+				elseif($Key === 'message:internal_error')
+					return $this->SendRawMessage($To, 'Internal error');
 				else
-					return $this->SendLangError($To, $Key);
+				{
+					array_shift($Args);
+
+					return $this->SendLangError($To, $Key, $Args);
+				}
 			}
 		}
 
-		public function SendLangError($To, $Key)
-		{ // Send sprintf params
-			return $this->SendRawMessage($To, "Lang error. Key not found: {$this->LangSection}::{$Key}");
+		public function SendLangError($To, $Key, Array $Params = array())
+		{
+			$String = '';
+
+			foreach($Params as $Param)
+				$String .= var_export($Param, true) . ', ';
+
+			$String = substr($String, 0, strlen($String) - 2);
+
+			return $this->SendRawMessage($To, "Lang error. Key not found: \n{$this->LangSection}::{$Key}({$String})");
 		}
 
 		public function SendRawMessage($To, $Message)
