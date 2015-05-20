@@ -1,12 +1,10 @@
 <?php
+	require_once 'Lib/_Loader.php';
+
 	require_once 'WhatsApp.php';
+	require_once 'WhatsApp/TextMessage.php';
 
 	require_once 'ModuleManager.php';
-
-	require_once 'Lang.php';
-
-	require_once 'Others/URL.php';
-	require_once 'Others/Path.php';
 
 	class WhatsBotParser
 	{
@@ -14,191 +12,85 @@
 
 		private $ModuleManager = null;
 
-		private $Char = null;
-
-		public function __construct(WhatsApp $WhatsApp, ModuleManager $ModuleManager, $Char = '!')
+		public function __construct(WhatsApp $WhatsApp, ModuleManager $ModuleManager)
 		{
 			$this->WhatsApp = $WhatsApp;
 			$this->ModuleManager = $ModuleManager;
-
-			$this->Char = $Char;
 		}
 
-		public function ParseTextMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text)
+		public function ParseTextMessage(TextMessage $Message)
 		{
-			if(!empty($Text) && $Text[0] === $this->Char)
-			{
-				$this->ParseCommandMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text);
-			}
-			elseif(is_array($URLs = URL::ParseFor($Text)))
-			{
-				foreach($URLs as $URL)
-				{
-					$this->ParseURLMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $URL);
-				}
-			}
+			if(!empty($Message->Text) && $Message->Text[0] === '!')
+				return $this->ParseCommandMessage($Message);
 
-			// Parser
+			foreach(Regex::MatchAll(Regex::URL, $Message->Text) as $URL)
+				$this->ParseURLMessage($Message, $URL);
 
-			// Send help if is pv ?
-
-			// AI ?
+			/* Parser
+			 * Send help if is pv
+			 * AI?
+			 */
 		}
 
-		// Test if module is only available for admins
-
-		private function ParseCommandMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text)
+		private function ParseCommandMessage(TextMessage $Message)
 		{
-			$Parsed = explode(' ', substr($Text, 1));
+			$Parsed = explode(' ', substr($Message->Text, 1));
 
 			if(!empty($Parsed[0]))
 			{
-				$Response = $this->ModuleManager->CallCommandModule
-				(
-					$Parsed[0],
+				$Module = $this->ModuleManager->GetModule('Command', $Parsed[0], false);
 
-					$Me,
-					$From,
-					$User,
-					$ID,
-					$Type,
-					$Time,
-					$Name,
-					$Text,
-					$Parsed
-				);
+				if($Module !== Module::NOT_LOADED)
+					$Response = $Module->Execute($Message, array('ModuleName' => $Parsed[0], 'Params' => $Parsed));
+				else
+					$Response = Module::NOT_LOADED;
 
-				$this->SendResponse($From, $Response);
-
-				return $Response;
+				return $this->SendResponse($Message, $Response);
 			}
 
-			return false;
+			return null;
 		}
 
-		private function ParseURLMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text, $URL)
+		private function ParseURLMessage(TextMessage $Message, $URL)
 		{
-			$Domain = URL::Parse($URL, PHP_URL_HOST);
+			$Domain = parse_url($URL, PHP_URL_HOST);
 			$Extension = pathinfo(parse_url($URL, PHP_URL_PATH), PATHINFO_EXTENSION);
 
-			if($Domain !== false)
-			{
-				if($this->ModuleManager->DomainModuleExists($Domain))
-				{
-					$Response = $this->ModuleManager->CallDomainModule
-					(
-						$Domain,
+			# Try to execute Domain Module
 
-						$Me,
-						$From,
-						$User,
-						$ID,
-						$Type,
-						$Time,
-						$Name,
-						$Text,
+			$Module = $this->ModuleManager->GetModule('Domain', $Domain, false);
 
-						$URL
-					);
+			if($Module !== Module::NOT_LOADED)
+				return $this->SendResponse($Message, $Module->Execute($Message, array('URL' => $URL, 'Domain' => $Domain, 'Extension' => $Extension)));
 
-					$this->SendResponse($From, $Response);
-				}
-				elseif($Extension != false && $this->ModuleManager->ExtensionModuleExists($Extension))
-				{
-					$Response = $this->ModuleManager->CallExtensionModule
-					(
-						$Extension,
+			# Try to execute Extension Module
 
-						$Me,
-						$From,
-						$User,
-						$ID,
-						$Type,
-						$Time,
-						$Name,
-						$Text,
+			$Module = $this->ModuleManager->GetModule('Extension', $Extension, false);
 
-						$URL
-					);
+			if($Module !== Module::NOT_LOADED)
+				return $this->SendResponse($Message, $Module->Execute($Message, array('URL' => $URL, 'Domain' => $Domain, 'Extension' => $Extension)));
 
-					$this->SendResponse($From, $Response);
-
-					return;
-				}
-
-				$Response = $this->ModuleManager->CallSpecialModule
-				(
-					'URL',
-
-					$Me,
-					$From,
-					$User,
-					$ID,
-					$Time,
-					$Name,
-
-					array
-					(
-						'Type' => $Type,
-						'URL' => $URL
-					)
-				);
-
-				$this->SendResponse($From, $Response);
-			}
-
-			return false;
+			return null;
 		}
 
-		public function ParseMediaMessage($Me, $From, $User, $ID, $Type, $Time, $Name, Array $Data)
+		private function SendResponse(Message $Message, $Code)
 		{
-			$Response = $this->ModuleManager->CallMediaModule
-			(
-				$Type,
-
-				$Me,
-				$From,
-				$User,
-				$ID,
-				$Time,
-				$Name,
-				$Data
-			);
-
-			if($Response !== WARNING_NOT_LOADED)
-				$this->SendResponse($From, $Response);
-
-			return $Response;
-		}
-
-
-		private function SendResponse($To, $Code)
-		{
-			if($Code === INTERNAL_ERROR || $Code === WARNING_GET_ERROR || $Code === WARNING_NOT_FILE)
+			if($Code === SEND_USAGE)
+				$this->WhatsApp->SendMessage($Message->From, 'usage');
+			else
 			{
-				$this->WhatsApp->SetLangSection('Main');
+				$this->WhatsApp->SetLangSection('WhatsBot');
 
-				$this->WhatsApp->SendMessage($To, 'message:internal_error');
+				if($Code === NOT_ADMIN)
+					$this->WhatsApp->SendMessage($Message->From, 'message:not_admin');
+				elseif($Code === Module::NOT_LOADED)
+					$this->WhatsApp->SendMessage($Message->From, 'message:module::not_loaded');
+				elseif($Code === INTERNAL_ERROR || $Code === Module::NOT_READABLE)
+					$this->WhatsApp->SendMessage($Message->From, 'message:internal_error');
+				elseif(is_array($Code) && !empty($Code[0]))
+					$this->WhatsApp->SendLangError($Message->From, $Code[0]);
 			}
-			elseif($Code === WARNING_NOT_LOADED)
-			{
-				$this->WhatsApp->SetLangSection('Main');
-				
-				$this->WhatsApp->SendMessage($To, 'message:module_not_loaded');
-			}
-			elseif($Code === SEND_USAGE)
-			{
-				$this->WhatsApp->SendMessage($To, 'usage');
-			}
-			elseif($Code === NOT_ADMIN)
-			{
-				$this->WhatsApp->SetLangSection('Main');
-				
-				$this->WhatsApp->SendMessage($To, 'message:not_admin');
-			}
-			elseif(!empty($Code[0]) && $Code[0] === WARNING_LANG_ERROR)
-			{
-				$this->WhatsApp->SendLangError($To, $Code[1]);
-			}
+
+			return $Code;
 		}
 	}
