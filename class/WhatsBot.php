@@ -6,6 +6,7 @@
 	require_once 'WhatsApp.php';
 
 	require_once 'Listener.php';
+
 	require_once 'Parser.php';
 
 	require_once 'ModuleManager.php';
@@ -60,7 +61,9 @@
 
 				# Binding
 
-				$this->WhatsApp->EventManager()->BindListener($this->Listener);
+				Std::Out();
+
+				$this->WhatsApp->EventManager()->BindListener($this->Listener, 'WhatsBotListener');
 			}
 			else
 				throw new Exception('You have to setup the config file config/WhatsBot.json');
@@ -114,7 +117,6 @@
 				}
 			}
 		}
-
 
 		public function GetStartTime()
 		{ return $this->StartTime; }
