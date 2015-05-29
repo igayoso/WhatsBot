@@ -19,7 +19,9 @@
 					if(isset($this->Listeners[$Key]))
 						Std::Out("[Warnng] [Events] Listener {$ClassName} : {$Key} will be overwrited");
 
-					$this->Listeners[$Key] = $Listener;
+					$this->Listeners[$Key][0] = $ClassName;
+					$this->Listeners[$Key][1] = $Listener;
+					$this->Listeners[$Key][2] = true;
 
 					Std::Out("[Info] [Events] {$ClassName} : {$Key} binded");
 
@@ -42,25 +44,66 @@
 				if(is_int($Key) && $Key > $Max)
 					$Max = $Key;
 
-			return ++$Max;
+			return $Max + 1;
 		}
 
 		public function UnbindListener($Key)
 		{
 			if(isset($this->Listeners[$Key]))
 			{
+				$ClassName = $this->Listeners[$Key][0];
+
 				unset($this->Listeners[$Key]);
+
+				Std::Out("[Info] [Events] {$ClassName} : {$Key} unbinded");
 
 				return true;
 			}
+
+			Std::Out("[Warning] [Events] Trying to unbind non-existig listener ({$Key})");
+
+			return false;
+		}
+
+		public function EnableListener($Key)
+		{
+			if(isset($this->Listeners[$Key]))
+			{
+				$this->Listeners[$Key][2] = true;
+
+				Std::Out("[Info] [Events] {$this->Listeners[$Key][0]} : {$Key} enabled");
+				
+				return true;
+			}
+
+			Std::Out("[Warning] [Events] Trying to enable non-existig listener ({$Key})");
+
+			return false;
+		}
+
+		public function DisableListener($Key)
+		{
+			if(isset($this->Listeners[$Key]))
+			{
+				$this->Listeners[$Key][2] = false;
+
+				Std::Out("[Info] [Events] {$this->Listeners[$Key][0]} : {$Key} disabled");
+
+				return true;
+			}
+
+			Std::Out("[Warning] [Events] Trying to disable non-existig listener ({$Key})");
 
 			return false;
 		}
 
 		public function Fire($Event, Array $Params = array())
 		{
+			var_dump($Event, $Params);
+			
 			foreach($this->Listeners as $Listener)
-				if(method_exists($Listener, $Event) && is_callable(array($Listener, $Event)))
-					call_user_func_array(array($Listener, $Event), $Params);
+				if($Listener[2])
+					if(method_exists($Listener[1], $Event) && is_callable(array($Listener[1], $Event)))
+						call_user_func_array(array($Listener[1], $Event), $Params);
 		}
 	}
