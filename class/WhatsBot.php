@@ -26,10 +26,10 @@
 
 		public function __construct($Debug = false)
 		{
-			Std::Out();
-			Std::Out('[INFO] [WHATSBOT] Loading. Debug = ' . var_export($Debug, true));
+			$this->Debug = (bool)$Debug;
 
-			$this->Debug = $Debug;
+			Std::Out();
+			Std::Out('[INFO] [WHATSBOT] Loading. Debug = ' . var_export($this->Debug, true));
 
 			Config::Load();
 			LoadLibs();
@@ -43,7 +43,7 @@
 				Std::Out();
 				Std::Out("[INFO] [WHATSBOT] I'm {$Config['WhatsApp']['Nickname']} ({$Config['WhatsApp']['Username']})");
 
-				$this->WhatsProt = new WhatsProt($Config['WhatsApp']['Username'], $Config['WhatsApp']['Nickname'], $Debug);
+				$this->WhatsProt = new WhatsProt($Config['WhatsApp']['Username'], $Config['WhatsApp']['Nickname'], $this->Debug);
 
 				$this->WhatsApp = new WhatsApp($this->WhatsProt);
 
