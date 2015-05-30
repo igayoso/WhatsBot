@@ -99,8 +99,6 @@
 
 		public function Fire($Event, Array $Params = array())
 		{
-			var_dump($Event, $Params);
-			
 			foreach($this->Listeners as $Listener)
 				if($Listener[2])
 					if(method_exists($Listener[1], $Event) && is_callable(array($Listener[1], $Event)))
