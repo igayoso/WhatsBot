@@ -9,7 +9,7 @@
 		{
 			$Reloading = $Reloading ? 'Rel' : 'L';
 
-			Std::Out("[INFO] [CONFIG] {$Reloading}oading");
+			Std::Out("[Info] [Config] {$Reloading}oading");
 
 			if(is_dir('config'))
 			{
@@ -18,7 +18,7 @@
 				foreach($Files as $File)
 					self::LoadFile($File);
 
-				Std::Out('[INFO] [CONFIG] Ready!', 2);
+				Std::Out('[Info] [Config] Ready!', 2);
 
 				return true;
 			}
@@ -53,7 +53,7 @@
 			if(isset(self::$Config[$Filename]))
 				return self::$Config[$Filename];
 
-			Std::Out("[WARNING] [CONFIG] No such file config/{$Filename}.json. Try to Config::Load()");
+			Std::Out("[Warning] [Config] No such file config/{$Filename}.json. Try to Config::Load()");
 
 			if($Throw)
 				throw new Exception("No such file config/{$Filename}.json");

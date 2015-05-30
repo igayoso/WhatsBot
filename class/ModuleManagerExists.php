@@ -10,7 +10,7 @@
 			$Exists = in_array($Key, $this->GetKeys());
 
 			if(!$Exists)
-				Std::Out("[WARNING] [MODULES] Key {$Key} doesn't exists");
+				Std::Out("[Warning] [Modules] Key {$Key} doesn't exists");
 
 			return $Exists;
 		}
@@ -23,7 +23,7 @@
 				return Module::LOADED;
 
 			if($ShowWarn)
-				Std::Out("[WARNING] [MODULES] Module {$Key}::{$Name} doesn't exists");
+				Std::Out("[Warning] [Modules] Module {$Key}::{$Name} doesn't exists");
 
 			return Module::NOT_LOADED;
 		}

@@ -31,7 +31,7 @@
 			}
 
 			if($ShowWarn)
-				Std::Out("[WARNING] [MODULES] Trying to get not loaded module. {$Key}::{$Name}");
+				Std::Out("[Warning] [Modules] Trying to get not loaded module. {$Key}::{$Name}");
 
 			return Module::NOT_LOADED;
 		}

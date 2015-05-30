@@ -24,7 +24,7 @@
 	function LoadLibs()
 	{
 		Std::Out();
-		Std::Out('[INFO] [LIBS] Loading');
+		Std::Out('[Info] [Libs] Loading');
 
 		$Libs = Config::Get('Libs');
 
@@ -43,14 +43,14 @@
 						require_once $Path;
 					}
 					else
-						Std::Out("[WARNING] [LIBS] Can't load {$Lib}. It is not readable");
+						Std::Out("[Warning] [Libs] Can't load {$Lib}. It is not readable");
 				}
 				else
-					Std::Out("[WARNING] [LIBS] Can't load {$Lib}. It is not in Lib/ folder");
+					Std::Out("[Warning] [Libs] Can't load {$Lib}. It is not in Lib/ folder");
 			}
 
-			Std::Out('[INFO] [LIBS] Ready!');
+			Std::Out('[Info] [Libs] Ready!');
 		}
 		else
-			Std::Out('[WARNING] [LIBS] Config file is not an array');
+			Std::Out('[Warning] [Libs] Config file is not an array');
 	}

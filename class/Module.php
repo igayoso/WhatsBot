@@ -75,13 +75,13 @@
 							return self::LOADED;
 						}
 						else
-							Std::Out("[WARNING] [MODULES] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). PHP file is not readable");
+							Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). PHP file is not readable");
 					}
 					else
-						Std::Out("[WARNING] [MODULES] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). Json file is not readable/decodeable");
+						Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). Json file is not readable/decodeable");
 				}
 				else
-					Std::Out("[WARNING] [MODULES] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). It is not in Modules folder");
+					Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). It is not in Modules folder");
 			}
 
 			return self::NOT_LOADED;
@@ -114,7 +114,7 @@
 						return include $Path;
 					}
 
-					Std::Out("[WARNING] [MODULES] Can't call {$this->Key}::{$this->Name} ({$this->AliasOf}). PHP file is not readable");
+					Std::Out("[Warning] [Modules] Can't call {$this->Key}::{$this->Name} ({$this->AliasOf}). PHP file is not readable");
 
 					return self::NOT_READABLE;
 				}

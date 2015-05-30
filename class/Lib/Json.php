@@ -16,11 +16,11 @@
 					if($Data !== null)
 						return $Data;
 					else
-						Std::Out("[WARNING] [JSON] Can't decode {$Filename}");
+						Std::Out("[Warning] [Json] Can't decode {$Filename}");
 				}
 			}
 			else
-				Std::Out("[WARNING] [JSON] No such file {$Filename}");
+				Std::Out("[Warning] [Json] No such file {$Filename}");
 
 			return false;
 		}
@@ -37,10 +37,10 @@
 				if($Writed === $ToWrite)
 					return true;
 				else
-					Std::Out("[WARNING] [JSON] {$Filename} : {$Writed} bytes writed of {$ToWrite}");
+					Std::Out("[Warning] [Json] {$Filename} : {$Writed} bytes writed of {$ToWrite}");
 			}
 			else
-				Std::Out("[WARNING] [JSON] Can't encode {$Filename}");
+				Std::Out("[Warning] [Json] Can't encode {$Filename}");
 
 			return false;
 		}

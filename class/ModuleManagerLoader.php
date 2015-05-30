@@ -8,7 +8,7 @@
 		public function LoadModules()
 		{
 			Std::Out();
-			Std::Out('[INFO] [MODULES] Loading');
+			Std::Out('[Info] [Modules] Loading');
 
 			$Modules = Config::Get('Modules');
 
@@ -33,19 +33,19 @@
 						}
 						else
 						{
-							Std::Out('[WARNING] [MODULES] Config must be Key::Name or Key::[Name, AliasOf]');
+							Std::Out('[Warning] [Modules] Config must be Key::Name or Key::[Name, AliasOf]');
 							Std::Out("{$Key}::", false);
 							Std::Out(var_export($Module, true));
 						}
 					}
 				}
 
-				Std::Out('[INFO] [MODULES] Ready!'); // ($N loaded modules)
+				Std::Out('[Info] [Modules] Ready!'); // ($N loaded modules)
 
 				return $Loaded;
 			}
 
-			Std::Out('[WARNING] [MODULES] Config file is not an array');
+			Std::Out('[Warning] [Modules] Config file is not an array');
 
 			return false;
 		}

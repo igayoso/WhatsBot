@@ -29,7 +29,7 @@
 			$this->Debug = (bool)$Debug;
 
 			Std::Out();
-			Std::Out('[INFO] [WHATSBOT] Loading. Debug = ' . var_export($this->Debug, true));
+			Std::Out('[Info] [WhatsBot] Loading. Debug = ' . var_export($this->Debug, true));
 
 			Config::Load();
 			LoadLibs();
@@ -41,7 +41,7 @@
 				# WhatsApp
 
 				Std::Out();
-				Std::Out("[INFO] [WHATSBOT] I'm {$Config['WhatsApp']['Nickname']} ({$Config['WhatsApp']['Username']})");
+				Std::Out("[Info] [WhatsBot] I'm {$Config['WhatsApp']['Nickname']} ({$Config['WhatsApp']['Username']})");
 
 				$this->WhatsProt = new WhatsProt($Config['WhatsApp']['Username'], $Config['WhatsApp']['Nickname'], $this->Debug);
 
@@ -76,17 +76,17 @@
 			if(!empty($Config['WhatsApp']['Password']))
 			{
 				Std::Out();
-				Std::Out('[INFO] [WHATSBOT] Connecting');
+				Std::Out('[Info] [WhatsBot] Connecting');
 
 				if($this->WhatsApp->Connect())
-					Std::Out('[INFO] [WHATSBOT] Connected!');
+					Std::Out('[Info] [WhatsBot] Connected!');
 				else
-					Std::Out('[WARNING] [WHATSBOT] Connection error');
+					Std::Out('[Warning] [WhatsBot] Connection error');
 
 				Std::Out();
-				Std::Out('[INFO] [WHATSBOT] Logging in');
+				Std::Out('[Info] [WhatsBot] Logging in');
 				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['Password']);
-				Std::Out('[INFO] [WHATSBOT] Ready!');
+				Std::Out('[Info] [WhatsBot] Ready!');
 			}
 			else
 				throw new Exception('You have to setup the whatsapp password in config/WhatsBot.json');
@@ -97,10 +97,10 @@
 			$Time = $this->StartTime = time();
 
 			Std::Out();
-			Std::Out("[INFO] [WHATSBOT] Start time is {$this->StartTime}");
+			Std::Out("[Info] [WhatsBot] Start time is {$this->StartTime}");
 
 			Std::Out();
-			Std::Out('[INFO] [WHATSBOT] Listening...');
+			Std::Out('[Info] [WhatsBot] Listening...');
 
 			while(true)
 			{

@@ -15,7 +15,7 @@
 			if(is_array($Data))
 				$this->Data = $Data;
 			else
-				Std::Out("[WARNING] [LANG] Can't load lang/{$Section}.json");
+				Std::Out("[Warning] [Lang] Can't load lang/{$Section}.json");
 		}
 
 		public function Get($Key)
@@ -34,7 +34,7 @@
 				return $this->Data[$Key];
 			}
 
-			Std::Out("[WARNING] [LANG] Key {$this->Section}::{$Key} doesn't exists");
+			Std::Out("[Warning] [Lang] Key {$this->Section}::{$Key} doesn't exists");
 
 			return false;
 		}
