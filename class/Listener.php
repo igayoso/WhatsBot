@@ -4,7 +4,7 @@
 	require_once 'WhatsApp.php';
 
 	require_once 'WhatsApp/TextMessage.php';
-	require_once 'WhatsApp/MediaMessage.php';
+	require_once 'WhatsApp/AudioMessage.php';
 	require_once 'WhatsApp/ImageMessage.php';
 
 	require_once 'Parser.php';
@@ -38,6 +38,13 @@
 		}
 
 		# Media
+
+		public function onGetAudio($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Duration, $Codec, $User)
+		{
+			$User = $User == null ? $From : $User;
+
+			$this->Parser->ParseMediaMessage(new AudioMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Codec));
+		}
 
 		public function onGetImage($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
 		{
