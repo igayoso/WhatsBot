@@ -29,6 +29,7 @@
 
 		const LOADED = true;
 		const NOT_LOADED = false;
+		const LOAD_ERROR = -5;
 
 		const ENABLED = true;
 		const NOT_ENABLED = false;

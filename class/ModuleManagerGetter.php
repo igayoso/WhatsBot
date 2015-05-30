@@ -23,7 +23,12 @@
 			$Name = strtolower($Name);
 
 			if($this->ModuleExists($Key, $Name, $ShowWarn) === Module::LOADED)
-				return $this->Modules[$Key][$Name];
+			{
+				if($this->Modules[$Key][$Name]->IsLoaded())
+					return $this->Modules[$Key][$Name];
+				else
+					return Module::LOAD_ERROR;
+			}
 
 			if($ShowWarn)
 				Std::Out("[WARNING] [MODULES] Trying to get not loaded module. {$Key}::{$Name}");
