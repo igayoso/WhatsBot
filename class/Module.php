@@ -89,7 +89,7 @@
 		public function Reload()
 		{ return $this->Load(); }
 
-		public function Execute(Message $Message, Array $Params)
+		public function Execute(Message $Message, Array $Params = array())
 		{
 			if($Message->Time >= $this->WhatsBot->GetStartTime())
 			{
@@ -114,6 +114,7 @@
 					}
 
 					Std::Out("[WARNING] [MODULES] Can't call {$this->Key}::{$this->Name} ({$this->AliasOf}). PHP file is not readable");
+
 					return self::NOT_READABLE;
 				}
 
