@@ -40,7 +40,7 @@
 
 		# Media
 
-		public function onGetAudio($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Duration, $Codec, $User)
+		public function onGetAudio($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Duration, $Codec, $User = null)
 		{
 			$User = $User == null ? $From : $User;
 
@@ -67,6 +67,9 @@
 			$this->Parser->ParseMediaMessage(new VideoMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption));
 		}
 
+		// Add onGetLocation & onGetvCard
+		// Message logging
+
 		/* Events: 
 		 * public function onClose($mynumber, $error) {}
 	     * public function onCodeRegister($mynumber, $login, $password, $type, $expiration, $kind, $price, $cost, $currency, $price_expiration) {}
@@ -82,7 +85,6 @@
 	     * public function onDisconnect($mynumber, $socket) {}
 	     * public function onDissectPhone($mynumber, $phonecountry, $phonecc, $phone, $phonemcc, $phoneISO3166, $phoneISO639, $phonemnc) {}
 	     * public function onDissectPhoneFailed($mynumber) {}
-	     * public function onGetAudio($mynumber, $from, $id, $type, $time, $name, $size, $url, $file, $mimeType, $fileHash, $duration, $acodec, $fromJID_ifGroup = null) {}
 	     * public function onGetBroadcastLists($mynumber, $broadcastLists){}
 	     * public function onGetError($mynumber, $from, $id, $data) {}
 	     * public function onGetExtendAccount($mynumber, $kind, $status, $creation, $expiration) {}
@@ -92,9 +94,6 @@
 	     * public function onGetGroupsInfo($mynumber, $groupList) {}
 	     * public function onGetGroupV2Info( $mynumber, $group_id, $creator, $creation, $subject, $participants, $admins, $fromGetGroup ){}
 	     * public function onGetGroupsSubject($mynumber, $group_jid, $time, $author, $name, $subject) {}
-	     * public function onGetImage($mynumber, $from, $id, $type, $time, $name, $size, $url, $file, $mimeType, $fileHash, $width, $height, $preview, $caption) {}
-	     * public function onGetGroupImage($mynumber, $from_group_jid, $from_user_jid, $id, $type, $time, $name, $size, $url, $file, $mimeType, $fileHash, $width, $height, $preview, $caption) {}
-	     * public function onGetGroupVideo($mynumber, $from_group_jid, $from_user_jid, $id, $type, $time, $name, $url, $file, $size, $mimeType, $fileHash, $duration, $vcodec, $acodec, $preview, $caption) {}
 	     * public function onGetKeysLeft($mynumber, $keysLeft) {}
 	     * public function onGetLocation($mynumber, $from, $id, $type, $time, $name, $author, $longitude, $latitude, $url, $preview, $fromJID_ifGroup = null) {}
 	     * public function onGetNormalizedJid($mynumber, $data) {}
@@ -106,7 +105,6 @@
 	     * public function onGetServicePricing($mynumber, $price, $cost, $currency, $expiration) {}
 	     * public function onGetStatus($mynumber, $from, $requested, $id, $time, $data) {}
 	     * public function onGetSyncResult($result) {}
-	     * public function onGetVideo($mynumber, $from, $id, $type, $time, $name, $url, $file, $size, $mimeType, $fileHash, $duration, $vcodec, $acodec, $preview, $caption) {}
 	     * public function onGetvCard($mynumber, $from, $id, $type, $time, $name, $vcardname, $vcard, $fromJID_ifGroup = null) {}
 	     * public function onGroupCreate($mynumber, $groupId) {}
 	     * public function onGroupisCreated($mynumber, $creator, $gid, $subject, $admin, $creation, $members = array()) {}
@@ -140,9 +138,5 @@
 	     * public function onStreamError($data) {}
 	     * public function onUploadFile($mynumber, $filename, $url) {}
 	     * public function onUploadFileFailed($mynumber, $filename) {}
-		 */
-
-		/* To do: Hacer otra clase (Listener), que se encargue de loguear todo a la BD. Bindear ambas clases al EventManager 
-		 * Esto creo que evitaría algunos problemas con los threads
 		 */
 	}

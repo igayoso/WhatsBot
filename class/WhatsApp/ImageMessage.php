@@ -7,7 +7,6 @@
 		public $Height = null;
 
 		public $Preview = null;
-
 		public $Caption = null;
 
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
