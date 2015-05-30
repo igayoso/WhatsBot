@@ -40,10 +40,10 @@
 			{
 				$Module = $this->ModuleManager->GetModule('Command', $Parsed[0], false);
 
-				if($Module !== Module::NOT_LOADED)
+				if($Module instanceof $Module)
 					$Response = $Module->Execute($Message, array('ModuleName' => $Parsed[0], 'Params' => $Parsed));
 				else
-					$Response = Module::NOT_LOADED;
+					$Response = $Module;
 
 				return $this->SendResponse($Message, $Response);
 			}
@@ -60,15 +60,21 @@
 
 			$Module = $this->ModuleManager->GetModule('Domain', $Domain, false);
 
-			if($Module !== Module::NOT_LOADED)
+			if($Module instanceof Module)
 				return $this->SendResponse($Message, $Module->Execute($Message, array('URL' => $URL, 'Domain' => $Domain, 'Extension' => $Extension)));
+
+			if($Module !== Module::NOT_LOADED)
+				return $this->SendResponse($Message, $Module);
 
 			# Try to execute Extension Module
 
 			$Module = $this->ModuleManager->GetModule('Extension', $Extension, false);
 
-			if($Module !== Module::NOT_LOADED)
+			if($Module instanceof Module)
 				return $this->SendResponse($Message, $Module->Execute($Message, array('URL' => $URL, 'Domain' => $Domain, 'Extension' => $Extension)));
+
+			if($Module !== Module::NOT_LOADED)
+				return $this->SendResponse($Message, $Module);
 
 			return null;
 		}
@@ -87,6 +93,8 @@
 					$this->WhatsApp->SendMessage($Message->From, 'message:module::not_loaded');
 				elseif($Code === INTERNAL_ERROR || $Code === Module::NOT_READABLE)
 					$this->WhatsApp->SendMessage($Message->From, 'message:internal_error');
+				elseif($Code === Module::LOAD_ERROR)
+					$this->WhatsApp->SendMessage($Message->From, 'message:module::load_error');
 				elseif(is_array($Code) && !empty($Code[0]))
 					$this->WhatsApp->SendLangError($Message->From, $Code[0]);
 			}
