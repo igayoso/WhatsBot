@@ -2,7 +2,9 @@
 	require_once 'Lib/_Loader.php';
 
 	require_once 'WhatsApp.php';
+
 	require_once 'WhatsApp/TextMessage.php';
+	require_once 'WhatsApp/MediaMessage.php';
 
 	require_once 'ModuleManager.php';
 
@@ -17,6 +19,8 @@
 			$this->WhatsApp = $WhatsApp;
 			$this->ModuleManager = $ModuleManager;
 		}
+
+		# Text
 
 		public function ParseTextMessage(TextMessage $Message)
 		{
@@ -72,6 +76,21 @@
 
 			if($Module instanceof Module)
 				return $this->SendResponse($Message, $Module->Execute($Message, array('URL' => $URL, 'Domain' => $Domain, 'Extension' => $Extension)));
+
+			if($Module !== Module::NOT_LOADED)
+				return $this->SendResponse($Message, $Module);
+
+			return null;
+		}
+
+		# Media
+
+		public function ParseMediaMessage(MediaMessage $Message)
+		{
+			$Module = $this->ModuleManager->GetModule('Media', $Message->SubType, false);
+
+			if($Module instanceof Module)
+				return $this->SendResponse($Message, $Module->Execute($Message));
 
 			if($Module !== Module::NOT_LOADED)
 				return $this->SendResponse($Message, $Module);
