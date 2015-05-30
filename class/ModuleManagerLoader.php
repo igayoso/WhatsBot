@@ -63,7 +63,7 @@
 				$Loaded = $this->Modules[$Key][$Name]->IsLoaded();
 
 				if(!$Loaded)
-					unset($this->Module[$Key][$Name]);
+					$this->UnloadModule($Key, $Name);
 
 				return $Loaded;
 			}
