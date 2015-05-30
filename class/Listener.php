@@ -2,7 +2,10 @@
 	require_once 'Lib/_Loader.php';
 
 	require_once 'WhatsApp.php';
+
 	require_once 'WhatsApp/TextMessage.php';
+	require_once 'WhatsApp/MediaMessage.php';
+	require_once 'WhatsApp/ImageMessage.php';
 
 	require_once 'Parser.php';
 
@@ -22,6 +25,8 @@
 		# Messages #
 		############
 
+		# Text
+
 		public function onGetMessage($Me, $From, $ID, $Type, $Time, $Name, $Text)
 		{
 			$this->Parser->ParseTextMessage(new TextMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $Text));
@@ -30,6 +35,18 @@
 		public function onGetGroupMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text)
 		{
 			$this->Parser->ParseTextMessage(new TextMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text));
+		}
+
+		# Media
+
+		public function onGetImage($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
+		{
+			$this->Parser->ParseMediaMessage(new ImageMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
+		}
+
+		public function onGetGroupImage($Me, $From, $User, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
+		{
+			$this->Parser->ParseMediaMessage(new ImageMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
 		}
 
 		/* Events: 
