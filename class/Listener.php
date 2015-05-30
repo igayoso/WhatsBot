@@ -6,6 +6,7 @@
 	require_once 'WhatsApp/TextMessage.php';
 	require_once 'WhatsApp/AudioMessage.php';
 	require_once 'WhatsApp/ImageMessage.php';
+	require_once 'WhatsApp/VideoMessage.php';
 
 	require_once 'Parser.php';
 
@@ -54,6 +55,16 @@
 		public function onGetGroupImage($Me, $From, $User, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
 		{
 			$this->Parser->ParseMediaMessage(new ImageMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
+		}
+
+		public function onGetVideo($Me, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption)
+		{
+			$this->Parser->ParseMediaMessage(new VideoMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption));
+		}
+
+		public function onGetGroupVideo($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption)
+		{
+			$this->Parser->ParseMediaMessage(new VideoMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption));
 		}
 
 		/* Events: 
