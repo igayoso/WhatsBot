@@ -40,7 +40,7 @@
 			{
 				$Module = $this->ModuleManager->GetModule('Command', $Parsed[0], false);
 
-				if($Module instanceof $Module)
+				if($Module instanceof Module)
 					$Response = $Module->Execute($Message, array('ModuleName' => $Parsed[0], 'Params' => $Parsed));
 				else
 					$Response = $Module;
