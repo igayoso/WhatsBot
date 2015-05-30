@@ -33,10 +33,9 @@
 						}
 						else
 						{
-							Std::Out('[WARNING] [MODULES] {$Key}::');
+							Std::Out('[WARNING] [MODULES] Config must be Key::Name or Key::[Name, AliasOf]');
+							Std::Out("{$Key}::", false);
 							Std::Out(var_export($Module, true));
-							Std::Out('0 => $Name');
-							Std::Out('1 => $AliasOf');
 						}
 					}
 				}
