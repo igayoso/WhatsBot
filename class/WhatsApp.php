@@ -78,6 +78,8 @@
 					return $this->SendRawMessage($To, 'You need admin rights in order to do that');
 				elseif($Key === 'message:internal_error')
 					return $this->SendRawMessage($To, 'Internal error');
+				elseif($Key === 'message:module::load_error')
+					return $this->SendRawMessage($To, 'That module is loaded, but there are some troubles (at reload, json-php not readable/lint). If you are the admin, see the logs!');
 				else
 				{
 					array_shift($Args);
