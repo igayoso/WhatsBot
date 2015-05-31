@@ -36,7 +36,7 @@
 
 			$Config = Config::Get('WhatsBot');
 
-			if(!empty($Config['WhatsApp']['Username']) && !empty($Config['WhatsApp']['Nickname']))
+			if(!empty($Config['WhatsApp']['Username']) && !empty($Config['WhatsApp']['Nickname']) && !empty($Config['WhatsApp']['Password']))
 			{
 				# WhatsApp
 
@@ -53,7 +53,7 @@
 
 				$this->Parser = new WhatsBotParser($this->WhatsApp, $this->ModuleManager);
 
-				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser);
+				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser, $Config['WhatsApp']['Password']);
 
 				# Load
 
@@ -71,30 +71,26 @@
 
 		public function Start()
 		{
-			$Config = Config::Get('WhatsBot');
+			Std::Out();
+			Std::Out('[Info] [WhatsBot] Connecting');
 
-			if(!empty($Config['WhatsApp']['Password']))
+			if($this->WhatsApp->Connect())
 			{
 				Std::Out();
-				Std::Out('[Info] [WhatsBot] Connecting');
-
-				if($this->WhatsApp->Connect())
-					Std::Out('[Info] [WhatsBot] Connected!');
-				else
-					Std::Out('[Warning] [WhatsBot] Connection error');
-
-				Std::Out();
-				Std::Out('[Info] [WhatsBot] Logging in');
-				$this->WhatsApp->LoginWithPassword($Config['WhatsApp']['Password']);
 				Std::Out('[Info] [WhatsBot] Ready!');
+
+				return true;
 			}
-			else
-				throw new Exception('You have to setup the whatsapp password in config/WhatsBot.json');
+
+			Std::Out();
+			Std::Out('[Warning] [WhatsBot] Connection error');
+
+			return false;
 		}
 
 		public function Listen()
 		{
-			$Time = $this->StartTime = time();
+			$this->StartTime = time();
 
 			Std::Out();
 			Std::Out("[Info] [WhatsBot] Start time is {$this->StartTime}");
@@ -104,17 +100,13 @@
 
 			while(true)
 			{
-				if(!$this->WhatsApp->IsConnected())
-					$this->Start();
+				$Time = time();
 
-				$this->WhatsApp->PollMessage();
+				$this->WhatsApp->Disconnect();
+				$this->WhatsApp->Connect();
 
-				if(time() >= $Time + 60)
-				{
-					$this->WhatsApp->SendPing();
-
-					$Time = time();
-				}
+				while(time() < $Time + 60)
+					$this->WhatsApp->PollMessage();
 			}
 		}
 

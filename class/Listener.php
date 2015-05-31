@@ -16,10 +16,29 @@
 
 		private $Parser = null;
 
-		public function __construct(WhatsApp $WhatsApp, WhatsBotParser $Parser)
+		private $Password = null;
+		private $Started = false;
+
+		public function __construct(WhatsApp $WhatsApp, WhatsBotParser $Parser, $Password)
 		{
 			$this->WhatsApp = $WhatsApp;
+
 			$this->Parser = $Parser;
+
+			$this->Password = $Password;
+		}
+
+		public function onConnect($Me, $Socket)
+		{
+			if(!$this->Started)
+			{
+				Std::Out();
+				Std::Out('[Info] [WhatsBot] Logging in');
+
+				$this->Started = true;
+			}
+
+			$this->WhatsApp->LoginWithPassword($this->Password);
 		}
 
 		############
