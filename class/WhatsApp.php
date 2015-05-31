@@ -44,7 +44,7 @@
 		# Listen
 
 		public function PollMessage($AutoReceipt = true)
-		{ return $this->WhatsApp->PollMessage($AutoReceipt); }
+		{ return $this->WhatsApp->PollMessage($AutoReceipt); } // Catch Connection Exception
 
 		# User
 

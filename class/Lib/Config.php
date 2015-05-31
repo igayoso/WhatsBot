@@ -9,6 +9,7 @@
 		{
 			$Reloading = $Reloading ? 'Rel' : 'L';
 
+			Std::Out();
 			Std::Out("[Info] [Config] {$Reloading}oading");
 
 			if(is_dir('config'))
@@ -18,7 +19,7 @@
 				foreach($Files as $File)
 					self::LoadFile($File);
 
-				Std::Out('[Info] [Config] Ready!', 2);
+				Std::Out('[Info] [Config] Ready!');
 
 				return true;
 			}

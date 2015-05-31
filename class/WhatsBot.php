@@ -32,7 +32,7 @@
 			$this->Debug = (bool)$Debug;
 
 			Std::Out();
-			Std::Out('[Info] [WhatsBot] Loading. Debug = ' . var_export($this->Debug, true));
+			Std::Out('[Info] [WhatsBot] Loading... Debug = ' . var_export($this->Debug, true));
 
 			Config::Load();
 			LoadLibs();
