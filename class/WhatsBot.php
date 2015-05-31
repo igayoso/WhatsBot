@@ -15,6 +15,7 @@
 	{
 		private $WhatsProt = null;
 		private $WhatsApp = null;
+		private $Password = null;
 
 		private $Listener = null;
 		private $Parser = null;
@@ -23,6 +24,8 @@
 
 		private $Debug = false;
 		private $StartTime = null;
+
+		private $Exit = false;
 
 		public function __construct($Debug = false)
 		{
@@ -38,6 +41,8 @@
 
 			if(!empty($Config['WhatsApp']['Username']) && !empty($Config['WhatsApp']['Nickname']) && !empty($Config['WhatsApp']['Password']))
 			{
+				$this->Password = $Config['WhatsApp']['Password'];
+
 				# WhatsApp
 
 				Std::Out();
@@ -53,7 +58,7 @@
 
 				$this->Parser = new WhatsBotParser($this->WhatsApp, $this->ModuleManager);
 
-				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser, $Config['WhatsApp']['Password']);
+				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser);
 
 				# Load
 
@@ -69,27 +74,81 @@
 				throw new Exception('You have to setup the config file config/WhatsBot.json');
 		}
 
-		public function Start()
+		private function Connect($Show = true, $Retries = 3) // Don't hardcode D:
 		{
 			Std::Out();
-			Std::Out('[Info] [WhatsBot] Connecting');
 
-			if($this->WhatsApp->Connect())
+			for($i = 1; $i <= $Retries; $i++)
 			{
-				Std::Out();
-				Std::Out('[Info] [WhatsBot] Ready!');
+				try
+				{
+					$this->WhatsApp->Disconnect();
 
-				return true;
+					if($Show === true)
+						Std::Out('[Info] [WhatsBot] Connecting');
+
+					$this->WhatsApp->Connect();
+
+					if($Show === true)
+						Std::Out('[Info] [WhatsBot] Logging in');
+
+					$this->WhatsApp->LoginWithPassword($this->Password);
+
+					if($Show)
+					{
+						Std::Out();
+						Std::Out('[Info] [WhatsBot] Ready!');
+					}
+
+					return true;
+				}
+				catch(Exception $Exception)
+				{
+					$Class = get_class($Exception);
+
+					if($Class === 'ConnectionException')
+						$Message = 'Connection error (' . $Exception->GetMessage() . ')';
+					elseif($Class === 'LoginFailureException')
+						$Message = 'Login failure';
+					else
+						$Message = 'Unknown exception while connecting (' . $Exception->GetMessage() . ')';
+
+					if($Show === true)
+						Std::Out();
+
+					$Show = 1;
+
+					Std::Out("[Warning] [WhatsBot] {$Message}. Retry {$i}/{$Retries}...");
+
+					// Log trace?
+				}
 			}
 
-			Std::Out();
-			Std::Out('[Warning] [WhatsBot] Connection error');
+			if($Class === 'ConnectionException')
+				$this->_Exit('Connection error');
+			elseif($Class === 'LoginFailureException')
+				$this->_Exit('Login failure');
+			else
+				$this->_Exit("{$Class} exception");
 
 			return false;
 		}
 
+		public function Start()
+		{
+			return $this->Connect();
+		}
+
 		public function Listen()
 		{
+			if($this->Exit !== false)
+			{
+				Std::Out();
+				Std::Out("[Info] [WhatsBot] Exiting ({$this->Exit})...");
+
+				return $this->Exit;
+			}
+
 			$this->StartTime = time();
 
 			Std::Out();
@@ -102,16 +161,28 @@
 			{
 				$Time = time();
 
-				$this->WhatsApp->Disconnect();
-				$this->WhatsApp->Connect();
-
 				while(time() < $Time + 60)
+				{
+					if($this->Exit !== false)
+					{
+						Std::Out();
+						Std::Out("[Info] [WhatsBot] Exiting ({$this->Exit})...");
+
+						return $this->Exit;
+					}
+
 					$this->WhatsApp->PollMessage();
+				}
+
+				$this->Connect(false);
 			}
 		}
 
 		public function GetStartTime()
 		{ return $this->StartTime; }
+
+		public function _Exit($Code)
+		{ $this->Exit = $Code; }
 	}
 
 	/* 
