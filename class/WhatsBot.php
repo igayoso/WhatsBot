@@ -76,7 +76,8 @@
 
 		private function Connect($Show = true, $Retries = 3) // Don't hardcode D:
 		{
-			Std::Out();
+			if($Show)
+				Std::Out();
 
 			for($i = 1; $i <= $Retries; $i++)
 			{
