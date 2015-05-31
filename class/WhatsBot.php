@@ -112,7 +112,7 @@
 					elseif($Class === 'LoginFailureException')
 						$Message = 'Login failure';
 					else
-						$Message = 'Unknown exception while connecting (' . $Exception->GetMessage() . ')';
+						$Message = "{$Class} thrown while connecting (" . $Exception->GetMessage() . ')';
 
 					if($Show === true)
 						Std::Out();
@@ -162,17 +162,27 @@
 			{
 				$Time = time();
 
-				while(time() < $Time + 60)
+				try
 				{
-					if($this->Exit !== false)
+					while(time() < $Time + 60)
 					{
-						Std::Out();
-						Std::Out("[Info] [WhatsBot] Exiting ({$this->Exit})...");
+						if($this->Exit !== false)
+						{
+							Std::Out();
+							Std::Out("[Info] [WhatsBot] Exiting ({$this->Exit})...");
 
-						return $this->Exit;
+							return $this->Exit;
+						}
+
+						$this->WhatsApp->PollMessage();
 					}
-
-					$this->WhatsApp->PollMessage();
+				}
+				catch(Exception $Exception)
+				{
+					if(get_class($Exception) === 'ConnectionException')
+						Std::Out('[Warning] [WhatsBot] Connection error ('. $Exception->GetMessage() . ')');
+					else
+						Std::Out("[Warning] [WhatsBot] {$Class} thrown while listening (" . $Exception->GetMessage() . ')');
 				}
 
 				$this->Connect(false);
