@@ -49,7 +49,7 @@
 			$this->Name = $Name;
 			$this->AliasOf = $AliasOf;
 
-			$this->Loaded = $this->Load();
+			$this->Load();
 		}
 
 		private function Load()
@@ -72,6 +72,8 @@
 
 							$this->Data = $Json;
 
+							$this->Loaded = self::LOADED;
+
 							return self::LOADED;
 						}
 						else
@@ -83,6 +85,8 @@
 				else
 					Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). It is not in Modules folder");
 			}
+
+			$this->Loaded = self::NOT_LOADED;
 
 			return self::NOT_LOADED;
 		}
