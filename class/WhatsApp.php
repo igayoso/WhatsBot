@@ -35,6 +35,9 @@
 
 		public function SendPing()
 		{ return $this->WhatsApp->SendPing(); }
+
+		public function SendPong($ID)
+		{ return $this->WhatsApp->SendPong($ID); }
 		
 		# Login
 

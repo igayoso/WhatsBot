@@ -105,7 +105,7 @@
 				}
 				catch(Exception $Exception)
 				{
-					$Class = get_class($Exception);
+					$Class = get_class($Exception); // 3 catches?
 
 					if($Class === 'ConnectionException')
 						$Message = 'Connection error (' . $Exception->GetMessage() . ')';
@@ -140,8 +140,10 @@
 			return $this->Connect();
 		}
 
-		public function Listen()
+		public function Listen($PingDelay = 60, $ReconnectDelay = 300)
 		{
+			# Check Exit
+
 			if($this->Exit !== false)
 			{
 				Std::Out();
@@ -152,6 +154,9 @@
 
 			$this->StartTime = time();
 
+			$ReconnectTimer = $this->StartTime;
+			$PingTimer = $this->StartTime;
+
 			Std::Out();
 			Std::Out("[Info] [WhatsBot] Start time is {$this->StartTime}");
 
@@ -160,32 +165,55 @@
 
 			while(true)
 			{
-				$Time = time();
-
 				try
 				{
-					while(time() < $Time + 60)
+					# Check Exit
+
+					if($this->Exit !== false)
 					{
-						if($this->Exit !== false)
-						{
-							Std::Out();
-							Std::Out("[Info] [WhatsBot] Exiting ({$this->Exit})...");
+						Std::Out();
+						Std::Out("[Info] [WhatsBot] Exiting ({$this->Exit})...");
 
-							return $this->Exit;
-						}
-
-						$this->WhatsApp->PollMessage();
+						return $this->Exit;
 					}
+
+					# Reconnect if disconnected
+
+					if(!$this->WhatsApp->IsConnected())
+						$this->Connect(false);
+
+					# Listen
+
+					$this->WhatsApp->PollMessage();
+
+					# Ping & Reconnect
+
+					if(time() >= $PingTimer + $PingDelay)
+					{
+						$this->WhatsApp->SendPing();
+						$PingTimer = time();
+					}
+
+					if(time() >= $ReconnectTimer + $ReconnectDelay)
+					{
+						$this->Connect(false);
+						$ReconnectTimer = time();
+					}
+				}
+				catch(ConnectionException $Exception)
+				{
+					Std::Out();
+					Std::Out('[Warning] [WhatsBot] Connection error (' . $Exception->GetMessage() . ')');
+
+					$this->Connect(1);
 				}
 				catch(Exception $Exception)
 				{
-					if(get_class($Exception) === 'ConnectionException')
-						Std::Out('[Warning] [WhatsBot] Connection error ('. $Exception->GetMessage() . ')');
-					else
-						Std::Out("[Warning] [WhatsBot] {$Class} thrown while listening (" . $Exception->GetMessage() . ')');
-				}
+					Std::Out();
+					Std::Out('[Warning] [WhatsBot] ' . get_class($Exception) . ' thrown while listening (' . $Exception->GetMessage() . ')');
 
-				$this->Connect(false);
+					$this->Connect(1);
+				}
 			}
 		}
 

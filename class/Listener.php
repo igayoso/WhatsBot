@@ -23,6 +23,13 @@
 			$this->Parser = $Parser;
 		}
 
+		# Connection
+
+		public function onPing($Me, $ID)
+		{
+			$this->WhatsApp->SendPong($ID);
+		}
+
 		############
 		# Messages #
 		############
@@ -126,7 +133,6 @@
 	     * public function onMessageReceivedServer($mynumber, $from, $id, $type, $time) {}
 	     * public function onPaidAccount($mynumber, $author, $kind, $status, $creation, $expiration) {}
 	     * public function onPaymentRecieved($mynumber, $kind, $status, $creation, $expiration) {}
-	     * public function onPing($mynumber, $id) {}
 	     * public function onPresenceAvailable($mynumber, $from) {}
 	     * public function onPresenceUnavailable($mynumber, $from, $last) {}
 	     * public function onProfilePictureChanged($mynumber, $from, $id, $time) {}
