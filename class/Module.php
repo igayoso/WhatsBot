@@ -64,7 +64,7 @@
 				{
 					$Json = Json::Decode($JPath);
 
-					if($Json !== false)
+					if(is_array($Json))
 					{
 						if(is_readable($PPath))
 						{
