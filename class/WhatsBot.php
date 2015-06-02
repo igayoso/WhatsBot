@@ -11,6 +11,8 @@
 
 	require_once 'ModuleManager.php';
 
+	require_once 'ThreadManager.php';
+
 	class WhatsBot
 	{
 		private $WhatsProt = null;
@@ -21,6 +23,8 @@
 		private $Parser = null;
 
 		private $ModuleManager = null;
+
+		private $ThreadManager = null;
 
 		private $Debug = false;
 		private $StartTime = null;
@@ -60,9 +64,13 @@
 
 				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser);
 
+				$this->ThreadManager = new ThreadManager();
+
 				# Load
 
 				$this->ModuleManager->LoadModules();
+
+				$this->ThreadManager->LoadThreads();
 
 				# Binding
 
@@ -163,6 +171,10 @@
 			Std::Out();
 			Std::Out('[Info] [WhatsBot] Listening...');
 
+			# Start threads
+
+			$this->ThreadManager->StartThreads();
+
 			while(true)
 			{
 				try
@@ -171,6 +183,8 @@
 
 					if($this->Exit !== false)
 					{
+						$this->ThreadManager->StopThreads();
+
 						Std::Out();
 						Std::Out("[Info] [WhatsBot] Exiting ({$this->Exit})...");
 
