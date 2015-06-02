@@ -1,14 +1,14 @@
 <?php
 	trait ThreadTasks
 	{
-		private static $Tasks = array();
+		private $Tasks = 'a:0:{}'; // serialized empty array, beacuse pthreads nullifies non-simple data types
 
 		public function GetTasks()
 		{
 			$this->Lock();
 
-			$Tasks = self::$Tasks;
-			self::$Tasks = array();
+			$Tasks = unserialize($this->Tasks);
+			$this->Tasks = 'a:0:{}';
 
 			$this->Unlock();
 
@@ -19,7 +19,9 @@
 		{
 			$this->Lock();
 
-			self::$Tasks[$this->Name][] = array($Type, $Method, $Params);
+			$Tasks = unserialize($this->Tasks);
+			$Tasks[] = array($Type, $Method, $Params);
+			$this->Tasks = serialize($Tasks);
 
 			$this->Unlock();
 		}
