@@ -1,8 +1,12 @@
 <?php
 	require_once 'Lib/_Loader.php';
 
+	require_once 'ThreadTasks.php';
+
 	class WhatsBotThread extends Thread
 	{
+		use ThreadTasks;
+		
 		private $Name = null;
 
 		private $Data = array();
