@@ -196,6 +196,10 @@
 					if(!$this->WhatsApp->IsConnected())
 						$this->Connect(false);
 
+					# Execute thread's tasks
+
+					$this->ThreadManager->ExecuteTasks();
+					
 					# Listen
 
 					$this->WhatsApp->PollMessage();
