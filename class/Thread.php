@@ -3,10 +3,14 @@
 
 	require_once 'ThreadTasks.php';
 
+	require_once 'ThreadWhatsAppTasks.php';
+
 	class WhatsBotThread extends Thread
 	{
 		use ThreadTasks;
-		
+
+		use ThreadWhatsAppTasks;
+
 		private $Name = null;
 
 		private $Data = array();

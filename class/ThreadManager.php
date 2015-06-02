@@ -1,11 +1,20 @@
 <?php
 	require_once 'Lib/_Loader.php';
 
+	require_once 'WhatsApp.php';
+
 	class ThreadManager
 	{
 		private $Threads = array();
 
 		private $Enabled = false;
+
+		private $WhatsApp = null;
+
+		public function __construct(WhatsApp $WhatsApp)
+		{
+			$this->WhatsApp = $WhatsApp;
+		}
 
 		public function LoadThreads()
 		{
@@ -34,7 +43,7 @@
 						return $Loaded;
 					}
 					else
-						Std::Out("[Warning] [Threads] Can't load treads. PThreads extension is not installed");
+						Std::Out("[Warning] [Threads] Can't load threads. PThreads extension is not installed");
 				}
 			}
 			else
@@ -136,5 +145,34 @@
 			Std::Out("[Warning] [Threads] Can't stop {$Name}. That thread doesn't exists");
 
 			return false;
+		}
+
+		public function ExecuteTasks()
+		{
+			foreach($this->Threads as $Name => $Thread)
+			{
+				$Tasks = $Thread->GetTasks();
+
+				foreach($Tasks as $Task)
+				{
+					if($Task[0] === WHATSAPP_TASK)
+						$Object = $this->WhatsApp;
+					else
+						$Object = null;
+
+					if(is_object($Object) && is_string($Task[1]) && !empty($Task[1]) && is_array($Task[2]))
+					{
+						if(method_exists($Object, $Task[1]) && is_callable(array($Object, $Task[1])))
+						{
+							call_user_func_array(array($Object, $Task[1]), $Task[2]);
+
+							continue;
+						}
+					}
+
+					Std::Out();
+					Std::Out("[Warning] [Threads] Can't execute task " . var_export($Object, true) . "->{$Task[1]} (From {$Name})");
+				}
+			}
 		}
 	}
