@@ -17,7 +17,7 @@
 
 		private $Loaded = false;
 
-		private $Exit = false;
+		private $Stop = false;
 
 		const LOADED = true;
 		const NOT_LOADED = false;
@@ -86,16 +86,16 @@
 
 			$Path = "class/Threads/{$this->Name}.php";
 
-			while(!$this->Exit && is_readable($Path))
+			while(!$this->Stop && is_readable($Path))
 				include($Path);
 
 			Std::Out();
-			Std::Out("[Info] [Threads] {$this->Name} stopped ($this->Exit)");
+			Std::Out("[Info] [Threads] {$this->Name} stopped ($this->Stop)");
 		}
 
 		public function IsLoaded()
 		{ return $this->Loaded; }
 
-		public function _Exit($Code = 1)
-		{ $this->Exit = $Code; }
+		public function Stop($Code = 1)
+		{ $this->Stop = $Code; }
 	}

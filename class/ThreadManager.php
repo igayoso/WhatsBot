@@ -137,7 +137,7 @@
 		{
 			if(isset($this->Threads[$Name]))
 			{
-				$this->Threads[$Name]->_Exit($Code);
+				$this->Threads[$Name]->Stop($Code);
 
 				return true;
 			}
