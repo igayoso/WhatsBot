@@ -143,9 +143,9 @@
 			return false;
 		}
 
-		public function Start()
+		public function Start($Show = true)
 		{
-			return $this->Connect();
+			return $this->Connect($Show);
 		}
 
 		public function Listen($PingDelay = 60, $ReconnectDelay = 300)
