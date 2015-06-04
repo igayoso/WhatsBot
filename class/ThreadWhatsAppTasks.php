@@ -1,5 +1,5 @@
 <?php
-	const WHATSAPP_TASK = 1;
+	const WHATSAPP_TASK = 2;
 
 	trait ThreadWhatsAppTasks
 	{

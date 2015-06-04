@@ -64,7 +64,7 @@
 
 				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser);
 
-				$this->ThreadManager = new ThreadManager($this->WhatsApp);
+				$this->ThreadManager = new ThreadManager($this, $this->WhatsApp);
 
 				# Load
 

@@ -1,6 +1,7 @@
 <?php
 	require_once 'Lib/_Loader.php';
 
+	require_once 'WhatsBot.php';
 	require_once 'WhatsApp.php';
 
 	class ThreadManager
@@ -9,10 +10,12 @@
 
 		private $Enabled = false;
 
+		private $WhatsBot = null;
 		private $WhatsApp = null;
 
-		public function __construct(WhatsApp $WhatsApp)
+		public function __construct(WhatsBot $WhatsBot, WhatsApp $WhatsApp)
 		{
+			$this->WhatsBot = $WhatsBot;
 			$this->WhatsApp = $WhatsApp;
 		}
 
@@ -155,7 +158,9 @@
 
 				foreach($Tasks as $Task)
 				{
-					if($Task[0] === WHATSAPP_TASK)
+					if($Task[0] === WHATSBOT_TASK)
+						$Object = $this->WhatsBot;
+					elseif($Task[0] === WHATSAPP_TASK)
 						$Object = $this->WhatsApp;
 					else
 						$Object = null;
