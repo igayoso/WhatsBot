@@ -84,6 +84,9 @@
 
 			$Path = "class/Threads/{$this->Name}.php";
 
+			$WhatsBot = $this->WhatsBot;
+			$WhatsApp = $this->WhatsApp;
+
 			while(!$this->Stop && is_readable($Path))
 				include($Path);
 
