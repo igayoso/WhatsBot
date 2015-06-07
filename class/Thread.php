@@ -1,17 +1,11 @@
 <?php
 	require_once 'Lib/_Loader.php';
 
-	require_once 'ThreadTasks.php';
-
-	require_once 'ThreadWhatsBotTasks.php';
-	require_once 'ThreadWhatsAppTasks.php';
+	require_once 'ThreadTaskManager.php';
 
 	class WhatsBotThread extends Thread
 	{
-		use ThreadTasks;
-
-		use ThreadWhatsBotTasks;
-		use ThreadWhatsAppTasks;
+		use ThreadTaskManager;
 
 		private $Name = null;
 
@@ -71,8 +65,10 @@
 		public function Run()
 		{
 			sleep(5);
-			
+
 			require_once 'Lib/_Loader.php';
+						
+			$this->LoadTaskManager();
 
 			$this->Execute();
 

@@ -1,8 +1,23 @@
 <?php
-	trait ThreadTasks
+	require_once 'ThreadWhatsBotTasks.php';
+	require_once 'ThreadWhatsAppTasks.php';
+
+	trait ThreadTaskManager
 	{
 		private $Tasks = 'a:0:{}'; // serialized empty array, beacuse pthreads nullifies non-simple data types
 		private $Return = 'a:0:{}';
+
+		private $WhatsBot = null;
+		private $WhatsApp = null;
+
+		private function LoadTaskManager()
+		{
+			require_once 'ThreadWhatsBotTasks.php';
+			require_once 'ThreadWhatsAppTasks.php';
+
+			$this->WhatsBot = new ThreadWhatsBotTasks($this);
+			$this->WhatsApp = new ThreadWhatsAppTasks($this);
+		}
 
 		public function GetTasks()
 		{
@@ -16,7 +31,7 @@
 			return $Tasks;
 		}
 
-		private function AddTask($Type, $Method, Array $Params = array())
+		public function AddTask($Type, $Method, Array $Params = array())
 		{
 			$this->Lock();
 
