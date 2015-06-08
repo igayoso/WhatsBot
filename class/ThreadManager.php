@@ -164,6 +164,9 @@
 
 				foreach($Tasks as $Task)
 				{
+					if(empty($Task[0]))
+						$Task[0] = null;
+					
 					if($Task[0] === WHATSBOT)
 						$Object = $this->WhatsBot;
 					elseif($Task[0] === WHATSAPP)
@@ -173,9 +176,9 @@
 					elseif($Task[0] === MODULEMANAGER)
 						$Object = $this->ModuleManager;
 					else
-						$Object = null;
+						$Object = $Task[0];
 
-					if(is_object($Object) && is_string($Task[1]) && !empty($Task[1]) && is_array($Task[2]))
+					if(is_object($Object) && !empty($Task[1]) && is_string($Task[1]) && !empty($Task[2]) && is_array($Task[2]))
 					{
 						if(method_exists($Object, $Task[1]) && is_callable(array($Object, $Task[1])))
 						{
