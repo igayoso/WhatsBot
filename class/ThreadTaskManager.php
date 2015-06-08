@@ -47,7 +47,7 @@
 		}
 
 		public function SetReturn($Type, $Name, $Value)
-		{ // Use with task type?
+		{
 			$this->Lock();
 
 			$Return = unserialize($this->Return);
@@ -57,9 +57,9 @@
 			$this->Unlock();
 		}
 
-		private function WaitFor($Type, $Name, $Unset = true)
+		public function WaitFor($Type, $Name, $UnsetBefore = true, $UnsetAfter = true)
 		{
-			if($Unset)
+			if($UnsetBefore)
 			{
 				$this->Lock();
 
@@ -79,8 +79,12 @@
 				if(isset($Return[$Type][$Name]))
 				{
 					$Value = $Return[$Type][$Name];
-					unset($Return[$Type][$Name]);
-					$this->Return = serialize($Return);
+
+					if($UnsetAfter)
+					{
+						unset($Return[$Type][$Name]);
+						$this->Return = serialize($Return);
+					}
 
 					$this->Unlock();
 
