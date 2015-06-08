@@ -12,6 +12,11 @@
 			$this->TaskManager = $TaskManager;
 		}
 
+		public function WaitFor($Name, $UnsetBefore = true, $UnsetAfter = true)
+		{
+			return $this->TaskManager->WaitFor(WHATSAPP, $Name, $UnsetBefore, $UnsetAfter);
+		}
+
 		# User
 
 		public function SetStatus($Message)

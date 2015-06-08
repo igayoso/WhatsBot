@@ -12,6 +12,11 @@
 			$this->TaskManager = $TaskManager;
 		}
 
+		public function WaitFor($Name, $UnsetBefore = true, $UnsetAfter = true)
+		{
+			return $this->TaskManager->WaitFor(MODULEMANAGER, $Name, $UnsetBefore, $UnsetAfter);
+		}
+
 		# Exists
 
 		public function KeyExists($Key)

@@ -12,6 +12,11 @@
 			$this->TaskManager = $TaskManager;
 		}
 
+		public function WaitFor($Name, $UnsetBefore = true, $UnsetAfter = true)
+		{
+			return $this->TaskManager->WaitFor(WHATSBOT, $Name, $UnsetBefore, $UnsetAfter);
+		}
+
 		public function Connect($Show = true)
 		{ $this->TaskManager->AddTask(WHATSBOT, 'Start', func_get_args()); }
 
