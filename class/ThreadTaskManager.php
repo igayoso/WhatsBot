@@ -1,6 +1,7 @@
 <?php
 	require_once 'ThreadWhatsBotTasks.php';
 	require_once 'ThreadWhatsAppTasks.php';
+	require_once 'ThreadModuleManagerTasks.php';
 
 	trait ThreadTaskManager
 	{
@@ -9,14 +10,17 @@
 
 		private $WhatsBot = null;
 		private $WhatsApp = null;
+		private $ModuleManager = null;
 
 		private function LoadTaskManager()
 		{
 			require_once 'ThreadWhatsBotTasks.php';
 			require_once 'ThreadWhatsAppTasks.php';
+			require_once 'ThreadModuleManagerTasks.php';
 
 			$this->WhatsBot = new ThreadWhatsBotTasks($this);
 			$this->WhatsApp = new ThreadWhatsAppTasks($this);
+			$this->ModuleManager = new ThreadModuleManagerTasks($this);
 		}
 
 		public function GetTasks()
@@ -43,7 +47,7 @@
 		}
 
 		public function SetReturn($Name, $Value)
-		{
+		{ // Use with task type?
 			$this->Lock();
 
 			$Return = unserialize($this->Return);

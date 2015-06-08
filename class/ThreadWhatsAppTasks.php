@@ -1,5 +1,5 @@
 <?php
-	require_once 'ThreadTaskManager.php';
+	require_once 'Thread.php';
 
 	const WHATSAPP_TASK = 2;
 
