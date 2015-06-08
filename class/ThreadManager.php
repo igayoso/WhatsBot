@@ -174,7 +174,7 @@
 					{
 						if(method_exists($Object, $Task[1]) && is_callable(array($Object, $Task[1])))
 						{
-							$Thread->SetReturn($Task[1], call_user_func_array(array($Object, $Task[1]), $Task[2]));
+							$Thread->SetReturn($Task[0], $Task[1], call_user_func_array(array($Object, $Task[1]), $Task[2]));
 
 							continue;
 						}

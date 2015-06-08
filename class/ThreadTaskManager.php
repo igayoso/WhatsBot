@@ -46,29 +46,40 @@
 			$this->Unlock();
 		}
 
-		public function SetReturn($Name, $Value)
+		public function SetReturn($Type, $Name, $Value)
 		{ // Use with task type?
 			$this->Lock();
 
 			$Return = unserialize($this->Return);
-			$Return[$Name] = $Value;
+			$Return[$Type][$Name] = $Value;
 			$this->Return = serialize($Return);
 
 			$this->Unlock();
 		}
 
-		private function WaitForReturn($Name)
+		private function WaitFor($Type, $Name, $Unset = true)
 		{
+			if($Unset)
+			{
+				$this->Lock();
+
+				$Return = unserialize($this->Return);
+				unset($Return[$Type][$Name]);
+				$this->Return = serialize($Return);
+
+				$this->Unlock();
+			}
+
 			while(true)
 			{
 				$this->Lock();
 
 				$Return = unserialize($this->Return);
 
-				if(isset($Return[$Name]))
+				if(isset($Return[$Type][$Name]))
 				{
-					$Value = $Return[$Name];
-					unset($Return[$Name]);
+					$Value = $Return[$Type][$Name];
+					unset($Return[$Type][$Name]);
 					$this->Return = serialize($Return);
 
 					$this->Unlock();
