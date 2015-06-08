@@ -1,7 +1,7 @@
 <?php
 	require_once 'Thread.php';
 
-	const MODULEMANAGER = 3;
+	const MODULEMANAGER = 4;
 
 	class ThreadModuleManagerTasks
 	{

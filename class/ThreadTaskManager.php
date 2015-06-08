@@ -1,6 +1,7 @@
 <?php
 	require_once 'ThreadWhatsBotTasks.php';
 	require_once 'ThreadWhatsAppTasks.php';
+	require_once 'ThreadEventManagerTasks.php';
 	require_once 'ThreadModuleManagerTasks.php';
 
 	trait ThreadTaskManager
@@ -16,10 +17,12 @@
 		{
 			require_once 'ThreadWhatsBotTasks.php';
 			require_once 'ThreadWhatsAppTasks.php';
+			require_once 'ThreadEventManagerTasks.php';
 			require_once 'ThreadModuleManagerTasks.php';
 
 			$this->WhatsBot = new ThreadWhatsBotTasks($this);
 			$this->WhatsApp = new ThreadWhatsAppTasks($this);
+			$this->EventManager = new ThreadEventManagerTasks($this);
 			$this->ModuleManager = new ThreadModuleManagerTasks($this);
 		}
 

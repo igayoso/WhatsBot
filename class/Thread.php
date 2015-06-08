@@ -86,6 +86,7 @@
 
 			$WhatsBot = $this->WhatsBot;
 			$WhatsApp = $this->WhatsApp;
+			$EventManager = $this->EventManager;
 			$ModuleManager = $this->ModuleManager;
 
 			while(!$this->Stop && is_readable($Path))

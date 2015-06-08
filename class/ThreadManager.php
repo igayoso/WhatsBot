@@ -3,6 +3,7 @@
 
 	require_once 'WhatsBot.php';
 	require_once 'WhatsApp.php';
+	require_once 'WhatsAPI/events/WhatsApiEventsManager.php';
 	require_once 'ModuleManager.php';
 
 	class ThreadManager
@@ -13,12 +14,14 @@
 
 		private $WhatsBot = null;
 		private $WhatsApp = null;
+		private $EventManager = null;
 		private $ModuleManager = null;
 
 		public function __construct(WhatsBot $WhatsBot, WhatsApp $WhatsApp, ModuleManager $ModuleManager)
 		{
 			$this->WhatsBot = $WhatsBot;
 			$this->WhatsApp = $WhatsApp;
+			$this->EventManager = $this->WhatsApp->EventManager();
 			$this->ModuleManager = $ModuleManager;
 		}
 
@@ -165,6 +168,8 @@
 						$Object = $this->WhatsBot;
 					elseif($Task[0] === WHATSAPP)
 						$Object = $this->WhatsApp;
+					elseif($Task[0] === EVENTMANAGER)
+						$Object = $this->EventManager;
 					elseif($Task[0] === MODULEMANAGER)
 						$Object = $this->ModuleManager;
 					else
