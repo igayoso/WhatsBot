@@ -116,6 +116,15 @@
 					$this->WhatsApp->SendMessage($Message->From, 'message:module::load_error');
 				elseif(is_array($Code) && !empty($Code[0]))
 					$this->WhatsApp->SendLangError($Message->From, $Code[0]);
+				else
+				{
+					$Key = array_search($Code, get_defined_constants(true)['user']);
+
+					if($Key !== false)
+						$Key = "const {$Key} = ";
+
+					Std::Out("[Warning] [Parser] Wrong response code ({$Key}{$Code}). Message from {$Message->From} ({$Message->ID})");
+				}
 			}
 
 			return $Code;
