@@ -1,7 +1,7 @@
 <?php
 	require_once 'Thread.php';
 
-	const WHATSBOT_TASK = 1;
+	const WHATSBOT = 1;
 
 	class ThreadWhatsBotTasks
 	{
@@ -13,11 +13,11 @@
 		}
 
 		public function Connect($Show = true)
-		{ $this->TaskManager->AddTask(WHATSBOT_TASK, 'Start', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSBOT, 'Start', func_get_args()); }
 
 		public function GetStartTime()
-		{ $this->TaskManager->AddTask(WHATSBOT_TASK, 'GetStartTime', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSBOT, 'GetStartTime', func_get_args()); }
 
 		public function _Exit($Code)
-		{ $this->TaskManager->AddTask(WHATSBOT_TASK, '_Exit', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSBOT, '_Exit', func_get_args()); }
 	}

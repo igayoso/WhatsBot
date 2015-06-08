@@ -1,7 +1,7 @@
 <?php
 	require_once 'Thread.php';
 
-	const WHATSAPP_TASK = 2;
+	const WHATSAPP = 2;
 
 	class ThreadWhatsAppTasks
 	{
@@ -15,31 +15,31 @@
 		# User
 
 		public function SetStatus($Message)
-		{ $this->TaskManager->AddTask(WHATSAPP_TASK, 'SetStatus', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSAPP, 'SetStatus', func_get_args()); }
 
 		public function SetProfilePicture($Path)
-		{ $this->TaskManager->AddTask(WHATSAPP_TASK, 'SetProfilePicture', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSAPP, 'SetProfilePicture', func_get_args()); }
 
 		# Messages
 
 		public function SetLangSection($Section)
-		{ $this->TaskManager->AddTask(WHATSAPP_TASK, 'SetLangSection', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSAPP, 'SetLangSection', func_get_args()); }
 
 		public function SendMessage($To, $Key, $Pre = null)
-		{ $this->TaskManager->AddTask(WHATSAPP_TASK, 'SendMessage', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSAPP, 'SendMessage', func_get_args()); }
 
 		public function SendLangError($To, $Key, Array $Params = array())
-		{ $this->TaskManager->AddTask(WHATSAPP_TASK, 'SendLangError', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSAPP, 'SendLangError', func_get_args()); }
 
 		public function SendRawMessage($To, $Message)
-		{ $this->TaskManager->AddTask(WHATSAPP_TASK, 'SendRawMessage', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSAPP, 'SendRawMessage', func_get_args()); }
 
 		public function SendAudio($To, $Path, $StoreURLMedia = false, $Size = 0, $Hash = '')
-		{ $this->TaskManager->AddTask(WHATSAPP_TASK, 'SendAudio', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSAPP, 'SendAudio', func_get_args()); }
 
 		public function SendImage($To, $Path, $Caption = '', $StoreURLMedia = false, $Size = 0, $Hash = '')
-		{ $this->TaskManager->AddTask(WHATSAPP_TASK, 'SendImage', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSAPP, 'SendImage', func_get_args()); }
 
 		public function SendVideo($To, $Path, $Caption = '', $StoreURLMedia = false, $Size = 0, $Hash = '')
-		{ $this->TaskManager->AddTask(WHATSAPP_TASK, 'SendVideo', func_get_args()); }
+		{ $this->TaskManager->AddTask(WHATSAPP, 'SendVideo', func_get_args()); }
 	}

@@ -161,11 +161,11 @@
 
 				foreach($Tasks as $Task)
 				{
-					if($Task[0] === WHATSBOT_TASK)
+					if($Task[0] === WHATSBOT)
 						$Object = $this->WhatsBot;
-					elseif($Task[0] === WHATSAPP_TASK)
+					elseif($Task[0] === WHATSAPP)
 						$Object = $this->WhatsApp;
-					elseif($Task[0] === MODULEMANAGER_TASK)
+					elseif($Task[0] === MODULEMANAGER)
 						$Object = $this->ModuleManager;
 					else
 						$Object = null;
