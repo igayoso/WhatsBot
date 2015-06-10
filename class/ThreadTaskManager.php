@@ -3,6 +3,7 @@
 	require_once 'WhatsAppTasks.php';
 	require_once 'EventManagerTasks.php';
 	require_once 'ModuleManagerTasks.php';
+	require_once 'ThreadManagerTasks.php';
 
 	trait ThreadTaskManager
 	{
@@ -11,19 +12,17 @@
 
 		private $WhatsBot = null;
 		private $WhatsApp = null;
+		private $EventManager = null;
 		private $ModuleManager = null;
+		private $ThreadManager = null;
 
 		private function LoadTaskManager()
 		{
-			require_once 'WhatsBotTasks.php';
-			require_once 'WhatsAppTasks.php';
-			require_once 'EventManagerTasks.php';
-			require_once 'ModuleManagerTasks.php';
-
 			$this->WhatsBot = new WhatsBotTasks($this);
 			$this->WhatsApp = new WhatsAppTasks($this);
 			$this->EventManager = new EventManagerTasks($this);
 			$this->ModuleManager = new ModuleManagerTasks($this);
+			$this->ThreadManager = new ThreadManagerTasks($this);
 		}
 
 		public function GetTasks()

@@ -3,7 +3,6 @@
 
 	require_once 'WhatsBot.php';
 	require_once 'WhatsApp.php';
-	require_once 'WhatsAPI/events/WhatsApiEventsManager.php';
 	require_once 'ModuleManager.php';
 
 	class ThreadManager
@@ -166,6 +165,8 @@
 				{
 					if(empty($Task[0]))
 						$Task[0] = null;
+
+					// We don't need to require anything. If $this->Threads contains anything, WhatsBotThread is loaded and ThreadTaskManager will require it all
 					
 					if($Task[0] === WHATSBOT)
 						$Object = $this->WhatsBot;
@@ -175,6 +176,8 @@
 						$Object = $this->EventManager;
 					elseif($Task[0] === MODULEMANAGER)
 						$Object = $this->ModuleManager;
+					elseif($Task[0] === THREADMANAGER)
+						$Object = $this;
 					else
 						$Object = $Task[0];
 

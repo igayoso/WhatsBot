@@ -88,6 +88,7 @@
 			$WhatsApp = $this->WhatsApp;
 			$EventManager = $this->EventManager;
 			$ModuleManager = $this->ModuleManager;
+			$ThreadManager = $this->ThreadManager;
 
 			while(!$this->Stop && is_readable($Path))
 				include($Path);
