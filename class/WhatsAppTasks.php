@@ -3,7 +3,7 @@
 
 	const WHATSAPP = 2;
 
-	class ThreadWhatsAppTasks
+	class WhatsAppTasks
 	{
 		private $TaskManager = null;
 

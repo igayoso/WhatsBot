@@ -3,7 +3,7 @@
 
 	const MODULEMANAGER = 4;
 
-	class ThreadModuleManagerTasks
+	class ModuleManagerTasks
 	{
 		private $TaskManager = null;
 

@@ -3,7 +3,7 @@
 
 	const EVENTMANAGER = 3;
 
-	class ThreadEventManagerTasks
+	class EventManagerTasks
 	{
 		private $TaskManager = null;
 

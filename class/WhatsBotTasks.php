@@ -3,7 +3,7 @@
 
 	const WHATSBOT = 1;
 
-	class ThreadWhatsBotTasks
+	class WhatsBotTasks
 	{
 		private $TaskManager = null;
 

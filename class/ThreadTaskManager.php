@@ -1,8 +1,8 @@
 <?php
-	require_once 'ThreadWhatsBotTasks.php';
-	require_once 'ThreadWhatsAppTasks.php';
-	require_once 'ThreadEventManagerTasks.php';
-	require_once 'ThreadModuleManagerTasks.php';
+	require_once 'WhatsBotTasks.php';
+	require_once 'WhatsAppTasks.php';
+	require_once 'EventManagerTasks.php';
+	require_once 'ModuleManagerTasks.php';
 
 	trait ThreadTaskManager
 	{
@@ -15,15 +15,15 @@
 
 		private function LoadTaskManager()
 		{
-			require_once 'ThreadWhatsBotTasks.php';
-			require_once 'ThreadWhatsAppTasks.php';
-			require_once 'ThreadEventManagerTasks.php';
-			require_once 'ThreadModuleManagerTasks.php';
+			require_once 'WhatsBotTasks.php';
+			require_once 'WhatsAppTasks.php';
+			require_once 'EventManagerTasks.php';
+			require_once 'ModuleManagerTasks.php';
 
-			$this->WhatsBot = new ThreadWhatsBotTasks($this);
-			$this->WhatsApp = new ThreadWhatsAppTasks($this);
-			$this->EventManager = new ThreadEventManagerTasks($this);
-			$this->ModuleManager = new ThreadModuleManagerTasks($this);
+			$this->WhatsBot = new WhatsBotTasks($this);
+			$this->WhatsApp = new WhatsAppTasks($this);
+			$this->EventManager = new EventManagerTasks($this);
+			$this->ModuleManager = new ModuleManagerTasks($this);
 		}
 
 		public function GetTasks()
