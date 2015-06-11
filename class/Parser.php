@@ -100,6 +100,12 @@
 
 		private function SendResponse(Message $Message, $Code)
 		{
+			if($Code === Module::EXECUTED)
+				return $Code;
+
+			if(is_float($Code))
+				$Code = intval($Code);
+
 			if($Code === SEND_USAGE)
 				$this->WhatsApp->SendMessage($Message->From, 'usage');
 			else
@@ -118,12 +124,12 @@
 					$this->WhatsApp->SendLangError($Message->From, $Code[0]);
 				else
 				{
-					$Key = array_search($Code, get_defined_constants(true)['user']);
+					$Key = array_search($Code, get_defined_constants(true)['user'], true);
 
 					if($Key !== false)
 						$Key = "const {$Key} = ";
 
-					Std::Out("[Warning] [Parser] Wrong response code ({$Key}{$Code}). Message from {$Message->From} ({$Message->ID})");
+					Std::Out("[Warning] [Parser] Wrong response code ({$Key}" . var_export($Code, true) . "). Message from {$Message->From} ({$Message->ID})");
 				}
 			}
 
