@@ -3,6 +3,9 @@
 
 	require_once 'Module.php';
 
+	require_once 'PHPModule.php';
+	require_once 'LuaModule.php';
+
 	trait ModuleManagerLoader
 	{
 		public function LoadModules()
@@ -57,7 +60,18 @@
 				$Name = strtolower($Name);
 				$AliasOf = strtolower($AliasOf);
 
-				$this->Modules[$Key][$Name] = new Module($this, $this->WhatsBot, $this->WhatsApp, $Key, $Name, $AliasOf);
+				$Lua = false;
+
+				if(substr($Name, strlen($Name) - 4) === '.lua')
+					$Name = substr($Name, 0, strlen($Name) - 4) and $Lua = true;
+
+				if(substr($AliasOf, strlen($AliasOf) - 4) === '.lua')
+					$AliasOf = substr($AliasOf, 0, strlen($AliasOf) - 4) and $Lua = true;
+
+				if($Lua)
+					$this->Modules[$Key][$Name] = new LuaModule($this, $this->WhatsBot, $this->WhatsApp, $Key, $Name, $AliasOf);
+				else
+					$this->Modules[$Key][$Name] = new PHPModule($this, $this->WhatsBot, $this->WhatsApp, $Key, $Name, $AliasOf);
 
 				$Loaded = $this->Modules[$Key][$Name]->IsLoaded();
 

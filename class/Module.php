@@ -11,21 +11,29 @@
 	const LANG_ERROR = -3;
 	const NOT_ADMIN = -4;
 
-	class Module
+	abstract class Module
 	{
-		private $ModuleManager = null;
-		private $WhatsBot = null;
-		private $WhatsApp = null;
+		protected $ModuleManager = null;
+		protected $WhatsBot = null;
+		protected $WhatsApp = null;
 
-		private $Key = null;
+		protected $Key = null;
 
-		private $Name = null;
-		private $AliasOf = null;
+		protected $Name = null;
+		protected $AliasOf = null;
 
-		private $Data = null;
+		protected $Path = null;
+		protected $JPath = null;
+		protected $XPath = null;
 
-		private $Loaded = false;
-		private $Enabled = true;
+		protected $PathExtension = null;
+
+		protected $Extension = null;
+
+		protected $Data = null;
+
+		protected $Loaded = false;
+		protected $Enabled = true;
 
 		const LOADED = true;
 		const NOT_LOADED = false;
@@ -38,8 +46,14 @@
 
 		const EXECUTED = true;
 
-		public function __construct(ModuleManager $ModuleManager, WhatsBot $WhatsBot, WhatsApp $WhatsApp, $Key, $Name, $AliasOf)
+		final public function __construct(ModuleManager $ModuleManager, WhatsBot $WhatsBot, WhatsApp $WhatsApp, $Key, $Name, $AliasOf)
 		{
+			if(empty($this->PathExtension))
+				trigger_error(get_class($this) . ' must redefine $PathExtension', E_USER_ERROR);
+
+			if($this->Extension === null)
+				trigger_error(get_class($this) . ' must redefine $Extension (as false if no extenison is used)', E_USER_ERROR);
+
 			$this->ModuleManager = $ModuleManager;
 			$this->WhatsBot = $WhatsBot;
 			$this->WhatsApp = $WhatsApp;
@@ -52,82 +66,58 @@
 			$this->Load();
 		}
 
-		private function Load()
+		public function Load()
 		{
-			if($this->ModuleManager->KeyExists($this->Key))
+			if(!is_string($this->Extension) || extension_loaded($this->Extension))
 			{
-				$JPath = "class/Modules/{$this->Key}_{$this->AliasOf}.";
-				$PPath = $JPath . 'php';
-				$JPath .= 'json';
-
-				if(basename(dirname(realpath($JPath))) === 'Modules')
+				if($this->ModuleManager->KeyExists($this->Key))
 				{
-					$Json = Json::Decode($JPath);
+					$this->Path = "class/Modules/{$this->Key}_{$this->AliasOf}";
 
-					if(is_array($Json))
+					$this->JPath = $this->Path . '.json';
+					$this->XPath = $this->Path . '.' . $this->PathExtension;
+
+					if(basename(dirname(realpath($this->JPath))) === 'Modules')
 					{
-						if(is_readable($PPath))
+						$Json = Json::Decode($this->JPath);
+
+						if(is_array($Json))
 						{
-							// Lint
+							if(is_readable($this->XPath))
+							{
+								// Lint
 
-							$this->Data = $Json;
+								$this->Data = $Json;
 
-							$this->Loaded = self::LOADED;
+								$this->_Load();
 
-							return self::LOADED;
+								$this->Loaded = self::LOADED;
+
+								return self::LOADED;
+							}
+							else
+								Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). {$this->PathExtension} file is not readable");
 						}
 						else
-							Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). PHP file is not readable");
+							Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). Json file is not readable/decodeable");
 					}
 					else
-						Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). Json file is not readable/decodeable");
+						Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). It is not in Modules folder");
 				}
 				else
-					Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). It is not in Modules folder");
+					Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). That key doesn't exists");
 			}
+			else
+				Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). {$this->Extension} extension is not loaded");
 
 			$this->Loaded = self::NOT_LOADED;
 
 			return self::NOT_LOADED;
 		}
 
-		public function Reload()
-		{ return $this->Load(); }
+		abstract protected function _Load();
 
-		public function Execute(Message $Message, Array $Params = array())
-		{
-			if($Message->Time >= $this->WhatsBot->GetStartTime())
-			{
-				if($this->IsEnabled())
-				{
-					$Path = "class/Modules/{$this->Key}_{$this->AliasOf}.php";
-
-					if(is_readable($Path))
-					{
-						$LangSection = "{$this->Key}_{$this->AliasOf}";
-
-						$this->WhatsApp->SetLangSection($LangSection);
-						$Lang = new Lang($LangSection);
-
-						$ModuleManager = $this->ModuleManager;
-						$WhatsBot = $this->WhatsBot;
-						$WhatsApp = $this->WhatsApp;
-
-						extract($Params);
-
-						return include $Path;
-					}
-
-					Std::Out("[Warning] [Modules] Can't call {$this->Key}::{$this->Name} ({$this->AliasOf}). PHP file is not readable");
-
-					return self::NOT_READABLE;
-				}
-
-				return self::NOT_ENABLED;
-			}
-
-			return self::EXECUTED;
-		}
+		abstract public function Execute(Message $Message, Array $Params = array());
 
 		public function IsAlias()
 		{ return $this->Name != $this->AliasOf; }
