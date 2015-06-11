@@ -120,6 +120,8 @@
 			$Methods = array_map(function($Method) { return $Method->name; }, $Methods);
 			$Methods = array_combine($Methods, array_map(function($Method) use($Object) { return array($Object, $Method); }, $Methods));
 
+			$Methods = array_filter($Methods, function($Method) { return strpos($Method, '__') !== 0; }, ARRAY_FILTER_USE_KEY);
+
 			$this->RegisterCallbacks($Methods, $MethodsPrefix);
 
 			# Vars
