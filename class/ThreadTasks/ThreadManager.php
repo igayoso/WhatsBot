@@ -1,5 +1,5 @@
 <?php
-	require_once 'Thread.php';
+	require_once 'class/Thread.php';
 
 	const THREADMANAGER = 5;
 

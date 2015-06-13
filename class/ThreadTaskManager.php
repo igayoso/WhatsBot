@@ -1,9 +1,9 @@
 <?php
-	require_once 'WhatsBotTasks.php';
-	require_once 'WhatsAppTasks.php';
-	require_once 'EventManagerTasks.php';
-	require_once 'ModuleManagerTasks.php';
-	require_once 'ThreadManagerTasks.php';
+	require_once 'ThreadTasks/WhatsBot.php';
+	require_once 'ThreadTasks/WhatsApp.php';
+	require_once 'ThreadTasks/EventManager.php';
+	require_once 'ThreadTasks/ModuleManager.php';
+	require_once 'ThreadTasks/ThreadManager.php';
 
 	trait ThreadTaskManager
 	{
