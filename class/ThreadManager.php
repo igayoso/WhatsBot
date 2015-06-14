@@ -39,7 +39,7 @@
 					{
 						$this->Enabled = true;
 
-						require_once 'Thread.php';
+						require_once 'PHPThread.php';
 
 						$Loaded = array();
 
@@ -65,7 +65,7 @@
 
 		private function LoadThread($Name)
 		{
-			$this->Threads[$Name] = new WhatsBotThread($Name);
+			$this->Threads[$Name] = new PHPThread($Name);
 
 			$Loaded = $this->Threads[$Name]->IsLoaded();
 
