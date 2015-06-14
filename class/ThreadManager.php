@@ -44,7 +44,7 @@
 						$Loaded = array();
 
 						foreach($Config['Threads'] as $Thread)
-							$Loaded['Thread'] = $this->LoadThread($Thread);
+							$Loaded[$Thread] = $this->LoadThread($Thread);
 
 						Std::Out('[Info] [Threads] Ready!');
 
