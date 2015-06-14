@@ -89,11 +89,9 @@
 
 								$this->Data = $Json;
 
-								$this->_Load();
+								$this->Loaded = $this->_Load();
 
-								$this->Loaded = self::LOADED;
-
-								return self::LOADED;
+								return $this->Loaded;
 							}
 							else
 								Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). {$this->PathExtension} file is not readable");
@@ -112,7 +110,7 @@
 
 			$this->Loaded = self::NOT_LOADED;
 
-			return self::NOT_LOADED;
+			return $this->Loaded;
 		}
 
 		abstract protected function _Load();
