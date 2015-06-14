@@ -3,6 +3,32 @@
 
 	class LuaWithPHP extends Lua
 	{
+		public function __construct($LuaScriptFile = null)
+		{
+			if($LuaScriptFile !== null)
+				parent::__construct($LuaScriptFile);
+			else
+				parent::__construct();
+			
+			$Functions = array
+			(
+				'var_dump' => 'var_dump',
+				'php_load_function' => array($this, 'php_load_function')
+			);
+
+			$this->RegisterCallbacks($Functions);
+		}
+
+		# Bridge
+
+		public function php_load_function($Function)
+		{
+			if(is_string($Function))
+				return $this->RegisterCallback($Function, $Function);
+
+			return false;
+		}
+
 		# Variables
 
 		public function AssignVariables(Array $Variables, $Prefix = null)
