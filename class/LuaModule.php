@@ -18,13 +18,10 @@
 		{
 			$this->Lua = new Lua;
 
-			$Constants = get_defined_constants(true)['user'];
-			$Functions = array('var_dump' => 'var_dump');
-			$Objects = array($this->ModuleManager, $this->WhatsBot, $this->WhatsApp);
+			$this->AssignUserConsts();
+			$this->RegisterUsefulFunctions();
 
-			$this->AssignConsts($Constants);
-			$this->RegisterCallbacks($Functions);
-			$this->LinkObjects($Objects);
+			$this->LinkObjects(array($this->ModuleManager, $this->WhatsBot, $this->WhatsApp));
 		}
 
 		public function Execute(Message $Message, Array $Params = array())

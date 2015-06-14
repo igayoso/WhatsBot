@@ -32,6 +32,11 @@
 			return $this->AssignVar($Key, $Value);
 		}
 
+		protected function AssignUserConsts()
+		{
+			return $this->AssignConsts(get_defined_constants(true)['user']);
+		}
+
 		# Funcs
 
 		protected function RegisterCallbacks(Array $Callbacks, $Prefix = null)
@@ -48,6 +53,13 @@
 			Std::Out("[Warning] [Modules] (Lua) Can't register the {$Name} callback");
 
 			return false;
+		}
+
+		protected function RegisterUsefulFunctions()
+		{
+			$Functions = array('var_dump' => 'var_dump');
+
+			return $this->RegisterCallbacks($Functions);
 		}
 
 		# Objects
