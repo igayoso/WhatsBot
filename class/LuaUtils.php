@@ -1,6 +1,8 @@
 <?php
 	require_once 'Lib/_Loader.php';
 
+	require_once 'LuaBridge.php';
+
 	trait LuaUtils
 	{
 		# Vars
@@ -53,10 +55,12 @@
 			{
 				if(is_object($this->GetLua()->RegisterCallback($Name, $Callback)))
 					return true;
+
+				Std::Out("[Warning] [Modules] (Lua) Can't register {$Name} callback");
 			}
 			catch(Exception $Exception)
 			{
-				Std::Out('[Warning] [Modules] (Lua) ' . get_class($Exception) . " thrown while registering {$Name} callback";
+				Std::Out('[Warning] [Modules] (Lua) ' . get_class($Exception) . " thrown while registering {$Name} callback");
 			}
 
 			return false;
@@ -66,7 +70,9 @@
 		{
 			$Functions = array('var_dump' => 'var_dump');
 
-			return $this->RegisterCallbacks($Functions);
+			$this->RegisterCallbacks($Functions);
+
+			$this->LinkObject(new LuaBridge($this->GetLua()), false, false, false);
 		}
 
 		# Objects
