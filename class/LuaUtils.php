@@ -1,4 +1,6 @@
 <?php
+	require_once 'Lib/_Loader.php';
+
 	trait LuaUtils
 	{
 		# Vars
@@ -47,10 +49,15 @@
 
 		protected function RegisterCallback($Name, $Callback)
 		{
-			if(is_object($this->GetLua()->RegisterCallback($Name, $Callback)))
-				return true;
-
-			Std::Out("[Warning] [Modules] (Lua) Can't register the {$Name} callback");
+			try
+			{
+				if(is_object($this->GetLua()->RegisterCallback($Name, $Callback)))
+					return true;
+			}
+			catch(Exception $Exception)
+			{
+				Std::Out('[Warning] [Modules] (Lua) ' . get_class($Exception) . " thrown while registering {$Name} callback";
+			}
 
 			return false;
 		}
