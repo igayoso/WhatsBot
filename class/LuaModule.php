@@ -53,10 +53,13 @@
 
 							$Return = $this->Lua->Include($this->XPath);
 
-							if($Return !== null)
-								return $Return;
+							if($Return === false)
+								return INTERNAL_ERROR;
+							
+							if($Return === null)
+								return self::EXECUTED;
 
-							return self::EXECUTED;
+							return $Return;
 						}
 
 						Std::Out("[Warning] [Modules] (Lua) Can't execute {$this->Key}::{$this->Name} ({$this->AliasOf}). {$this->PathExtension} file is not readable");
