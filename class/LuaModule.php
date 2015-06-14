@@ -14,7 +14,7 @@
 		{
 			try
 			{
-				require_once 'Lua/WithPHP.php';
+				require_once 'LuaWithPHP.php';
 
 				$this->Lua = new LuaWithPHP;
 
