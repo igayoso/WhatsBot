@@ -20,7 +20,7 @@
 
 			$Constants = get_defined_constants(true)['user'];
 			$Functions = array('var_dump' => 'var_dump');
-			$Objects = array($this, $this->ModuleManager, $this->WhatsBot, $this->WhatsApp);
+			$Objects = array($this->ModuleManager, $this->WhatsBot, $this->WhatsApp);
 
 			$this->AssignConsts($Constants);
 			$this->RegisterCallbacks($Functions);
