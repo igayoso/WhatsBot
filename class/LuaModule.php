@@ -3,12 +3,8 @@
 
 	require_once 'Module.php';
 
-	require_once 'LuaUtils.php';
-
 	class LuaModule extends Module
 	{
-		use LuaUtils;
-
 		protected $PathExtension = 'lua';
 		protected $Extension = 'lua';
 
@@ -16,50 +12,68 @@
 
 		protected function _Load()
 		{
-			$this->Lua = new Lua;
+			try
+			{
+				require_once 'Lua/WithPHP.php';
 
-			$this->AssignUserConsts();
-			$this->RegisterUsefulFunctions();
+				$this->Lua = new LuaWithPHP;
 
-			$this->LinkObjects(array($this->ModuleManager, $this->WhatsBot, $this->WhatsApp));
+				$this->Lua->AssignUserConstants();
+
+				$this->Lua->LinkObjects(array($this->ModuleManager, $this->WhatsBot, $this->WhatsApp));
+
+				return self::LOADED;
+			}
+			catch(Exception $Exception)
+			{
+				Std::Out("[Warning] [Modules] (Lua) Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). " . get_class($Exception) . 'thrown (' . $Exception->GetMessage() . ')');
+
+				return self::NOT_LOADED;
+			}
 		}
 
 		public function Execute(Message $Message, Array $Params = array())
 		{
-			if($Message->Time >= $this->WhatsBot->GetStartTime())
+			try
 			{
-				if($this->IsEnabled())
+				if($Message->Time >= $this->WhatsBot->GetStartTime())
 				{
-					if(is_readable($this->XPath))
+					if($this->IsEnabled())
 					{
-						$LangSection = "{$this->Key}_{$this->AliasOf}";
+						if(is_readable($this->XPath))
+						{
+							$LangSection = "{$this->Key}_{$this->AliasOf}";
 
-						$this->WhatsApp->SetLangSection($LangSection);
-						$this->LinkObject(new Lang($LangSection), true, true, true);
+							$this->WhatsApp->SetLangSection($LangSection);
+							$this->Lua->LinkObject(new Lang($LangSection), true, true, true);
 
-						$this->AssignVars($Params);
+							$this->Lua->AssignVariables($Params);
 
-						$this->LinkObject($Message, true, false, false);
+							$this->Lua->LinkObject($Message, true, false, false);
 
-						$Return = $this->Lua->Include($this->XPath);
+							$Return = $this->Lua->Include($this->XPath);
 
-						if($Return !== null)
-							return $Return;
+							if($Return !== null)
+								return $Return;
 
-						return self::EXECUTED;
+							return self::EXECUTED;
+						}
+
+						Std::Out("[Warning] [Modules] (Lua) Can't execute {$this->Key}::{$this->Name} ({$this->AliasOf}). {$this->PathExtension} file is not readable");
+
+						return self::NOT_READABLE;
 					}
 
-					Std::Out("[Warning] [Modules] Can't execute {$this->Key}::{$this->Name} ({$this->AliasOf}). {$this->PathExtension} file is not readable");
-
-					return self::NOT_READABLE;
+					return self::NOT_ENABLED;
 				}
 
-				return self::NOT_ENABLED;
+				return self::EXECUTED;
 			}
+			catch(Exception $Exception)
+			{
+				Std::Out("[Warning] [Modules] (Lua) Can't execute {$this->Key}::{$this->Name} ({$this->AliasOf}). " . get_class($Exception) . 'thrown (' . $Exception->GetMessage() . ')');
 
-			return self::EXECUTED;
+				return INTERNAL_ERROR;
+			}
 		}
-
-		protected function GetLua()
-		{ return $this->Lua; }
 	}
