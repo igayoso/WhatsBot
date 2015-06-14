@@ -9,7 +9,7 @@
 		protected $Extension = false;
 
 		protected function _Load()
-		{ }
+		{ return self::LOADED; }
 
 		public function Execute(Message $Message, Array $Params = array())
 		{
