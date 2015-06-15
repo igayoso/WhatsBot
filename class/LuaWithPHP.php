@@ -40,13 +40,35 @@
 		public function AssignVariable($Key, $Value)
 		{
 			if(is_scalar($Value))
+			{
 				if(is_object($this->Assign($Key, $Value)))
 					return true;
-			// if is array => convert index
+			}
+			elseif(is_array($Value))
+			{
+				if(is_object($this->Assign($Key, $this->FixArray($Value))))
+					return true;
+			}
 
-			Std::Out("[Warning] [Lua] Can't assign a non-scalar value (\${$Key}, " . gettype($Value) . ')');
+			Std::Out("[Warning] [Lua] Can't assign a non-scalar/array value (\${$Key}, " . gettype($Value) . ')');
 
 			return false;
+		}
+
+		private function FixArray(Array $Array)
+		{
+			if(array_key_exists(0, $Array))
+			{
+				$Keys = array_keys($Array);
+				
+				for($i = count($Keys) - 1; $i >= 0; $i--)
+					if(is_int($Keys[$i]) || strval(intval($Keys[$i])) === $Keys[$i])
+						$Keys[$i] = intval($Keys[$i]) + 1;
+
+				return array_combine($Keys, array_values($Array));
+			}
+
+			return $Array;
 		}
 
 		# Callbacks
