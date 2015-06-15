@@ -22,7 +22,8 @@
 			'Command' => array(),
 			'Domain' => array(),
 			'Extension' => array(),
-			'Media' => array()
+			'Media' => array(),
+			'_' => array()
 		);
 
 		public function __construct(WhatsBot $WhatsBot, WhatsApp $WhatsApp)

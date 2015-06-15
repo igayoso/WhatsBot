@@ -60,6 +60,15 @@
 			$Domain = parse_url($URL, PHP_URL_HOST);
 			$Extension = pathinfo(parse_url($URL, PHP_URL_PATH), PATHINFO_EXTENSION);
 
+			# URL Event
+
+			$Module = $this->ModuleManager->GetModule('_', 'url', false);
+
+			if($Module instanceof Module)
+				$this->SendResponse($Message, $Module->Execute($Message, array('URL' => $URL, 'Domain' => $Domain, 'Extension' => $Extension)));
+			elseif($Module !== Module::NOT_LOADED)
+				$this->SendResponse($Message, $Module);
+
 			# Try to execute Domain Module
 
 			$Module = $this->ModuleManager->GetModule('Domain', $Domain, false);
