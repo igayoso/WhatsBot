@@ -22,6 +22,9 @@
 
 				$this->Lua->LinkObjects(array($this->ModuleManager, $this->WhatsBot, $this->WhatsApp));
 
+				$this->Lua->LinkObject($this, false, false, false);
+				$this->Lua->AssignVariable('Data', $this->Data);
+
 				return self::LOADED;
 			}
 			catch(Exception $Exception)
