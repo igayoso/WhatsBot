@@ -13,8 +13,7 @@
 
 		protected function Execute()
 		{
-			$LangSection = "Thread_{$this->Name}";
-			$Lang = new Lang($LangSection);
+			$Lang = new Lang("Thread_{$this->Name}");
 
 			$WhatsBot = $this->WhatsBot;
 			$WhatsApp = $this->WhatsApp;
