@@ -139,6 +139,8 @@
 						$Key = "const {$Key} = ";
 
 					Std::Out("[Warning] [Parser] Wrong response code ({$Key}" . var_export($Code, true) . "). Message from {$Message->From} ({$Message->ID})");
+
+					$this->WhatsApp->SendMessage($Message->From, 'message:internal_error:wrong_response_code', $Code);
 				}
 			}
 
