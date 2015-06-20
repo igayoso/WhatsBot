@@ -42,7 +42,9 @@
 						$this->Enabled = true;
 
 						require_once 'PHPThread.php';
+
 						require_once 'LuaThread.php';
+						require_once 'LuaFunctions.php';
 
 						$Loaded = array();
 
@@ -68,12 +70,7 @@
 
 		private function LoadThread($Name)
 		{
-			$Lua = false;
-
-			if(substr($Name, strlen($Name) - 4) === '.lua') // assign var with lenght
-				$Name = substr($Name, 0, strlen($Name) - 4) and $Lua = true;
-
-			if($Lua)
+			if(IsLuaFilename($Name))
 				$this->Threads[$Name] = new LuaThread($Name);
 			else
 				$this->Threads[$Name] = new PHPThread($Name);
