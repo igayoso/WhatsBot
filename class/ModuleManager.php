@@ -18,7 +18,7 @@
 		private $WhatsApp = null;
 
 		private $Modules = array
-		(
+		( // What if we don't create this ? Traits should be protected (getter/setter?)
 			'Command' => array(),
 			'Domain' => array(),
 			'Extension' => array(),

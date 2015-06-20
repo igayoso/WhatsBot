@@ -12,7 +12,7 @@
 		}
 
 		public static function Out($String = null, $NewLines = 1)
-		{
+		{ // printf like, with array as params ?
 			for($i = 0; $i < $NewLines; $i++)
 				$String .= PHP_EOL;
 

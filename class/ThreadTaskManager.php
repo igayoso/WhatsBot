@@ -17,7 +17,7 @@
 		private $ThreadManager = null;
 
 		private function LoadTaskManager()
-		{
+		{ // What if isn't called ?
 			$this->WhatsBot = new WhatsBotTasks($this);
 			$this->WhatsApp = new WhatsAppTasks($this);
 			$this->EventManager = new EventManagerTasks($this);
