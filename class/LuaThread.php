@@ -3,15 +3,17 @@
 
 	require_once 'Thread.php';
 
-	require_once 'LuaWithPHP.php';
-
 	class LuaThread extends WhatsBotThread
 	{
 		protected $PathExtension = 'lua';
 		protected $Extension = 'lua';
 
 		protected function _Load()
-		{ return self::LOADED; }
+		{
+			require_once 'LuaWithPHP.php';
+
+			return self::LOADED;
+		}
 
 		protected function Execute()
 		{
