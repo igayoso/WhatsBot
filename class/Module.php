@@ -66,7 +66,7 @@
 			$this->Load();
 		}
 
-		public function Load()
+		final public function Load()
 		{
 			if(!is_string($this->Extension) || extension_loaded($this->Extension))
 			{
