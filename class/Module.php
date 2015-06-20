@@ -40,7 +40,7 @@
 		const LOAD_ERROR = -5;
 
 		const ENABLED = true;
-		const NOT_ENABLED = false;
+		const NOT_ENABLED = -6;
 
 		const NOT_READABLE = -2;
 
@@ -123,7 +123,7 @@
 		public function IsLoaded()
 		{ return $this->Loaded; }
 
-		public function IsEnabled()
+		public function GetEnabled()
 		{ return $this->Enabled; }
 
 		public function Enable()

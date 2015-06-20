@@ -125,6 +125,8 @@
 					$this->WhatsApp->SendMessage($Message->From, 'message:module::not_loaded');
 				elseif($Code === NOT_ADMIN)
 					$this->WhatsApp->SendMessage($Message->From, 'message:not_admin');
+				elseif($Code === Module::NOT_ENABLED)
+					$this->WhatsApp->SendMessage($Message->From, 'message:module::not_enabled');
 				elseif($Code === INTERNAL_ERROR || $Code === Module::NOT_READABLE)
 					$this->WhatsApp->SendMessage($Message->From, 'message:internal_error');
 				elseif($Code === Module::LOAD_ERROR)

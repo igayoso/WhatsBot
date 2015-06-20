@@ -81,6 +81,8 @@
 					return $this->SendRawMessage($To, 'That module doesn\'t exists. Try !help to see a list of available modules');
 				elseif($Key === 'message:not_admin')
 					return $this->SendRawMessage($To, 'You need admin rights in order to do that');
+				elseif($Key === 'message:module::not_enabled')
+					return $this->SendRawMessage($To, 'That module is loaded, but is disabled. Ask the admin about it');
 				elseif($Key === 'message:internal_error')
 					return $this->SendRawMessage($To, 'Internal error');
 				elseif($Key === 'message:internal_error:wrong_response_code')
