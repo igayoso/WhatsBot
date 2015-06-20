@@ -7,9 +7,13 @@
 	{
 		private $WhatsApp = null;
 
-		public function __construct(WhatsProt $WhatsApp)
+		private $LangSection = null;
+
+		public function __construct(WhatsProt $WhatsApp, $LangSection = null)
 		{
 			$this->WhatsApp = $WhatsApp;
+
+			$this->LangSection = $LangSection;
 		}
 
 		# Config
@@ -58,8 +62,6 @@
 		{ return $this->WhatsApp->SendSetProfilePicture($Path); }
 
 		# Messages
-
-		private $LangSection = null;
 
 		public function SetLangSection($Section)
 		{ $this->LangSection = $Section; }
