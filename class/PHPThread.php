@@ -16,16 +16,14 @@
 			$LangSection = "Thread_{$this->Name}";
 			$Lang = new Lang($LangSection);
 
-			$Path = "class/Threads/{$this->Name}.php";
-
 			$WhatsBot = $this->WhatsBot;
 			$WhatsApp = $this->WhatsApp;
 			$EventManager = $this->EventManager;
 			$ModuleManager = $this->ModuleManager;
 			$ThreadManager = $this->ThreadManager;
 
-			while(!$this->Stop && is_readable($Path))
-				include($Path);
+			while(!$this->Stop && is_readable($this->XPath))
+				include($this->XPath);
 
 			Std::Out();
 			Std::Out("[Info] [Threads] {$this->Name} stopped ($this->Stop)");
