@@ -24,8 +24,5 @@
 
 			while(!$this->Stop && is_readable($this->XPath))
 				include($this->XPath);
-
-			Std::Out();
-			Std::Out("[Info] [Threads] {$this->Name} stopped ($this->Stop)");
 		}
 	}

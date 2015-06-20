@@ -92,6 +92,9 @@
 
 			$this->Execute();
 
+			Std::Out();
+			Std::Out("[Info] [Threads] {$this->Name} stopped ($this->Stop)");
+
 			if(strtolower(substr(PHP_OS, 0, 3)) === 'win') // When a thread gets stopped, windows says "PHP-CLI has stopped working *trollface*"
 				while(true) // So ...
 					sleep(1); // We will wait ... ... ...
