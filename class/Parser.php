@@ -131,8 +131,8 @@
 					$this->WhatsApp->SendMessage($Message->From, 'message:internal_error');
 				elseif($Code === Module::LOAD_ERROR)
 					$this->WhatsApp->SendMessage($Message->From, 'message:module::load_error');
-				elseif(is_array($Code) && !empty($Code[0]))
-					$this->WhatsApp->SendLangError($Message->From, $Code[0]);
+				elseif(is_array($Code) && !empty($Code[1])) // Some other
+					$this->WhatsApp->SendLangError($Message->From, $Code[1]);
 				else
 				{
 					$Key = array_search($Code, get_defined_constants(true)['user'], true);
