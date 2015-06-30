@@ -89,8 +89,21 @@
 
 								$this->Data = $Json;
 
-								$this->Loaded = $this->_Load();
+								if(isset($this->Data['Libs']) && is_array($this->Data['Libs']))
+								{
+									foreach($this->Data['Libs'] as $Lib)
+									{
+										if(!LoadLib($Lib))
+										{
+											$this->Loaded = self::NOT_LOADED;
 
+											return $this->Loaded;
+										}
+									}
+								}
+
+								$this->Loaded = $this->_Load();
+	
 								return $this->Loaded;
 							}
 							else
