@@ -39,5 +39,10 @@
 			return false;
 		}
 
+		public function __invoke($Key)
+		{
+			return call_user_func_array(array($this, 'Get'), func_get_args());
+		}
+
 		// Set()
 	}
