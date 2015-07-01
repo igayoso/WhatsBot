@@ -122,7 +122,7 @@
 
 			# Prefixes
 
-			$ClassPrefix = $Class . '_';
+			$ClassPrefix = $ClassName . '_';
 
 			$ConstsPrefix = $ConstsWithPrefix ? strtoupper($ClassPrefix) : null;
 			$MethodsPrefix = $MethodsWithPrefix ? $ClassPrefix : null;
