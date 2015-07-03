@@ -76,7 +76,7 @@
 		public function RegisterCallbacks(Array $Callbacks, $Prefix = null)
 		{
 			foreach($Callbacks as $Name => $Callback)
-				$this->RegisterCallback($Name, $Callback);
+				$this->RegisterCallback($Prefix . $Name, $Callback);
 		}
 
 		public function RegisterCallback($Name, $Callback)
