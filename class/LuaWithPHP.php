@@ -35,7 +35,7 @@
 
 		public function php_load_function($Function)
 		{
-			if(is_string($Function))
+			if(is_string($Function) && function_exists($Function))
 				return $this->RegisterCallback($Function, $Function);
 
 			return false;
