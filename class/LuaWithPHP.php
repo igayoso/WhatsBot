@@ -13,7 +13,8 @@
 			$Functions = array
 			(
 				'var_dump' => 'var_dump',
-				'php_load_function' => array($this, 'php_load_function')
+				'php_load_function' => array($this, 'php_load_function'),
+				'include' => array($this, 'include')
 			);
 
 			$this->RegisterCallbacks($Functions);
