@@ -184,5 +184,9 @@
 			$Properties = array_combine($Properties, array_map(function($Property) use($Object) { return $Object->{$Property}; }, $Properties));
 
 			$this->AssignVariables($Properties);
+
+			return true;
+
+			// Return consts && methods && properties (all of it)
 		}
 	}
