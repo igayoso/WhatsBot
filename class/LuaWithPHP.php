@@ -58,7 +58,7 @@
 			}
 			elseif(is_array($Value))
 			{
-				if(is_object($this->Assign($Key, $this->FixArray($Value))))
+				if(is_object($this->Assign($Key, self::FixArrayRecursive($Value))))
 					return true;
 			}
 
@@ -67,7 +67,7 @@
 			return false;
 		}
 
-		private function FixArray(Array $Array)
+		public static function FixArray(Array $Array)
 		{
 			if(array_key_exists(0, $Array))
 			{
@@ -79,6 +79,17 @@
 
 				return array_combine($Keys, array_values($Array));
 			}
+
+			return $Array;
+		}
+
+		public static function FixArrayRecursive(Array $Array)
+		{
+			$Array = self::FixArray($Array);
+
+			foreach(array_keys($Array) as $Key)
+				if(is_array($Array[$Key]))
+					$Array[$Key] = self::FixArrayRecursive($Array[$Key]);
 
 			return $Array;
 		}
