@@ -14,6 +14,7 @@
 			(
 				'var_dump' => 'var_dump',
 				'php_load_function' => array($this, 'php_load_function'),
+				'php_load_class' => array($this, 'php_load_class'),
 				'include' => array($this, 'include')
 			);
 
@@ -21,6 +22,16 @@
 		}
 
 		# Bridge
+
+		public function php_load_class($ClassName, $ConstsWithPrefix = true, $MethodsWithPrefix = true, $PropertiesWithPrefix = true)
+		{
+			if(class_exists($ClassName))
+				return $this->LinkObject($ClassName, $ConstsWithPrefix, $MethodsWithPrefix, $PropertiesWithPrefix);
+
+			return false;
+		}
+
+		// php_init_class
 
 		public function php_load_function($Function)
 		{
