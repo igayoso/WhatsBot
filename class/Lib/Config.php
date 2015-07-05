@@ -54,7 +54,7 @@
 			if(isset(self::$Config[$Filename]))
 				return self::$Config[$Filename];
 
-			Std::Out("[Warning] [Config] No such file config/{$Filename}.json. Try to Config::Load()");
+			Std::Out("[Warning] [Config] config/{$Filename}.json does not exists or is not decodeable. Try to Config::Load()");
 
 			if($Throw)
 				throw new Exception("No such file config/{$Filename}.json");
