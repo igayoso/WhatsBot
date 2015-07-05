@@ -23,11 +23,10 @@
 
 				$Lua->AssignUserConstants();
 
-				$Lua->LinkObjects(array($this->ThreadManager, $this->ModuleManager, $this->EventManager, $this->WhatsApp, $this->WhatsBot));
-
 				$Lua->LinkObject($this, false, false, false);
-				$Lua->AssignVariable('Data', $this->Data);
-
+				$Lua->AssignVariables(array('Name' => $this->Name, 'Path' => $this->Path, 'JPath' => $this->JPath, 'XPath' => $this->XPath, 'PathExtension' => $this->PathExtension, 'Data' => $this->Data, 'Loaded' => $this->Loaded));
+				
+				$Lua->LinkObjects(array($this->ThreadManager, $this->ModuleManager, $this->EventManager, $this->WhatsApp, $this->WhatsBot));
 				$Lua->LinkObject(new Lang("Thread_{$this->Name}"), true, true, true);
 
 				while(!$this->Stop && is_readable($this->XPath))
