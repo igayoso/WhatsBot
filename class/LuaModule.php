@@ -20,10 +20,10 @@
 
 				$this->Lua->AssignUserConstants();
 
-				$this->Lua->LinkObjects(array($this->ModuleManager, $this->WhatsBot, $this->WhatsApp));
-
 				$this->Lua->LinkObject($this, false, false, false);
-				$this->Lua->AssignVariable('Data', $this->Data);
+				$this->Lua->AssignVariables(array('Key' => $this->Key, 'Name' => $this->Name, 'AliasOf' => $this->AliasOf, 'Path' => $this->Path, 'JPath' => $this->JPath, 'XPath' => $this->XPath, 'PathExtension' => $this->PathExtension, 'Extension' => $this->Extension, 'Data' => $this->Data, 'Loaded' => $this->Loaded, 'Enabled' => $this->Enabled));
+
+				$this->Lua->LinkObjects(array($this->ModuleManager, $this->WhatsBot, $this->WhatsApp));
 
 				return self::LOADED;
 			}
