@@ -1,6 +1,8 @@
 <?php
 	require_once '_Loader.php';
 
+	require_once 'class/LuaWithPHP.php';
+
 	class Config
 	{
 		private static $Config = array();
@@ -49,10 +51,15 @@
 		}
 
 
-		public static function Get($Filename, $Throw = false)
+		public static function Get($Filename, $Throw = false, $FixArray = false)
 		{
 			if(isset(self::$Config[$Filename]))
-				return self::$Config[$Filename];
+			{
+				if($FixArray)
+					return LuaWithPHP::FixArrayRecursive(self::$Config[$Filename]);
+				else
+					return self::$Config[$Filename];
+			}
 
 			Std::Out("[Warning] [Config] config/{$Filename}.json does not exists or is not decodeable. Try to Config::Load()");
 

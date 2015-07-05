@@ -1,9 +1,11 @@
 <?php
 	require_once '_Loader.php';
 
+	require_once 'class/LuaWithPHP.php';
+
 	class Json
 	{
-		public static function Decode($Filename)
+		public static function Decode($Filename, $FixArray = false)
 		{
 			if(is_readable($Filename))
 			{
@@ -14,7 +16,12 @@
 					$Data = json_decode($Data, true);
 
 					if($Data !== null)
-						return $Data;
+					{
+						if($FixArray)
+							return LuaWithPHP::FixArrayRecursive($Data);
+						else
+							return $Data;
+					}
 					else
 						Std::Out("[Warning] [Json] Can't decode {$Filename}");
 				}
