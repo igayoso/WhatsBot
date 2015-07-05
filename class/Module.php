@@ -95,6 +95,8 @@
 									{
 										if(!LoadLib($Lib))
 										{
+											Std::Out("[Warning] [Modules] Can't load {$this->Key}::{$this->Name} ({$this->AliasOf}). {$Lib} lib doesn't exists");
+											
 											$this->Loaded = self::NOT_LOADED;
 
 											return $this->Loaded;

@@ -67,6 +67,8 @@
 								{
 									if(!LoadLib($Lib))
 									{
+										Std::Out("[Warning] [Threads] Can't load {$this->Name}. {$Lib} lib doesn't exists");
+
 										$this->Loaded = self::NOT_LOADED;
 
 										return $this->Loaded;
