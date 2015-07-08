@@ -41,7 +41,7 @@
 
 	function LoadLib($Lib)
 	{
-		$Path = "class/Lib/.{$Lib}.php";
+		$Path = "class/Lib/_{$Lib}.php";
 
 		if(basename(dirname(realpath($Path))) === 'Lib')
 		{
