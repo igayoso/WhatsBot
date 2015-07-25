@@ -105,11 +105,13 @@
 
 		protected function Info($String, $NewLines = 1)
 		{
+			Std::Out();
 			return Std::Out('[Info] [API ' . get_class($this) . '] ' . $String, $NewLines);
 		}
 
 		protected function Warning($String, $NewLines = 1)
 		{
+			Std::Out();
 			return Std::Out('[Warning] [API ' . get_class($this) . '] ' . $String, $NewLines);
 		}
 	}
