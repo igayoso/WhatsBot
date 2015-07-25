@@ -15,6 +15,8 @@
 			if(!is_string($this->Endpoint) || !parse_url($this->Endpoint))
 				trigger_error(get_class($this) . ' must redefine $Endpoint', E_USER_ERROR);
 
+			$this->Endpoint = rtrim($this->Endpoint, '/');
+
 			$this->DefaultHeaders = $DefaultHeaders;
 			$this->DefaultGetParameters = $DefaultGetParameters;
 		}
@@ -74,14 +76,14 @@
 				{
 					foreach($Request as $Key => $Value)
 					{
-						if(!is_int($Key))
-							$URL .= "{$Value}/";
+						if(is_int($Key))
+							$URL .= "/{$Value}";
 						else
-							$URL .= "{$Key}/{$Value}/";
+							$URL .= "/{$Key}/{$Value}";
 					}
 				}
 				else
-					$URL .= $Request;
+					$URL .= '/' . $Request;
 
 				if(!empty($this->DefaultGetParameters))
 					$URL .= '?' . http_build_query($this->DefaultGetParameters);
