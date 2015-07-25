@@ -10,15 +10,12 @@
 		protected $DefaultHeaders = array();
 		protected $DefaultGetParameters = array();
 
-		public function __construct(Array $DefaultHeaders = array(), Array $DefaultGetParameters = array())
+		public function __construct()
 		{
 			if(!is_string($this->Endpoint) || !parse_url($this->Endpoint))
 				trigger_error(get_class($this) . ' must redefine $Endpoint', E_USER_ERROR);
 
 			$this->Endpoint = rtrim($this->Endpoint, '/');
-
-			$this->DefaultHeaders = $DefaultHeaders;
-			$this->DefaultGetParameters = $DefaultGetParameters;
 		}
 
 		protected function Connect($Request, Array $Headers = array(), $Parameters = null, Array $SuccessHeaders = array(200, 301, 302))
