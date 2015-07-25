@@ -90,7 +90,7 @@
 				$Response = Unirest\Request::send($Method, $URL, $Body, $Headers);
 
 				if(in_array($Response->code, $SuccessHeaders))
-					return array('Code' => $Response->code, 'Headers' => $Response->headers, 'Body' => $Response->raw_body);
+					return array('Code' => $Response->code, 'Headers' => $Response->headers, 'Body' => $Response->raw_body, 'Json' => json_decode($Response->raw_body, true));
 
 				$this->Warning("Response code {$Response->code}. Request to {$URL}");
 
