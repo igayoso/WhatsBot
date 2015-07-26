@@ -43,7 +43,7 @@
 
 			$Config = Config::Get('WhatsBot');
 
-			if(is_array($Config) && !empty($Config['WhatsApp']['Username']) && !empty($Config['WhatsApp']['Nickname']) && !empty($Config['WhatsApp']['Password']))
+			if(!empty($Config['WhatsApp']['Username']) && !empty($Config['WhatsApp']['Nickname']) && !empty($Config['WhatsApp']['Password']))
 			{
 				$this->Password = $Config['WhatsApp']['Password'];
 
