@@ -10,10 +10,24 @@
 			return array_keys($this->Modules);
 		}
 
-		public function GetModules($Key)
+		public function GetModules($Key, $Type = 0)
 		{
 			if($this->KeyExists($Key))
-				return array_keys($this->Modules[$Key]);
+			{
+				return array_keys(array_filter
+				(
+					$this->Modules[$Key], 
+					function($Module) use($Type)
+					{
+						if($Type == 1) // User module
+							return empty($Module->GetData()['Admin']);
+						elseif($Type == 2) // Admin module
+							return !empty($Module->GetData()['Admin']);
+						else
+							return true;
+					}
+				));
+			}
 
 			return false;
 		}

@@ -146,4 +146,7 @@
 
 		public function Disable()
 		{ $this->Enabled = self::NOT_ENABLED; }
+
+		public function GetData()
+		{ return $this->Data; }
 	}
