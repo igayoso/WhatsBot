@@ -60,11 +60,11 @@
 
 				$this->ModuleManager = new ModuleManager($this, $this->WhatsApp);
 
+				$this->ThreadManager = new ThreadManager($this, $this->WhatsProt, $this->ModuleManager);
+
 				$this->Parser = new WhatsBotParser($this->WhatsApp, $this->ModuleManager);
 
 				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser);
-
-				$this->ThreadManager = new ThreadManager($this, $this->WhatsProt, $this->ModuleManager);
 
 				# Load
 
