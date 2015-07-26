@@ -74,12 +74,44 @@
 
 				# Binding
 
-				Std::Out();
-
-				$this->WhatsApp->EventManager()->BindListener($this->Listener, 'WhatsBotListener');
+				$this->LoadListeners();
 			}
 			else
 				throw new Exception('You have to setup the config file config/WhatsBot.json');
+		}
+
+		private function LoadListeners()
+		{
+			Std::Out();
+			Std::Out('[Warning] [Events] Loading');
+
+			$LoadWhatsBotListener = true;
+
+			$Listeners = Config::Get('Listeners');
+
+			if(is_array($Listeners))
+			{
+				foreach($Listeners as $Listener)
+				{
+					if($Listener != '-WhatsBotListener')
+					{
+						require_once "class/Listeners/{$Listener}.php";
+
+						$ListenerInstance = new $Listener($this, $this->WhatsApp, $this->Parser, $this->ModuleManager, $this->ThreadManager);
+
+						$this->WhatsApp->EventManager()->BindListener($ListenerInstance, $Listener);
+					}
+					else
+						$LoadWhatsBotListener = false;
+				}
+			}
+			else
+				Std::Out("[Warning] [Events] config/Listeners.json must be an array");
+
+			if($LoadWhatsBotListener)
+				$this->WhatsApp->EventManager()->BindListener($this->Listener, 'WhatsBotListener');
+
+			Std::Out('[Warning] [Events] Ready!');
 		}
 
 		private function Connect($Show = true, $Retries = 3) // Don't hardcode D:
