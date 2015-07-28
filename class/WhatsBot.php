@@ -85,12 +85,15 @@
 			Std::Out();
 			Std::Out('[Warning] [Events] Loading');
 
-			$LoadWhatsBotListener = true;
+			$this->WhatsApp->EventManager()->BindListener($this->Listener, 'WhatsBotListener');
 
 			$Listeners = Config::Get('Listeners');
 
 			if(is_array($Listeners))
 			{
+				if(in_array('-WhatsBotListener', $Listeners))
+					$this->WhatsApp->EventManager()->DisableListener('WhatsBotListener');
+
 				foreach($Listeners as $Listener)
 				{
 					if($Listener != '-WhatsBotListener')
@@ -101,15 +104,10 @@
 
 						$this->WhatsApp->EventManager()->BindListener($ListenerInstance, $Listener);
 					}
-					else
-						$LoadWhatsBotListener = false;
 				}
 			}
 			else
 				Std::Out("[Warning] [Events] config/Listeners.json must be an array");
-
-			if($LoadWhatsBotListener)
-				$this->WhatsApp->EventManager()->BindListener($this->Listener, 'WhatsBotListener');
 
 			Std::Out('[Warning] [Events] Ready!');
 		}
