@@ -83,7 +83,7 @@
 		private function LoadListeners()
 		{
 			Std::Out();
-			Std::Out('[Warning] [Events] Loading');
+			Std::Out('[Info] [Events] Loading');
 
 			$this->WhatsApp->EventManager()->BindListener($this->Listener, 'WhatsBotListener');
 
@@ -109,7 +109,7 @@
 			else
 				Std::Out("[Warning] [Events] config/Listeners.json must be an array");
 
-			Std::Out('[Warning] [Events] Ready!');
+			Std::Out('[Info] [Events] Ready!');
 		}
 
 		private function Connect($Show = true, $Retries = 3) // Don't hardcode D:
