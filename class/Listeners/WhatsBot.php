@@ -1,27 +1,12 @@
 <?php
-	require_once 'Lib/_Loader.php';
+	require_once 'class/Lib/_Loader.php';
 
-	require_once 'WhatsApp.php';
+	require_once 'Core.php';
 
-	require_once 'WhatsApp/TextMessage.php';
-	require_once 'WhatsApp/AudioMessage.php';
-	require_once 'WhatsApp/ImageMessage.php';
-	require_once 'WhatsApp/VideoMessage.php';
-
-	require_once 'Parser.php';
-
-	class WhatsBotListener
+	class WhatsBotListener extends WhatsBotListenerCore
 	{
-		private $WhatsApp = null;
-
-		private $Parser = null;
-
-		public function __construct(WhatsApp $WhatsApp, WhatsBotParser $Parser)
-		{
-			$this->WhatsApp = $WhatsApp;
-
-			$this->Parser = $Parser;
-		}
+		protected function Load()
+		{ }
 
 		# Connection
 

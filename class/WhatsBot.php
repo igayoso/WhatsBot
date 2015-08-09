@@ -5,7 +5,7 @@
 
 	require_once 'WhatsApp.php';
 
-	require_once 'Listener.php';
+	require_once 'Listeners/WhatsBot.php';
 
 	require_once 'Parser.php';
 
@@ -64,7 +64,7 @@
 
 				$this->Parser = new WhatsBotParser($this->WhatsApp, $this->ModuleManager);
 
-				$this->Listener = new WhatsBotListener($this->WhatsApp, $this->Parser);
+				$this->Listener = new WhatsBotListener($this, $this->WhatsApp, $this->Parser, $this->ModuleManager, $this->ThreadManager);
 
 				# Load
 
@@ -74,42 +74,10 @@
 
 				# Binding
 
-				$this->LoadListeners();
+				$this->WhatsApp->EventManager()->LoadListeners($this, $this->WhatsApp, $this->Parser, $this->ModuleManager, $this->ThreadManager, $this->Listener);
 			}
 			else
 				throw new Exception('You have to setup the config file config/WhatsBot.json');
-		}
-
-		private function LoadListeners()
-		{
-			Std::Out();
-			Std::Out('[Info] [Events] Loading');
-
-			$this->WhatsApp->EventManager()->BindListener($this->Listener, 'WhatsBotListener');
-
-			$Listeners = Config::Get('Listeners');
-
-			if(is_array($Listeners))
-			{
-				if(in_array('-WhatsBotListener', $Listeners))
-					$this->WhatsApp->EventManager()->DisableListener('WhatsBotListener');
-
-				foreach($Listeners as $Listener)
-				{
-					if($Listener != '-WhatsBotListener')
-					{
-						require_once "class/Listeners/{$Listener}.php";
-
-						$ListenerInstance = new $Listener($this, $this->WhatsApp, $this->Parser, $this->ModuleManager, $this->ThreadManager);
-
-						$this->WhatsApp->EventManager()->BindListener($ListenerInstance, $Listener);
-					}
-				}
-			}
-			else
-				Std::Out("[Warning] [Events] config/Listeners.json must be an array");
-
-			Std::Out('[Info] [Events] Ready!');
 		}
 
 		private function Connect($Show = true, $Retries = 3) // Don't hardcode D:
