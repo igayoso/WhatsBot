@@ -1,13 +1,7 @@
 {
 	"Command":
 	[
-		"admin",
-		"echo",
-		"exchange",
-		"help",
-		"md5",
-		"search",
-		"translate"
+		"echo"
 	],
 	"Domain":
 	[
@@ -15,13 +9,13 @@
 	],
 	"Extension":
 	[
-		"png",
-		["jpg", "png"],
-		["jpeg", "png"],
-		["gif", "png"],
-		["tiff", "png"]
+		
 	],
 	"Media":
+	[
+		
+	],
+	"_":
 	[
 		
 	]

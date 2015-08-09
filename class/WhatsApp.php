@@ -1,16 +1,19 @@
 <?php
-	require_once 'whatsapi/whatsprot.class.php';
+	require_once 'Lib/_Loader.php';
 
-	require_once 'WhatsApp/Functions.php';
-	require_once 'Lang.php';
+	require_once 'WhatsAPI/whatsprot.class.php';
 
 	class WhatsApp
 	{
 		private $WhatsApp = null;
 
-		public function __construct(WhatsProt $WhatsApp)
+		private $LangSection = null;
+
+		public function __construct(WhatsProt $WhatsApp, $LangSection = null)
 		{
 			$this->WhatsApp = $WhatsApp;
+
+			$this->LangSection = $LangSection;
 		}
 
 		# Config
@@ -27,15 +30,18 @@
 		public function Connect()
 		{ return $this->WhatsApp->Connect(); }
 
-		public function IsConnected()
-		{ return $this->WhatsApp->IsConnected(); }
-
 		public function Disconnect()
 		{ return $this->WhatsApp->Disconnect(); }
+
+		public function IsConnected()
+		{ return $this->WhatsApp->IsConnected(); }
 
 
 		public function SendPing()
 		{ return $this->WhatsApp->SendPing(); }
+
+		public function SendPong($ID)
+		{ return $this->WhatsApp->SendPong($ID); }
 		
 		# Login
 
@@ -57,8 +63,6 @@
 
 		# Messages
 
-		private $LangSection = null;
-
 		public function SetLangSection($Section)
 		{ $this->LangSection = $Section; }
 
@@ -73,18 +77,37 @@
 				return $this->SendRawMessage($To, (is_array($Pre) && !empty($Pre[0]) ? $Pre[0] : null) . $Message);
 			else
 			{
-				if($Key === 'message:internal_error')
-					return $this->SendRawMessage($To, 'Internal error...');
-				elseif($Key === 'message::module_not_loaded')
+				if($Key === 'message:module::not_loaded')
 					return $this->SendRawMessage($To, 'That module doesn\'t exists. Try !help to see a list of available modules');
+				elseif($Key === 'message:not_admin')
+					return $this->SendRawMessage($To, 'You need admin rights in order to do that');
+				elseif($Key === 'message:module::not_enabled')
+					return $this->SendRawMessage($To, 'That module is loaded, but is disabled. Ask the admin about it');
+				elseif($Key === 'message:internal_error')
+					return $this->SendRawMessage($To, 'Internal error');
+				elseif($Key === 'message:internal_error:wrong_response_code')
+					return $this->SendRawMessage($To, 'Internal error. The code (' . var_export($Pre, true) . ') returned by the module is wrong');
+				elseif($Key === 'message:module::load_error')
+					return $this->SendRawMessage($To, 'That module is loaded, but there are some troubles (at reload, json-php not readable/lint). If you are the admin, see the logs!');
 				else
-					return $this->SendLangError($To, $Key);
+				{
+					array_shift($Args);
+
+					return $this->SendLangError($To, $Key, $Args);
+				}
 			}
 		}
 
-		public function SendLangError($To, $Key)
+		public function SendLangError($To, $Key, Array $Params = array())
 		{
-			return $this->SendRawMessage($To, "Lang error. Key not found: {$this->LangSection}::{$Key}");
+			$String = '';
+
+			foreach($Params as $Param)
+				$String .= var_export($Param, true) . ', ';
+
+			$String = substr($String, 0, strlen($String) - 2);
+
+			return $this->SendRawMessage($To, "Lang error. Key not found: \n{$this->LangSection}::{$Key}({$String})");
 		}
 
 		public function SendRawMessage($To, $Message)

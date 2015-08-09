@@ -1,5 +1,7 @@
 <?php
-	require_once 'Others/Std.php';
+	require_once 'Lib/_Loader.php';
+
+	require_once 'Module.php';
 
 	trait ModuleManagerGetter
 	{
@@ -8,44 +10,46 @@
 			return array_keys($this->Modules);
 		}
 
-		public function GetModules($Key)
+		public function GetModules($Key, $Type = 0)
 		{
 			if($this->KeyExists($Key))
-				return array_keys($this->Modules[$Key]);
+			{
+				return array_keys(array_filter
+				(
+					$this->Modules[$Key], 
+					function($Module) use($Type)
+					{
+						if($Type == 1) // User module
+							return empty($Module->GetData()['Admin']);
+						elseif($Type == 2) // Admin module
+							return !empty($Module->GetData()['Admin']);
+						else
+							return true;
+					}
+				));
+			}
 
 			return false;
 		}
 
-		protected function GetModule($Key, $Name)
+		public function GetModule($Key, $Name, $ShowWarn = true)
 		{
 			$Name = strtolower($Name);
 
-			if($this->ModuleExists($Key, $Name))
-				return $this->Modules[$Key][$Name];
+			if($this->ModuleExists($Key, $Name, $ShowWarn) === Module::LOADED)
+			{
+				if($this->Modules[$Key][$Name]->IsLoaded())
+					return $this->Modules[$Key][$Name];
+				else
+					return Module::LOAD_ERROR;
+			}
 
-			Std::Out("[WARNING] [MODULES] Trying to get not loaded module. {$Key}::{$Name}");
+			if($ShowWarn)
+				Std::Out("[Warning] [Modules] Trying to get not loaded module. {$Key}::{$Name}");
 
-			return false;
+			return Module::NOT_LOADED;
 		}
 
-
-		public function GetCommandModule($Name)
-		{
-			return $this->GetModule('Command', $Name);
-		}
-
-		public function GetDomainModule($Name)
-		{
-			return $this->GetModule('Domain', $Name);
-		}
-
-		public function GetExtensionModule($Name)
-		{
-			return $this->GetModule('Extension', $Name);
-		}
-
-		public function GetMediaModule($Name)
-		{
-			return $this->GetModule('Media', $Name);
-		}
+		abstract public function KeyExists($Key);
+		abstract public function ModuleExists($Key, $Name, $ShowWarn = true);
 	}

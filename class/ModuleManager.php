@@ -1,17 +1,30 @@
 <?php
+	require_once 'Lib/_Loader.php';
+
+	require_once 'ModuleManagerExists.php';
+	require_once 'ModuleManagerGetter.php';
+	require_once 'ModuleManagerLoader.php';
+
 	require_once 'WhatsBot.php';
-
-	require_once 'ModuleManagerCore.php';
-	require_once 'ModuleManagerCaller.php';
-
 	require_once 'WhatsApp.php';
 
-	class ModuleManager extends ModuleManagerCore
+	class ModuleManager
 	{
-		use ModuleManagerCaller;
+		use ModuleManagerExists;
+		use ModuleManagerGetter;
+		use ModuleManagerLoader;
 
 		private $WhatsBot = null;
 		private $WhatsApp = null;
+
+		private $Modules = array
+		( // What if we don't create this ? Traits should be protected (getter/setter?)
+			'Command' => array(),
+			'Domain' => array(),
+			'Extension' => array(),
+			'Media' => array(),
+			'_' => array()
+		);
 
 		public function __construct(WhatsBot $WhatsBot, WhatsApp $WhatsApp)
 		{

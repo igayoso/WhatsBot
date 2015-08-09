@@ -1,7 +1,0 @@
-{
-	"help":"Converts between currencies",
-	"usage":"Usage: !exchange <convert from> <convert to> [<amount>] [<decimal places>]. Example: !exchange usd eur 2 3 or !exchange usd eur",
-
-	"message:converted":"As per current exchange rate, %s %s = %s %s",
-	"message:cant_connect":"Sorry, we can't convert it. Are the parameters wrong? If you are the admin, ¡see the logs!"
-}

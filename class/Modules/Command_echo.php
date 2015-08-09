@@ -1,7 +1,7 @@
 <?php
-	$Message = Command::GetText($ModuleName, $Text);
+	$Text = $Message->GetText($ModuleName);
 
-	if($Message !== false)
-		$WhatsApp->SendRawMessage($From, $Message);
+	if($Text !== false)
+		$WhatsApp->SendRawMessage($Message->From, $Text);
 	else
 		return SEND_USAGE;

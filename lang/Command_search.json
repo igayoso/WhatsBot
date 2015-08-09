@@ -1,9 +1,0 @@
-{
-	"help":"Searches whatever you want",
-	"usage":"Usage: !search <text>. Example: !search WhatsBot",
-
-	"message:search_results":"%d results in %.2f seconds: ",
-	"message:result_pattern":"\n\n%2$s => %1$s",
-
-	"message:cant_connect":"Sorry, we can't search it, there is an internal problem. If you are the admin, ¡see the logs!"
-}

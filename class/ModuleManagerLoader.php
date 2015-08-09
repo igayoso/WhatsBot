@@ -1,103 +1,104 @@
 <?php
-	require_once 'ConfigManager.php';
+	require_once 'Lib/_Loader.php';
 
-	require_once 'Others/Std.php';
-	require_once 'Others/Json.php';
+	require_once 'Module.php';
+
+	require_once 'PHPModule.php';
+
+	require_once 'LuaModule.php';
+	require_once 'LuaFunctions.php';
 
 	trait ModuleManagerLoader
 	{
-		// LoadModules() => return loaded modules
 		public function LoadModules()
 		{
 			Std::Out();
-			Std::Out('[INFO] [MODULES] Loading');
+			Std::Out('[Info] [Modules] Loading');
 
 			$Modules = Config::Get('Modules');
 
 			if(is_array($Modules))
-			{ // Show number of loaded modules
+			{
+				$Loaded = array();
+
 				$Keys = array_keys($Modules);
 
 				foreach($Keys as $Key)
+				{
 					foreach($Modules[$Key] as $Module)
-						$this->LoadModule($Key, $Module);
+					{
+						if(is_string($Module))
+							$Module = array($Module, $Module);
 
-				Std::Out('[INFO] [MODULES] Ready!');
+						if(is_array($Module) && !empty($Module[0]) && !empty($Module[1]))
+						{
+							$Name = strtolower($Module[0]);
+
+							$Loaded[$Key][$Name] = $this->LoadModule($Key, $Name, $Module[1]);
+						}
+						else
+						{
+							Std::Out('[Warning] [Modules] Config must be Key::Name or Key::[Name, AliasOf]');
+							Std::Out("{$Key}::", false);
+							Std::Out(var_export($Module, true));
+						}
+					}
+				}
+
+				Std::Out('[Info] [Modules] Ready!'); // ($N loaded modules)
+
+				return $Loaded;
+			}
+
+			Std::Out('[Warning] [Modules] Config file is not an array');
+
+			return false;
+		}
+
+		public function LoadModule($Key, $Name, $AliasOf)
+		{
+			if($this->KeyExists($Key))
+			{
+				$Name = strtolower($Name);
+				$AliasOf = strtolower($AliasOf);
+
+				$Lua = false;
+
+				if(IsLuaFilename($Name))
+					$Lua = true;
+				if(IsLuaFilename($AliasOf))
+					$Lua = true;
+
+				if($Lua)
+					$this->Modules[$Key][$Name] = new LuaModule($this, $this->WhatsBot, $this->WhatsApp, $Key, $Name, $AliasOf);
+				else
+					$this->Modules[$Key][$Name] = new PHPModule($this, $this->WhatsBot, $this->WhatsApp, $Key, $Name, $AliasOf);
+
+				$Loaded = $this->Modules[$Key][$Name]->IsLoaded();
+
+				if(!$Loaded)
+					$this->UnloadModule($Key, $Name);
+
+				return $Loaded;
+			}
+
+			return false;
+		}
+
+		public function UnloadModule($Key, $Name)
+		{
+			$Name = strtolower($Name);
+
+			if($this->ModuleExists($Key, $Name))
+			{
+				unset($this->Modules[$Key][$Name]);
 
 				return true;
 			}
 
-			Std::Out('[WARNING] [MODULES] Config file is not an array');
-
 			return false;
 		}
 
-		private function LoadModule($Key, $Name)
-		{
-			if(is_array($Name) && !empty($Name[0]) && !empty($Name[1])) // If some is empty?
-			{
-				$Filename = $Name[1];
-				$Name = $Name[0];
-			}
-			else
-			{
-				$Filename = $Name;
-			}
-
-			if($this->KeyExists($Key))
-			{
-				$Path = "class/Modules/{$Key}_{$Filename}";
-
-				$JPath = "{$Path}.json";
-				$PPath = "{$Path}.php";
-
-				if(basename(dirname(realpath($JPath))) === 'Modules') // Use Path::
-				{
-					$Json = Json::Read($JPath); // Show errors
-
-					if($Json !== false)
-					{
-						if(is_readable($PPath)) // Lint
-						{
-							$this->Modules[$Key][strtolower($Name)] = array
-							(
-								'Path' => $PPath,
-								'File' => $Filename,
-								'Data' => $Json
-							);
-
-							return true;
-						}
-						else
-							Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. PHP file doesn't exists");
-					}
-					else
-						Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. Json file is not readable");
-				}
-				else
-					Std::Out("[WARNING] [MODULES] Can't load {$Key}::{$Name}. It is not in Modules folder");
-			}
-
-			return false;
-		}
-
-		public function LoadCommandModule($Name)
-		{
-			return $this->LoadModule('Command', $Name);
-		}
-
-		public function LoadDomainModule($Name)
-		{
-			return $this->LoadModule('Domain', $Name);
-		}
-
-		public function LoadExtensionModule($Name)
-		{
-			return $this->LoadModule('Extension', $Name);
-		}
-
-		public function LoadMediaModule($Name)
-		{
-			return $this->LoadModule('Media', $Name);
-		}
+		abstract public function KeyExists($Key);
+		abstract public function ModuleExists($Key, $Name, $ShowWarn = true);
 	}
