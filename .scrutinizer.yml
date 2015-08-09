@@ -1,5 +1,5 @@
 filter:
     excluded_paths:
-    	- class/WhatsAPI/*
+        - class/WhatsAPI/*
     paths:
-    	- class/WhatsAPI/events/*
+        - class/WhatsAPI/events/*
