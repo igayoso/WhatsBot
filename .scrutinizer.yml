@@ -3,3 +3,8 @@ filter:
         - class/WhatsAPI/*
     paths:
         - class/WhatsAPI/events/*
+
+checks:
+    php:
+        code_rating: true
+        duplication: true
