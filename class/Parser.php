@@ -62,7 +62,7 @@
 
 			# URL Event
 
-			$Module = $this->ModuleManager->GetModule('_', 'url', false);
+			$Module = $this->ModuleManager->GetModule('Event', 'url', false);
 
 			if($Module instanceof Module)
 				$this->SendResponse($Message, $Module->Execute($Message, array('URL' => $URL, 'Domain' => $Domain, 'Extension' => $Extension)));
