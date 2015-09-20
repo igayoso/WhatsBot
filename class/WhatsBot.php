@@ -81,7 +81,7 @@
 		}
 
 		private function Connect($Show = true, $Retries = 3) // Don't hardcode D:
-		{
+		{ // $w->reconnect();
 			if($Show)
 				Std::Out();
 
