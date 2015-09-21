@@ -11,7 +11,6 @@
 	require_once 'class/ThreadManager.php';
 
 	require_once 'class/Listeners/Core.php';
-	require_once 'class/Listeners/WhatsBot.php';
 
 	class WhatsApiEventsManager
 	{
