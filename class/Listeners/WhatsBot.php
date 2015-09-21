@@ -8,13 +8,6 @@
 		protected function Load()
 		{ }
 
-		# Connection
-
-		public function onPing($Me, $ID)
-		{
-			$this->WhatsApp->SendPong($ID);
-		}
-
 		############
 		# Messages #
 		############
