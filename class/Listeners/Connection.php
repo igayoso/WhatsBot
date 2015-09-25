@@ -13,5 +13,3 @@
 			$this->WhatsApp->SendPong($ID);
 		}
 	}
-
-
