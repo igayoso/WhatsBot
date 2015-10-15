@@ -44,7 +44,7 @@
 				if($Writed === $ToWrite)
 					return true;
 				else
-					Std::Out("[Warning] [Json] {$Filename} : {$Writed} bytes writed of {$ToWrite}");
+					Std::Out("[Warning] [Json] {$Filename} : {$Writed} bytes written of {$ToWrite}");
 			}
 			else
 				Std::Out("[Warning] [Json] Can't encode {$Filename}");
