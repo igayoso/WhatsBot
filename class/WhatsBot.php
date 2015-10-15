@@ -26,7 +26,7 @@
 		private $Debug = false;
 		private $StartTime = null;
 
-		private $Exit = false; // Make event => onExit?
+		private $Exit = 'Not connected'; // Make event => onExit?
 
 		public function __construct($Debug = false)
 		{
@@ -101,6 +101,8 @@
 						Std::Out();
 						Std::Out('[Info] [WhatsBot] Ready!');
 					}
+
+					$this->_Exit(false);
 
 					return true;
 				}
