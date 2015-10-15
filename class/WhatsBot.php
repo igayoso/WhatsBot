@@ -30,7 +30,7 @@
 
 		public function __construct($Debug = false)
 		{
-			$this->Debug = (bool)$Debug;
+			$this->Debug = (bool) $Debug;
 
 			Std::Out();
 			Std::Out('[Info] [WhatsBot] Loading... Debug = ' . var_export($this->Debug, true));
