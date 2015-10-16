@@ -69,7 +69,7 @@
 
 				# Binding
 
-				$this->WhatsApp->EventManager()->LoadListeners($this, $this->WhatsApp, $this->Parser, $this->ModuleManager, $this->ThreadManager, array('Connection', 'WhatsBot'));
+				$this->WhatsApp->EventManager()->LoadListeners($this, $this->WhatsApp, $this->Parser, $this->ModuleManager, $this->ThreadManager, array('Connection', 'WhatsBot', 'Storage'));
 			}
 			else
 				throw new Exception('You have to setup the config file config/WhatsBot.json');

@@ -1,10 +1,15 @@
 <?php
 	require_once 'Core.php';
 
-	class WhatsBotListener extends WhatsBotListenerCore
+	class StorageListener extends WhatsBotListenerCore
 	{
 		protected function Load()
 		{ }
+
+		private function Log(Message $Message)
+		{
+			$Message->Log();
+		}
 
 		############
 		# Messages #
@@ -14,12 +19,12 @@
 
 		public function onGetMessage($Me, $From, $ID, $Type, $Time, $Name, $Text)
 		{
-			$this->Parser->ParseTextMessage(new TextMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $Text));
+			$this->Log(new TextMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $Text));
 		}
 
 		public function onGetGroupMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text)
 		{
-			$this->Parser->ParseTextMessage(new TextMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text));
+			$this->Log(new TextMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text));
 		}
 
 		# Media
@@ -28,27 +33,27 @@
 		{
 			$User = $User == null ? $From : $User;
 
-			$this->Parser->ParseMediaMessage(new AudioMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Codec));
+			$this->Log(new AudioMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Codec));
 		}
 
 		public function onGetImage($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
 		{
-			$this->Parser->ParseMediaMessage(new ImageMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
+			$this->Log(new ImageMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
 		}
 
 		public function onGetGroupImage($Me, $From, $User, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
 		{
-			$this->Parser->ParseMediaMessage(new ImageMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
+			$this->Log(new ImageMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
 		}
 
 		public function onGetVideo($Me, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption, $Width, $Height, $FPS, $VBitRate, $ASampleFrequency, $ASampleFormat, $ABitRate)
 		{
-			$this->Parser->ParseMediaMessage(new VideoMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Preview, $Caption, $Width, $Height, $FPS, $VCodec, $VBitRate, $ACodec, $ABitRate, $ASampleFrequency, $ASampleFormat));
+			$this->Log(new VideoMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Preview, $Caption, $Width, $Height, $FPS, $VCodec, $VBitRate, $ACodec, $ABitRate, $ASampleFrequency, $ASampleFormat));
 		}
 
 		public function onGetGroupVideo($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption, $Width, $Height, $FPS, $VBitRate, $ASampleFrequency, $ASampleFormat, $ABitRate)
 		{
-			$this->Parser->ParseMediaMessage(new VideoMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Duration, $Preview, $Caption, $Width, $Height, $FPS, $VCodec, $VBitRate, $ACodec, $ABitRate, $ASampleFrequency, $ASampleFormat));
+			$this->Log(new VideoMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Duration, $Preview, $Caption, $Width, $Height, $FPS, $VCodec, $VBitRate, $ACodec, $ABitRate, $ASampleFrequency, $ASampleFormat));
 		}
 
 		// Add onGetLocation & onGetvCard
