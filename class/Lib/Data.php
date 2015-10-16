@@ -18,7 +18,7 @@
 			return true;
 		}
 
-		public static function Get($FileName, $JsonIfEmpty = true)
+		public static function Get($FileName, $JsonIfEmpty = true, $ShowWarning = true)
 		{
 			self::CreateDirectory();
 
@@ -47,11 +47,11 @@
 						break;
 				}
 			}
-			else
+			elseif($ShowWarning)
 				Std::Out("[Warning] [Data] {$Path} is not readable");
 		}
 
-		public static function Set($FileName, $Data = array(), $Json = false)
+		public static function Set($FileName, $Data = array(), $Json = false, $ShowWarning = true)
 		{
 			self::CreateDirectory();
 
@@ -77,7 +77,8 @@
 					if($Written = $ToWrite)
 						return true;
 
-					Std::Out("[Warning] [Data] {$Path} : {$Written} bytes written of {$ToWrite}");
+					if($ShowWarning)
+						Std::Out("[Warning] [Data] {$Path} : {$Written} bytes written of {$ToWrite}");
 					break;
 			}
 
