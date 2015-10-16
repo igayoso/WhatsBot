@@ -5,6 +5,7 @@
 		'Json',
 		'Config',
 		'Lang',
+		'Data',
 
 		'Regex'
 	);
