@@ -39,12 +39,12 @@
 			if($Data !== false)
 			{
 				$ToWrite = strlen($Data);
-				$Writed = file_put_contents($Filename, $Data);
+				$Written = file_put_contents($Filename, $Data);
 
-				if($Writed === $ToWrite)
+				if($Written === $ToWrite)
 					return true;
 				else
-					Std::Out("[Warning] [Json] {$Filename} : {$Writed} bytes written of {$ToWrite}");
+					Std::Out("[Warning] [Json] {$Filename} : {$Written} bytes written of {$ToWrite}");
 			}
 			else
 				Std::Out("[Warning] [Json] Can't encode {$Filename}");
