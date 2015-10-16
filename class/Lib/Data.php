@@ -57,7 +57,7 @@
 
 			$Extension = self::GetExtension($FileName);
 
-			if(is_array($Data) || $Json)
+			if(empty($Extension) && (is_array($Data) || $Json))
 			{
 				$FileName .= '.json';
 				$Extension = 'json';
