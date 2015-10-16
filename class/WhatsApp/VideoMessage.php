@@ -23,8 +23,6 @@
 
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Preview, $Caption, $Width, $Height, $FPS, $VCodec, $VBitRate, $ACodec, $ABitRate, $ASampleFrequency, $ASampleFormat)
 		{
-			parent::__construct($Me, $From, $User, $ID, $Type, $Time, $Name, 'video', $URL, $File, $Size, $MIME, $Hash);
-
 			$this->Duration = (int) $Duration;
 			$this->Preview = $Preview;
 			$this->Caption = empty($Caption) ? null : $Caption;
@@ -37,5 +35,7 @@
 			$this->ABitRate = (int) $ABitRate;
 			$this->ASampleFrequency = (int) $ASampleFrequency;
 			$this->ASampleFormat = $ASampleFormat;
+
+			parent::__construct($Me, $From, $User, $ID, $Type, $Time, $Name, 'video', $URL, $File, $Size, $MIME, $Hash);
 		}
 	}

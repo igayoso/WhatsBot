@@ -7,9 +7,9 @@
 
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $Text)
 		{
-			parent::__construct($Me, $From, $User, $ID, $Type, $Time, $Name);
-
 			$this->Text = $Text;
+
+			parent::__construct($Me, $From, $User, $ID, $Type, $Time, $Name);
 		}
 
 		public function GetText($ModuleName, Array $Params = array(), $Else = false)

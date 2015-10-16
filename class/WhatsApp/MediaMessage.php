@@ -14,14 +14,14 @@
 
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $SubType, $URL, $File, $Size, $MIME, $Hash)
 		{
-			parent::__construct($Me, $From, $User, $ID, $Type, $Time, $Name);
-
 			$this->SubType = $SubType;
 			$this->URL = $URL;
 			$this->File = $File;
 			$this->Size = (int) $Size;
 			$this->MIME = $MIME;
 			$this->Hash = $Hash;
+
+			parent::__construct($Me, $From, $User, $ID, $Type, $Time, $Name);
 		}
 
 		public function GetType()
