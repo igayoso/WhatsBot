@@ -23,4 +23,7 @@
 			$this->MIME = $MIME;
 			$this->Hash = $Hash;
 		}
+
+		public function GetType()
+		{ return $this->SubType; }
 	}

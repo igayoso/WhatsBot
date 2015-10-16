@@ -23,4 +23,7 @@
 
 			return $Text === false ? $Else : $Text;
 		}
+
+		public function GetType()
+		{ return $this->Type; }
 	}
