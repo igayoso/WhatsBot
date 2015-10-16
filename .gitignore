@@ -1,2 +1,2 @@
-config/WhatsBot.json
-tests/*.*
+config/*
+data/*
