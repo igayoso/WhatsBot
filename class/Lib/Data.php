@@ -18,13 +18,13 @@
 			return true;
 		}
 
-		public static function Get($FileName, $JsonIfEmpty = true, $ShowWarning = true)
+		public static function Get($FileName, $JsonIfEmptyExtension = true, $ShowWarning = true)
 		{
 			self::CreateDirectory();
 
 			$Extension = self::GetExtension($FileName);
 
-			if(empty($Extension) && $JsonIfEmpty)
+			if(empty($Extension) && $JsonIfEmptyExtension)
 			{
 				$FileName .= '.json';
 				$Extension = 'json';
