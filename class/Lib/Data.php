@@ -5,10 +5,17 @@
 	{
 		private static $Directory = 'data';
 
-		private static function CreateDirectory()
+		public static function CreateDirectory($Directory = null)
 		{
-			if(!is_dir(self::$Directory))
-				mkdir(self::$Directory);
+			if(empty($Directory))
+				$Path = self::$Directory;
+			else
+				$Path = self::GetPath($Directory);
+
+			if(!is_dir($Path))
+				return mkdir($Path);
+
+			return true;
 		}
 
 		public static function Get($FileName, $JsonIfEmpty = true)
