@@ -1,10 +1,13 @@
 <?php
 	require_once 'class/WhatsBot.php';
 
+	# Debug
 
-	# Config
-	$Debug = false;
+	$Arguments = getopt('d');
 
+	$Debug = isset($Arguments['d']);
+
+	# Start
 
 	Std::Out('Starting WhatsBot...');
 
