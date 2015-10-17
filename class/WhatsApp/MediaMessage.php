@@ -19,7 +19,7 @@
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $SubType, $URL, $File, $Size, $MIME, $Hash)
 		{
 			$this->SubType = $SubType;
-			$this->URL = $URL;
+			$this->URL = !empty($URL) ? $URL : null;
 			$this->File = $File;
 			$this->Size = (int) $Size;
 			$this->MIME = $MIME;
@@ -27,14 +27,33 @@
 
 			parent::__construct($Me, $From, $User, $ID, $Type, $Time, $Name);
 
-			$this->LoadData();
+			$this->LoadBinaryData();
 		}
 
-		private function LoadData()
+		private function LoadBinaryData()
 		{
-			Data::CreateDirectory($this->MediaDirectory);
+			if(!empty($this->File))
+			{
+				Data::CreateDirectory($this->MediaDirectory);
 
-			$Path = "{$this->MediaDirectory}/{$this->File}";
+				$Pathinfo = pathinfo($this->File);
+
+				if(!empty($Pathinfo['filename']) && !empty($Pathinfo['extension']))
+				{
+					$this->LoadData($Pathinfo['filename'], $Pathinfo['extension']);
+
+					$this->LoadPreview($Pathinfo['filename'], $Pathinfo['extension']);
+
+					// Return x && y ?
+				}
+			}
+
+			return false;
+		}
+
+		private function LoadData($FileName, $Extension)
+		{
+			$Path = "{$this->MediaDirectory}/{$FileName}.{$Extension}";
 
 			$this->Data = Data::Get($Path, false, false);
 
@@ -56,12 +75,32 @@
 			return true;
 		}
 
-		public function GetData()
+		private function LoadPreview($FileName, $Extension)
 		{
-			// json_encode can't encode $this->Data
+			if(isset($this->Preview))
+			{
+				$Path = "{$this->MediaDirectory}/{$FileName}.preview.{$Extension}";
 
-			return $this->Data;
+				$Preview = Data::Get($Path, false, false);
+
+				if(!empty($Preview))
+				{
+					if(empty($this->Preview))
+						$this->Preview = $Preview;
+
+					return true;
+				}
+				elseif(!empty($this->Preview))
+					return Data::Set($Path, $this->Preview);
+
+				return false;
+			}
+
+			return false;
 		}
+
+		public function GetData() // It's binary data, StorageListener can't log it (json_encode warning)
+		{ return $this->Data; }
 
 		public function GetType()
 		{ return $this->SubType; }

@@ -5,7 +5,7 @@
 	{
 		public $Duration = null;
 		
-		public $Preview = null;
+		protected $Preview = null;
 		public $Caption = null;
 
 		public $Width = null;
@@ -38,4 +38,7 @@
 
 			parent::__construct($Me, $From, $User, $ID, $Type, $Time, $Name, 'video', $URL, $File, $Size, $MIME, $Hash);
 		}
+
+		public function GetPreview() // It's binary data, StorageListener can't log it (json_encode warning)
+		{ return $this->Preview; }
 	}

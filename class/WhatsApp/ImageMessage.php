@@ -6,7 +6,7 @@
 		public $Width = null;
 		public $Height = null;
 
-		public $Preview = null;
+		protected $Preview = null;
 		public $Caption = null;
 
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
@@ -18,4 +18,7 @@
 
 			parent::__construct($Me, $From, $User, $ID, $Type, $Time, $Name, 'image', $URL, $File, $Size, $MIME, $Hash);
 		}
+
+		public function GetPreview() // It's binary data, StorageListener can't log it (json_encode warning)
+		{ return $this->Preview; }
 	}
