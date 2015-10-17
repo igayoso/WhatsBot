@@ -34,12 +34,12 @@
 
 		public static function Encode($Filename, $Data, $Options = JSON_PRETTY_PRINT)
 		{
-			$Data = json_encode($Data, $Options);
+			$EncodedData = json_encode($Data, $Options);
 
-			if($Data !== false)
+			if($EncodedData !== false)
 			{
-				$ToWrite = strlen($Data);
-				$Written = file_put_contents($Filename, $Data);
+				$ToWrite = strlen($EncodedData);
+				$Written = file_put_contents($Filename, $EncodedData);
 
 				if($Written === $ToWrite)
 					return true;
@@ -47,7 +47,11 @@
 					Std::Out("[Warning] [Json] {$Filename} : {$Written} bytes written of {$ToWrite}");
 			}
 			else
+			{
 				Std::Out("[Warning] [Json] Can't encode {$Filename}");
+
+				Data::Set('json_warning_' . time(), sprintf("Can't encode %s: %s", $Filename, var_export($Data, true)));
+			}
 
 			return false;
 		}
