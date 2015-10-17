@@ -51,7 +51,7 @@
 				Std::Out("[Warning] [Data] {$Path} is not readable");
 		}
 
-		public static function Set($FileName, $Data = array(), $Json = false, $ShowWarning = true)
+		public static function Set($FileName, $Data = array(), $Json = false, $ShowWarning = true) // Append ? 
 		{
 			self::CreateDirectory();
 

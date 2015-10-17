@@ -8,7 +8,7 @@
 
 		private function Log(Message $Message)
 		{
-			$Message->Log();
+			return $Message->Log();
 		}
 
 		############
