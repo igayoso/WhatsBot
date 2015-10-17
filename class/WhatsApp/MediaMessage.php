@@ -34,33 +34,34 @@
 		{
 			Data::CreateDirectory($this->MediaDirectory);
 
-			$Path = $this->MediaDirectory . DIRECTORY_SEPARATOR . $this->File;
+			$Path = "{$this->MediaDirectory}/{$this->File}";
 
 			$this->Data = Data::Get($Path, false, false);
 
 			if(empty($this->Data))
 			{
-				$this->Data = file_get_contents($this->URL);
-
-				if($this->Data !== false)
+				if(!empty($this->URL))
 				{
-					Data::Set($Path, $this->Data);
+					$this->Data = file_get_contents($this->URL);
 
-					$this->Data = base64_encode($this->Data);
-
-					return true;
+					if(!empty($this->Data))
+						return Data::Set($Path, $this->Data);
 				}
+
+				$this->Data = null;
 
 				return false;
 			}
-			else
-				$this->Data = base64_decode($this->Data);
 
 			return true;
 		}
 
 		public function GetData()
-		{ return base64_decode($this->Data); }
+		{
+			// json_encode can't encode $this->Data
+
+			return $this->Data;
+		}
 
 		public function GetType()
 		{ return $this->SubType; }
