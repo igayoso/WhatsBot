@@ -25,7 +25,7 @@
 		{
 			$this->Duration = (int) $Duration;
 			$this->Preview = $Preview;
-			$this->Caption = empty($Caption) ? null : $Caption;
+			$this->Caption = !empty($Caption) ? $Caption : null;
 			$this->Width = (int) $Width;
 			$this->Height = (int) $Height;
 			$this->FPS = (int) $FPS;
