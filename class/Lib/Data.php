@@ -74,7 +74,7 @@
 					$ToWrite = strlen($Data);
 					$Written = file_put_contents($Path, $Data);
 
-					if($Written = $ToWrite)
+					if($Written === $ToWrite)
 						return true;
 
 					if($ShowWarning)
