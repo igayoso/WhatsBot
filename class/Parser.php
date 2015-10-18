@@ -110,7 +110,7 @@
 
 		public function ParseMediaMessage(MediaMessage $Message)
 		{
-			$Module = $this->ModuleManager->GetModule('Media', $Message->SubType, false);
+			$Module = $this->ModuleManager->GetModule('Media', $Message->GetType(), false);
 
 			if($Module instanceof Module)
 				return $this->SendResponse($Message, $Module->Execute($Message));

@@ -11,7 +11,7 @@
 		public $Time = null;
 		public $Name = null;
 
-		private $LogDirectory = 'log';
+		protected $LogDirectory = 'log';
 
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name)
 		{
@@ -42,7 +42,8 @@
 			return Data::Set($Path, $Log, true);
 		}
 
-		abstract public function GetType();
+		public function GetType()
+		{ return $this->Type; }
 
 		public function IsGroupMessage()
 		{

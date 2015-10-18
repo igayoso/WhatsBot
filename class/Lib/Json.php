@@ -48,9 +48,11 @@
 			}
 			else
 			{
-				Std::Out("[Warning] [Json] Can't encode {$Filename}");
+				$LogFileName = 'json_warning_' . time();
 
-				Data::Set('json_warning_' . time(), sprintf("Can't encode %s: %s", $Filename, var_export($Data, true)));
+				Data::Set($LogFileName, sprintf("Can't encode %s: %s", $Filename, var_export($Data, true)));
+
+				Std::Out("[Warning] [Json] Can't encode {$Filename} (see data/{$LogFileName})");
 			}
 
 			return false;

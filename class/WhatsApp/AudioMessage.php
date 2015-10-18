@@ -7,6 +7,8 @@
 
 		public $Codec = null;
 
+		// Other data => Modify WhatsAPI
+
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Codec)
 		{
 			$this->Duration = (int) $Duration;
