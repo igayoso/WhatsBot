@@ -15,6 +15,8 @@
 			Std::Out();
 			Std::Out('[Info] [Modules] Loading');
 
+			Std::Out('[Info] [Modules] Available languages: ' . implode(', ', $this->GetAvailableLanguages(false)));
+
 			$Modules = Config::Get('Modules');
 
 			if(is_array($Modules))
@@ -97,6 +99,16 @@
 			}
 
 			return false;
+		}
+
+		private function GetAvailableLanguages($LowerCase = true)
+		{
+			$AvailableLanguages = array($LowerCase ? 'php' : 'PHP');
+
+			if(extension_loaded('lua'))
+				$AvailableLanguages[] = $LowerCase ? 'lua' : 'Lua';
+
+			return $AvailableLanguages;
 		}
 
 		abstract public function KeyExists($Key);

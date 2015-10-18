@@ -37,6 +37,8 @@
 					Std::Out();
 					Std::Out('[Info] [Threads] Loading');
 
+					Std::Out('[Info] [Threads] Available languages: ' . implode(', ', $this->GetAvailableLanguages(false)));
+
 					if(extension_loaded('pthreads'))
 					{
 						$this->Enabled = true;
@@ -203,5 +205,15 @@
 					Std::Out("[Warning] [Threads] Can't execute task " . var_export($Object, true) . "->{$Task[1]} (From {$Name})");
 				}
 			}
+		}
+
+		private function GetAvailableLanguages($LowerCase = true)
+		{
+			$AvailableLanguages = array($LowerCase ? 'php' : 'PHP');
+
+			if(extension_loaded('lua'))
+				$AvailableLanguages[] = $LowerCase ? 'lua' : 'Lua';
+
+			return $AvailableLanguages;
 		}
 	}
