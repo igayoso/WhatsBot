@@ -7,7 +7,9 @@
 		'Lang',
 		'Data',
 
-		'Regex'
+		'Regex',
+
+		'vCardParser'
 	);
 
 	LoadCoreLibs($CoreLibs);

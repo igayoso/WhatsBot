@@ -6,10 +6,12 @@
 	require_once 'class/WhatsApp.php';
 
 	require_once 'class/WhatsApp/TextMessage.php';
+
 	require_once 'class/WhatsApp/AudioMessage.php';
 	require_once 'class/WhatsApp/ImageMessage.php';
 	require_once 'class/WhatsApp/LocationMessage.php';
 	require_once 'class/WhatsApp/VideoMessage.php';
+	require_once 'class/WhatsApp/vCardMessage.php';
 
 	require_once 'class/Parser.php';
 

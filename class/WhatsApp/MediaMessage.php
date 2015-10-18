@@ -1,4 +1,6 @@
 <?php
+	require_once 'class/Lib/_Loader.php';
+
 	require_once 'Message.php';
 
 	class MediaMessage extends Message
@@ -14,7 +16,9 @@
 
 		protected $Data = null;
 
-		private $MediaDirectory = 'media';
+		protected $MediaDirectory = 'media';
+
+		protected $LogWithPreviewSuffix = true;
 
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $SubType, $URL, $File, $Size, $MIME, $Hash)
 		{
@@ -79,7 +83,12 @@
 		{
 			if(isset($this->Preview))
 			{
-				$Path = "{$this->MediaDirectory}/{$FileName}.preview.{$Extension}";
+				$Path = "{$this->MediaDirectory}/{$FileName}.";
+
+				if(!empty($this->LogWithPreviewSuffix))
+					$Path .= 'preview.';
+
+				$Path .= $Extension;
 
 				$Preview = Data::Get($Path, false, false);
 

@@ -58,7 +58,12 @@
 			$this->Parser->ParseMediaMessage(new VideoMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Duration, $Preview, $Caption, $Width, $Height, $FPS, $VCodec, $VBitRate, $ACodec, $ABitRate, $ASampleFrequency, $ASampleFormat));
 		}
 
-		// Add onGetvCard
+		public function onGetvCard($Me, $From, $ID, $Type, $Time, $Name, $vCardName, $vCard, $User)
+		{
+			$User = $User == null ? $From : $User;
+
+			$this->Parser->ParseMediaMessage(new vCardMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $vCardName, $vCard));
+		}
 
 		/* Events: 
 		 * public function onClose($mynumber, $error) {}
@@ -85,7 +90,6 @@
 	     * public function onGetGroupV2Info( $mynumber, $group_id, $creator, $creation, $subject, $participants, $admins, $fromGetGroup ){}
 	     * public function onGetGroupsSubject($mynumber, $group_jid, $time, $author, $name, $subject) {}
 	     * public function onGetKeysLeft($mynumber, $keysLeft) {}
-	     * public function onGetLocation($mynumber, $from, $id, $type, $time, $name, $author, $longitude, $latitude, $url, $preview, $fromJID_ifGroup = null) {}
 	     * public function onGetNormalizedJid($mynumber, $data) {}
 	     * public function onGetPrivacyBlockedList($mynumber, $data) {}
 	     * public function onGetProfilePicture($mynumber, $from, $type, $data) {}
@@ -95,7 +99,6 @@
 	     * public function onGetServicePricing($mynumber, $price, $cost, $currency, $expiration) {}
 	     * public function onGetStatus($mynumber, $from, $requested, $id, $time, $data) {}
 	     * public function onGetSyncResult($result) {}
-	     * public function onGetvCard($mynumber, $from, $id, $type, $time, $name, $vcardname, $vcard, $fromJID_ifGroup = null) {}
 	     * public function onGroupCreate($mynumber, $groupId) {}
 	     * public function onGroupisCreated($mynumber, $creator, $gid, $subject, $admin, $creation, $members = array()) {}
 	     * public function onGroupsChatCreate($mynumber, $gid) {}
