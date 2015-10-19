@@ -18,7 +18,7 @@
 
 		protected $MediaDirectory = 'media';
 
-		protected $LogWithPreviewSuffix = true;
+		protected $PreviewFileNameSuffix = 'preview';
 
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $SubType, $URL, $File, $Size, $MIME, $Hash)
 		{
@@ -85,8 +85,8 @@
 			{
 				$Path = "{$this->MediaDirectory}/{$FileName}.";
 
-				if(!empty($this->LogWithPreviewSuffix))
-					$Path .= 'preview.';
+				if(!empty($this->PreviewFileNameSuffix))
+					$Path .= $this->PreviewFileNameSuffix . '.';
 
 				$Path .= $Extension;
 
