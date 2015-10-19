@@ -1,12 +1,12 @@
 <?php
-	require_once 'Lib/_Loader.php';
+	require_once dirname(__FILE__) . '/Lib/_Loader.php';
 
-	require_once 'Module.php';
+	require_once dirname(__FILE__) . '/Module.php';
 
-	require_once 'PHPModule.php';
+	require_once dirname(__FILE__) . '/PHPModule.php';
 
-	require_once 'LuaModule.php';
-	require_once 'LuaFunctions.php';
+	require_once dirname(__FILE__) . '/LuaModule.php';
+	require_once dirname(__FILE__) . '/LuaFunctions.php';
 
 	trait ModuleManagerLoader
 	{

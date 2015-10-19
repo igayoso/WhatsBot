@@ -1,9 +1,9 @@
 <?php
-	require_once 'Lib/_Loader.php';
+	require_once dirname(__FILE__) . '/Lib/_Loader.php';
 
-	require_once 'ModuleManager.php';
-	require_once 'WhatsBot.php';
-	require_once 'WhatsApp.php';
+	require_once dirname(__FILE__) . '/ModuleManager.php';
+	require_once dirname(__FILE__) . '/WhatsBot.php';
+	require_once dirname(__FILE__) . '/WhatsApp.php';
 
 	const SEND_USAGE = 2;
 
@@ -72,7 +72,7 @@
 			{
 				if($this->ModuleManager->KeyExists($this->Key))
 				{
-					$this->Path = "class/Modules/{$this->Key}_{$this->AliasOf}";
+					$this->Path = dirname(__FILE__) . "/Modules/{$this->Key}_{$this->AliasOf}";
 
 					$this->JPath = $this->Path . '.json';
 					$this->XPath = $this->Path . '.' . $this->PathExtension;
@@ -130,7 +130,7 @@
 
 		abstract protected function _Load();
 
-		abstract public function Execute(Message $Message, Array $Params = array());
+		abstract public function Execute(Message $Message, Array $Params = array()); // Events => Use nullable types (PHP7) => ?Message $Message
 
 		public function IsAlias()
 		{ return $this->Name != $this->AliasOf; }

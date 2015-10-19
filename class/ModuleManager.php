@@ -1,12 +1,12 @@
 <?php
-	require_once 'Lib/_Loader.php';
+	require_once dirname(__FILE__) . '/Lib/_Loader.php';
 
-	require_once 'ModuleManagerExists.php';
-	require_once 'ModuleManagerGetter.php';
-	require_once 'ModuleManagerLoader.php';
+	require_once dirname(__FILE__) . '/ModuleManagerExists.php';
+	require_once dirname(__FILE__) . '/ModuleManagerGetter.php';
+	require_once dirname(__FILE__) . '/ModuleManagerLoader.php';
 
-	require_once 'WhatsBot.php';
-	require_once 'WhatsApp.php';
+	require_once dirname(__FILE__) . '/WhatsBot.php';
+	require_once dirname(__FILE__) . '/WhatsApp.php';
 
 	class ModuleManager
 	{

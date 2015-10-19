@@ -1,5 +1,5 @@
 <?php
-	require_once 'MediaMessage.php';
+	require_once dirname(__FILE__) . '/MediaMessage.php';
 
 	class VideoMessage extends MediaMessage
 	{

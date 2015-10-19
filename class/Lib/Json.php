@@ -1,7 +1,7 @@
 <?php
-	require_once '_Loader.php';
+	require_once dirname(__FILE__) . '/_Loader.php';
 
-	require_once 'class/LuaFunctions.php';
+	require_once dirname(__FILE__) . '/../LuaFunctions.php';
 
 	class Json
 	{

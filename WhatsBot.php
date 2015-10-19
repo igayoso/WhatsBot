@@ -1,5 +1,5 @@
 <?php
-	require_once 'class/WhatsBot.php';
+	require_once dirname(__FILE__) . '/class/WhatsBot.php';
 
 	# Debug
 

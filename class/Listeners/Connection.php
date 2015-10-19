@@ -1,7 +1,7 @@
 <?php
-	require_once 'class/Lib/_Loader.php';
+	require_once dirname(__FILE__) . '/../Lib/_Loader.php';
 
-	require_once 'Core.php';
+	require_once dirname(__FILE__) . '/Core.php';
 
 	class ConnectionListener extends WhatsBotListenerCore
 	{

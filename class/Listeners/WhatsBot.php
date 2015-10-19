@@ -1,5 +1,5 @@
 <?php
-	require_once 'Core.php';
+	require_once dirname(__FILE__) . '/Core.php';
 
 	class WhatsBotListener extends WhatsBotListenerCore
 	{

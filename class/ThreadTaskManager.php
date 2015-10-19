@@ -1,9 +1,9 @@
 <?php
-	require_once 'ThreadTasks/WhatsBot.php';
-	require_once 'ThreadTasks/WhatsApp.php';
-	require_once 'ThreadTasks/EventManager.php';
-	require_once 'ThreadTasks/ModuleManager.php';
-	require_once 'ThreadTasks/ThreadManager.php';
+	require_once dirname(__FILE__) . '/ThreadTasks/WhatsBot.php';
+	require_once dirname(__FILE__) . '/ThreadTasks/WhatsApp.php';
+	require_once dirname(__FILE__) . '/ThreadTasks/EventManager.php';
+	require_once dirname(__FILE__) . '/ThreadTasks/ModuleManager.php';
+	require_once dirname(__FILE__) . '/ThreadTasks/ThreadManager.php';
 
 	trait ThreadTaskManager
 	{

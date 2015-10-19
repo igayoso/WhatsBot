@@ -1,5 +1,5 @@
 <?php
-	require_once '_Loader.php';
+	require_once dirname(__FILE__) . '/_Loader.php';
 
 	class Lang
 	{
@@ -10,7 +10,7 @@
 		{
 			$this->Section = $Section;
 
-			$Data = Json::Decode("lang/{$Section}.json");
+			$Data = Json::Decode(dirname(__FILE__) . "/../../lang/{$Section}.json");
 
 			if(is_array($Data))
 				$this->Data = $Data;

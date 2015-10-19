@@ -1,7 +1,7 @@
 <?php
-	require_once 'Lib/_Loader.php';
+	require_once dirname(__FILE__) . '/Lib/_Loader.php';
 
-	require_once 'Module.php';
+	require_once dirname(__FILE__) . '/Module.php';
 
 	class PHPModule extends Module
 	{

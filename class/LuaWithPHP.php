@@ -1,7 +1,7 @@
 <?php
-	require_once 'class/Lib/_Loader.php';
+	require_once dirname(__FILE__) . '/Lib/_Loader.php';
 
-	require_once 'LuaFunctions.php';
+	require_once dirname(__FILE__) . '/LuaFunctions.php';
 
 	class LuaWithPHP extends Lua
 	{

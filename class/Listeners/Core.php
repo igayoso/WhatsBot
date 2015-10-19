@@ -1,22 +1,22 @@
 <?php
-	require_once 'class/Lib/_Loader.php';
+	require_once dirname(__FILE__) . '/../Lib/_Loader.php';
 
-	require_once 'class/WhatsBot.php';
+	require_once dirname(__FILE__) . '/../WhatsBot.php';
 
-	require_once 'class/WhatsApp.php';
+	require_once dirname(__FILE__) . '/../WhatsApp.php';
 
-	require_once 'class/WhatsApp/TextMessage.php';
+	require_once dirname(__FILE__) . '/../WhatsApp/TextMessage.php';
 
-	require_once 'class/WhatsApp/AudioMessage.php';
-	require_once 'class/WhatsApp/ImageMessage.php';
-	require_once 'class/WhatsApp/LocationMessage.php';
-	require_once 'class/WhatsApp/VideoMessage.php';
-	require_once 'class/WhatsApp/vCardMessage.php';
+	require_once dirname(__FILE__) . '/../WhatsApp/AudioMessage.php';
+	require_once dirname(__FILE__) . '/../WhatsApp/ImageMessage.php';
+	require_once dirname(__FILE__) . '/../WhatsApp/LocationMessage.php';
+	require_once dirname(__FILE__) . '/../WhatsApp/VideoMessage.php';
+	require_once dirname(__FILE__) . '/../WhatsApp/vCardMessage.php';
 
-	require_once 'class/Parser.php';
+	require_once dirname(__FILE__) . '/../Parser.php';
 
-	require_once 'class/ModuleManager.php';
-	require_once 'class/ThreadManager.php';
+	require_once dirname(__FILE__) . '/../ModuleManager.php';
+	require_once dirname(__FILE__) . '/../ThreadManager.php';
 
 	abstract class WhatsBotListenerCore
 	{

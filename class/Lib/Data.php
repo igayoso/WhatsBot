@@ -1,5 +1,5 @@
 <?php
-	require_once '_Loader.php';
+	require_once dirname(__FILE__) . '/_Loader.php';
 
 	class Data
 	{
@@ -86,7 +86,7 @@
 		}
 
 		private static function GetPath($FileName)
-		{ return self::$Directory . DIRECTORY_SEPARATOR . $FileName; }
+		{ return dirname(__FILE__) . '/../../' . self::$Directory . DIRECTORY_SEPARATOR . $FileName; }
 
 		private static function GetExtension($FileName)
 		{ return pathinfo($FileName, PATHINFO_EXTENSION); }

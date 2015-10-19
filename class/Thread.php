@@ -1,7 +1,7 @@
 <?php
-	require_once 'Lib/_Loader.php';
+	require_once dirname(__FILE__) . '/Lib/_Loader.php';
 
-	require_once 'ThreadTaskManager.php';
+	require_once dirname(__FILE__) . '/ThreadTaskManager.php';
 
 	abstract class WhatsBotThread extends Thread
 	{
@@ -44,7 +44,7 @@
 		{
 			if(!is_string($this->Extension) || extension_loaded($this->Extension))
 			{
-				$this->Path = "class/Threads/{$this->Name}";
+				$this->Path = dirname(__FILE__) . "/Threads/{$this->Name}";
 
 				$this->JPath = $this->Path . '.json';
 				$this->XPath = $this->Path . '.' . $this->PathExtension;

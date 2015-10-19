@@ -1,5 +1,5 @@
 <?php
-	require_once 'class/Thread.php';
+	require_once dirname(__FILE__) . '/../Thread.php';
 
 	const THREADMANAGER = 5;
 
