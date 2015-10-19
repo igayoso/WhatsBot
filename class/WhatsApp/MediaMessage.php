@@ -57,26 +57,31 @@
 
 		private function LoadData($FileName, $Extension)
 		{
-			$Path = "{$this->MediaDirectory}/{$FileName}.{$Extension}";
-
-			$this->Data = Data::Get($Path, false, false);
-
-			if(empty($this->Data))
+			if(isset($this->Data))
 			{
-				if(!empty($this->URL))
-				{
-					$this->Data = file_get_contents($this->URL);
+				$Path = "{$this->MediaDirectory}/{$FileName}.{$Extension}";
 
-					if(!empty($this->Data))
-						return Data::Set($Path, $this->Data);
+				$this->Data = Data::Get($Path, false, false);
+
+				if(empty($this->Data))
+				{
+					if(!empty($this->URL))
+					{
+						$this->Data = file_get_contents($this->URL);
+
+						if(!empty($this->Data))
+							return Data::Set($Path, $this->Data);
+					}
+
+					$this->Data = null;
+
+					return false;
 				}
 
-				$this->Data = null;
-
-				return false;
+				return true;
 			}
 
-			return true;
+			return false;
 		}
 
 		private function LoadPreview($FileName, $Extension)
