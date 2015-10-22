@@ -2,7 +2,8 @@
 	$CoreLibs = array
 	(
 		'Std',
-		'Json',
+		'Json'
+		'FileManager',
 		'Config',
 		'Lang',
 		'Data',
