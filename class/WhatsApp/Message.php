@@ -26,20 +26,16 @@
 
 		public function Log()
 		{
-			Data::CreateDirectory($this->LogDirectory);
+			$Filename = sprintf('%s_%s', (new DateTime('now', new DateTimeZone('GMT')))->format('Y-m-d'), $this->GetType());
 
-			$Pattern = sprintf('%s_%s', (new DateTime('now', new DateTimeZone('GMT')))->format('Y-m-d'), $this->GetType());
-
-			$Path = $this->LogDirectory . DIRECTORY_SEPARATOR . $Pattern;
-
-			$Log = Data::Get($Path, true, false);
+			$Log = Data::Get($Filename, true, false, array($this->LogDirectory));
 
 			if(empty($Log) || !is_array($Log))
 				$Log = array();
 
 			$Log[] = $this;
 
-			return Data::Set($Path, $Log, true);
+			return Data::Set($Filename, $Log, true, true, array($this->LogDirectory));
 		}
 
 		public function GetType()

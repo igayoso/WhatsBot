@@ -10,7 +10,7 @@
 
 		protected $Preview = null;
 
-		protected $PreviewFileNameSuffix = false;
+		protected $PreviewFilenameSuffix = false;
 
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $vCardName, $vCard)
 		{

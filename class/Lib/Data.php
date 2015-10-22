@@ -3,91 +3,45 @@
 
 	class Data
 	{
-		private static $Directory = 'data';
+		private static $FileManager = null;
 
-		public static function CreateDirectory($Directory = null)
+		public static function Init($Directory = 'data')
 		{
-			if(empty($Directory))
-				$Path = self::$Directory;
-			else
-				$Path = self::GetPath($Directory);
-
-			if(!is_dir($Path))
-				return mkdir($Path);
-
-			return true;
+			if(empty(self::$FileManager))
+				self::$FileManager = new FileManager($Directory);
 		}
 
-		public static function Get($FileName, $JsonIfEmptyExtension = true, $ShowWarning = true)
+		public static function Get($Filename, $JsonIfEmptyExtension = true, $ShowWarning = true, Array $Directories = array())
 		{
-			self::CreateDirectory();
+			self::Init();
 
-			$Extension = self::GetExtension($FileName);
+			$Extension = self::$FileManager->GetExtension($Filename);
 
 			if(empty($Extension) && $JsonIfEmptyExtension)
-			{
-				$FileName .= '.json';
-				$Extension = 'json';
-			}
+				$Filename .= '.' . ($Extension = 'json');
 
-			$Path = self::GetPath($FileName);
+			$Extension = strtolower($Extension);
 
-			if(is_readable($Path))
-			{
-				switch(strtolower($Extension))
-				{
-					case 'json':
-						$Json = Json::Decode($Path);
-
-						if($Json !== false)
-							return $Json;
-						break;
-					default:
-						return file_get_contents($Path);
-						break;
-				}
-			}
-			elseif($ShowWarning)
-				Std::Out("[Warning] [Data] {$Path} is not readable");
+			if($Extension === 'json')
+				return self::$FileManager->GetJson($Filename, $Directories);
+			else
+				return self::$FileManager->Get($Filename, $Directories);
 		}
 
-		public static function Set($FileName, $Data = array(), $Json = false, $ShowWarning = true) // Append ? 
+		public static function Set($Filename, $Data = array(), $Json = false, $ShowWarning = true, Array $Directories = array())
 		{
-			self::CreateDirectory();
+			self::Init();
 
-			$Extension = self::GetExtension($FileName);
+			$Extension = self::$FileManager->GetExtension($Filename);
 
 			if(empty($Extension) && (is_array($Data) || $Json))
-			{
-				$FileName .= '.json';
-				$Extension = 'json';
-			}
+				$Filename .= '.' . ($Extension = 'json');
 
-			$Path = self::GetPath($FileName);
+			$Extension = strtolower($Extension);
 
-			switch(strtolower($Extension))
-			{
-				case 'json':
-					return Json::Encode($Path, $Data);
-					break;
-				default:
-					$ToWrite = strlen($Data);
-					$Written = file_put_contents($Path, $Data);
-
-					if($Written === $ToWrite)
-						return true;
-
-					if($ShowWarning)
-						Std::Out("[Warning] [Data] {$Path} : {$Written} bytes written of {$ToWrite}");
-					break;
-			}
-
-			return false;
+			if($Extension === 'json')
+				return self::$FileManager->SetJson($Filename, $Data, $Directories);
+			else
+				return self::$FileManager->Set($Filename, $Data, false, $Directories);
 		}
-
-		private static function GetPath($FileName)
-		{ return dirname(__FILE__) . '/../../' . self::$Directory . DIRECTORY_SEPARATOR . $FileName; }
-
-		private static function GetExtension($FileName)
-		{ return pathinfo($FileName, PATHINFO_EXTENSION); }
 	}

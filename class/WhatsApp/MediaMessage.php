@@ -18,50 +18,28 @@
 
 		protected $MediaDirectory = 'media';
 
-		protected $PreviewFileNameSuffix = 'preview';
+		protected $PreviewFilenameSuffix = 'preview';
 
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $SubType, $URL, $File, $Size, $MIME, $Hash)
 		{
 			$this->SubType = $SubType;
 			$this->URL = !empty($URL) ? $URL : null;
-			$this->File = $File;
+			$this->File = $File; // It should be Filename => WhatsBot 2.2/3
 			$this->Size = (int) $Size;
 			$this->MIME = $MIME;
 			$this->Hash = $Hash;
 
 			parent::__construct($Me, $From, $User, $ID, $Type, $Time, $Name);
 
-			$this->LoadBinaryData();
+			$this->LoadData();
+			$this->LoadPreview();
 		}
 
-		private function LoadBinaryData()
+		private function LoadData()
 		{
-			if(!empty($this->File))
+			if(!empty($this->File) && isset($this->Data))
 			{
-				Data::CreateDirectory($this->MediaDirectory);
-
-				$Pathinfo = pathinfo($this->File);
-
-				if(!empty($Pathinfo['filename']) && !empty($Pathinfo['extension']))
-				{
-					$this->LoadData($Pathinfo['filename'], $Pathinfo['extension']);
-
-					$this->LoadPreview($Pathinfo['filename'], $Pathinfo['extension']);
-
-					// Return x && y ?
-				}
-			}
-
-			return false;
-		}
-
-		private function LoadData($FileName, $Extension)
-		{
-			if(isset($this->Data))
-			{
-				$Path = "{$this->MediaDirectory}/{$FileName}.{$Extension}";
-
-				$this->Data = Data::Get($Path, false, false);
+				$this->Data = Data::Get($this->File, false, false, array($this->MediaDirectory));
 
 				if(empty($this->Data))
 				{
@@ -70,7 +48,7 @@
 						$this->Data = file_get_contents($this->URL);
 
 						if(!empty($this->Data))
-							return Data::Set($Path, $this->Data);
+							return Data::Set($this->File, $this->Data, false, true, array($this->MediaDirectory));
 					}
 
 					$this->Data = null;
@@ -84,18 +62,23 @@
 			return false;
 		}
 
-		private function LoadPreview($FileName, $Extension)
+		private function LoadPreview()
 		{
 			if(isset($this->Preview))
 			{
-				$Path = "{$this->MediaDirectory}/{$FileName}.";
+				if(!empty($this->PreviewFilenameSuffix))
+				{
+					$Filename = pathinfo($this->File, PATHINFO_FILENAME) . '.' . $this->PreviewFilenameSuffix;
 
-				if(!empty($this->PreviewFileNameSuffix))
-					$Path .= $this->PreviewFileNameSuffix . '.';
+					$Extension = pathinfo($this->File, PATHINFO_EXTENSION);
 
-				$Path .= $Extension;
+					if(!empty($Extension))
+						$Filename .= '.' . $Extension;
+				}
+				else
+					$Filename = $this->File;
 
-				$Preview = Data::Get($Path, false, false);
+				$Preview = Data::Get($Filename, false, false, array($this->MediaDirectory));
 
 				if(!empty($Preview))
 				{
@@ -105,9 +88,7 @@
 					return true;
 				}
 				elseif(!empty($this->Preview))
-					return Data::Set($Path, $this->Preview);
-
-				return false;
+					return Data::Set($Filename, $this->Preview, false, true, array($this->MediaDirectory));
 			}
 
 			return false;

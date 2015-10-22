@@ -1,88 +1,91 @@
 <?php
 	require_once dirname(__FILE__) . '/_Loader.php';
 
-	require_once dirname(__FILE__) . '/../LuaFunctions.php';
-
 	class Config
 	{
+		private static $FileManager = null;
+
 		private static $Config = array();
 
-		public static function Load($Reloading = false)
+		public static function Init($Directory = 'config')
 		{
-			$Reloading = $Reloading ? 'Rel' : 'L';
-
-			Std::Out();
-			Std::Out("[Info] [Config] {$Reloading}oading");
-
-			if(is_dir('config'))
+			if(empty(self::$FileManager))
 			{
-				$Files = array_values(array_filter(scandir('config'), 'Config::IsConfigFile'));
+				self::$FileManager = new FileManager($Directory);
 
-				foreach($Files as $File)
-					self::LoadFile($File);
-
-				Std::Out('[Info] [Config] Ready!');
-
-				return true;
+				self::Load();
 			}
-
-			throw new Exception('No such config directory');
 		}
 
-		private static function LoadFile($File)
+		private static function Load($Reloading = false)
 		{
-			if(substr($File, strlen($File) - 5) !== '.json')
-				$File .= '.json';
+			Std::Out();
+			Std::Out('[Info] [Config] ' . ($Reloading ? 'Reloading' : 'Loading'));
 
-			$Data = Json::Decode("config/{$File}");
+			$DirectoryLength = strlen(self::$FileManager->GetDirectory());
 
-			if(is_array($Data))
-				return self::$Config[substr($File, 0, strlen($File) - 5)] = $Data;
+			$Files = array_map(function($Filename) use($DirectoryLength) { return substr($Filename, $DirectoryLength + 1); }, self::$FileManager->Glob('*.json'));
+
+			foreach($Files as $File)
+				self::LoadFile($File);
+
+			Std::Out('[Info] [Config] Ready!');
+
+			return true;
+		}
+
+		private static function LoadFile($Filename)
+		{
+			$Filename = self::AppendJsonExtension($Filename);
+
+			$Data = self::$FileManager->GetJson($Filename);
+
+			if($Data !== false)
+				return self::$Config[self::$FileManager->GetFilename($Filename)] = $Data;
 
 			return false;
 		}
 
-		public static function Reload($File = null)
+		public static function Reload($Filename = null)
 		{
-			if(empty($File))
+			self::Init();
+
+			if(empty($Filename))
 				return self::Load(true);
 
-			return self::LoadFile($File);
+			return self::LoadFile($Filename);
 		}
 
-
-		public static function Get($Filename, $Throw = false, $FixArray = false)
+		public static function Get($Filename, $ShowWarning = true, $Throw = false)
 		{
-			if(isset(self::$Config[$Filename]))
-			{
-				if($FixArray)
-					return LuaFixArrayRecursive(self::$Config[$Filename]);
-				else
-					return self::$Config[$Filename];
-			}
+			self::Init();
 
-			Std::Out("[Warning] [Config] config/{$Filename}.json does not exists or is not decodeable. Try to Config::Load()");
+			if(isset(self::$Config[$Filename]))
+				return self::$Config[$Filename];
+
+			if($ShowWarning)
+				Std::Out('[Warning] [Config] No such file ' . self::$FileManager->GetDirectory() . "/{$Filename}.json");
 
 			if($Throw)
-				throw new Exception("No such file config/{$Filename}.json");
+				throw new Exception('No such file ' . self::$FileManager->GetDirectory() . "/{$Filename}.json");
 
 			return false;
 		}
 
-		public static function Set($Filename, $Data, $Options = JSON_PRETTY_PRINT)
+		public static function Set($Filename, $Data, $JsonOptions = JSON_PRETTY_PRINT)
 		{
-			$Path = "config/{$Filename}.json";
+			self::Init();
 
-			$Return = Json::Encode($Path, $Data, $Options);
+			self::$FileManager->SetJsonOptions($JsonOptions);
 
-			self::LoadFile($Filename);
-
-			return $Return;
+			return self::$FileManager->SetJson(self::AppendJsonExtension($Filename), $Data) && self::Reload($Filename);
 		}
 
-
-		public static function IsConfigFile($Path)
+		private static function AppendJsonExtension($Filename)
 		{
-			return !is_dir($Path) && pathinfo($Path, PATHINFO_EXTENSION) === 'json';
+			if(substr($Filename, strlen($Filename) - 5) !== '.json')
+				$Filename .= '.json';
+
+			return $Filename;
 		}
 	}
