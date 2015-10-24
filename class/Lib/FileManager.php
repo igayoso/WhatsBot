@@ -138,7 +138,7 @@
 			$Data = json_encode($Data);
 
 			if($Data !== false)
-				return $this->Set($Filename, $Data, $Directories);
+				return $this->Set($Filename, $Data, false, $Directories);
 			else
 			{
 				$LogFilename = time() . '_warning_json';
