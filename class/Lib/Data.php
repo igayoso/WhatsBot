@@ -8,7 +8,14 @@
 		public static function Init($Directory = 'data')
 		{
 			if(empty(self::$FileManager))
+			{
 				self::$FileManager = new FileManager($Directory);
+
+				self::$FileManager->SetJsonOptions(JSON_PRETTY_PRINT);
+
+				// JSON_NUMERIC_CHECK
+				// JSON_PARTIAL_OUTPUT_ON_ERROR
+			}
 		}
 
 		public static function Get($Filename, $JsonIfEmptyExtension = true, $ShowWarning = true, Array $Directories = array())
@@ -44,4 +51,7 @@
 			else
 				return self::$FileManager->Set($Filename, $Data, false, $Directories, $ShowWarning);
 		}
+
+		public static function GetFileManager()
+		{ return self::$FileManager; }
 	}
