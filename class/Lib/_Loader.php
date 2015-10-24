@@ -22,7 +22,7 @@
 	function LoadCoreLibs($Libs)
 	{
 		foreach($Libs as $Lib)
-			require_once dirname(__FILE__) . "/{$Lib}.php";
+			require_once __DIR__ . "/{$Lib}.php";
 	}
 
 	function LoadLibs()
@@ -45,7 +45,7 @@
 
 	function LoadLib($Lib)
 	{
-		$Path = dirname(__FILE__) . "/_{$Lib}.php";
+		$Path = __DIR__ . "/_{$Lib}.php";
 
 		if(basename(dirname(realpath($Path))) === 'Lib')
 		{

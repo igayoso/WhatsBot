@@ -1,5 +1,5 @@
 <?php
-	require_once dirname(__FILE__) . '/../Thread.php';
+	require_once __DIR__ . '/../Thread.php';
 
 	const WHATSBOT = 1;
 

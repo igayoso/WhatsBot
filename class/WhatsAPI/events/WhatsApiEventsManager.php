@@ -1,16 +1,16 @@
 <?php
-	require_once dirname(__FILE__) . '/../../Lib/_Loader.php';
+	require_once __DIR__ . '/../../Lib/_Loader.php';
 
-	require_once dirname(__FILE__) . '/../../WhatsBot.php';
+	require_once __DIR__ . '/../../WhatsBot.php';
 
-	require_once dirname(__FILE__) . '/../../WhatsApp.php';
+	require_once __DIR__ . '/../../WhatsApp.php';
 
-	require_once dirname(__FILE__) . '/../../Parser.php';
+	require_once __DIR__ . '/../../Parser.php';
 
-	require_once dirname(__FILE__) . '/../../ModuleManager.php';
-	require_once dirname(__FILE__) . '/../../ThreadManager.php';
+	require_once __DIR__ . '/../../ModuleManager.php';
+	require_once __DIR__ . '/../../ThreadManager.php';
 
-	require_once dirname(__FILE__) . '/../../Listeners/Core.php';
+	require_once __DIR__ . '/../../Listeners/Core.php';
 
 	class WhatsApiEventsManager
 	{
@@ -40,7 +40,7 @@
 					{
 						$ListenerClass = $Listener . 'Listener';
 
-						$Path = dirname(__FILE__) . "/../../Listeners/{$Listener}.php";
+						$Path = __DIR__ . "/../../Listeners/{$Listener}.php";
 
 						if(basename(dirname(realpath($Path))) === 'Listeners')
 						{

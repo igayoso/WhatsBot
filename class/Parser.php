@@ -1,12 +1,12 @@
 <?php
-	require_once dirname(__FILE__) . '/Lib/_Loader.php';
+	require_once __DIR__ . '/Lib/_Loader.php';
 
-	require_once dirname(__FILE__) . '/WhatsApp.php';
+	require_once __DIR__ . '/WhatsApp.php';
 
-	require_once dirname(__FILE__) . '/WhatsApp/TextMessage.php';
-	require_once dirname(__FILE__) . '/WhatsApp/MediaMessage.php';
+	require_once __DIR__ . '/WhatsApp/TextMessage.php';
+	require_once __DIR__ . '/WhatsApp/MediaMessage.php';
 
-	require_once dirname(__FILE__) . '/ModuleManager.php';
+	require_once __DIR__ . '/ModuleManager.php';
 
 	class WhatsBotParser
 	{

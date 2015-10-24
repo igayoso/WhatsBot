@@ -1,9 +1,9 @@
 <?php
-	require_once dirname(__FILE__) . '/Lib/_Loader.php';
+	require_once __DIR__ . '/Lib/_Loader.php';
 
-	require_once dirname(__FILE__) . '/ModuleManager.php';
-	require_once dirname(__FILE__) . '/WhatsBot.php';
-	require_once dirname(__FILE__) . '/WhatsApp.php';
+	require_once __DIR__ . '/ModuleManager.php';
+	require_once __DIR__ . '/WhatsBot.php';
+	require_once __DIR__ . '/WhatsApp.php';
 
 	const SEND_USAGE = 2;
 
@@ -72,7 +72,7 @@
 			{
 				if($this->ModuleManager->KeyExists($this->Key))
 				{
-					$this->Path = dirname(__FILE__) . "/Modules/{$this->Key}_{$this->AliasOf}";
+					$this->Path = __DIR__ . "/Modules/{$this->Key}_{$this->AliasOf}";
 
 					$this->JPath = $this->Path . '.json';
 					$this->XPath = $this->Path . '.' . $this->PathExtension;

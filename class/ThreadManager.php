@@ -1,11 +1,11 @@
 <?php
-	require_once dirname(__FILE__) . '/Lib/_Loader.php';
+	require_once __DIR__ . '/Lib/_Loader.php';
 
-	require_once dirname(__FILE__) . '/WhatsBot.php';
-	require_once dirname(__FILE__) . '/WhatsAPI/whatsprot.class.php';
-	require_once dirname(__FILE__) . '/ModuleManager.php';
+	require_once __DIR__ . '/WhatsBot.php';
+	require_once __DIR__ . '/WhatsAPI/whatsprot.class.php';
+	require_once __DIR__ . '/ModuleManager.php';
 
-	require_once dirname(__FILE__) . '/WhatsApp.php';
+	require_once __DIR__ . '/WhatsApp.php';
 
 	class ThreadManager
 	{
@@ -43,10 +43,10 @@
 					{
 						$this->Enabled = true;
 
-						require_once dirname(__FILE__) . '/PHPThread.php';
+						require_once __DIR__ . '/PHPThread.php';
 
-						require_once dirname(__FILE__) . '/LuaThread.php';
-						require_once dirname(__FILE__) . '/LuaFunctions.php';
+						require_once __DIR__ . '/LuaThread.php';
+						require_once __DIR__ . '/LuaFunctions.php';
 
 						$Loaded = array();
 

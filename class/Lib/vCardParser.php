@@ -1,2 +1,2 @@
 <?php
-	require_once dirname(__FILE__) . '/vCardParser/vCard.php';
+	require_once __DIR__ . '/vCardParser/vCard.php';

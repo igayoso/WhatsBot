@@ -1,5 +1,5 @@
 <?php
-	require_once dirname(__FILE__) . '/Core.php';
+	require_once __DIR__ . '/Core.php';
 
 	class StorageListener extends WhatsBotListenerCore
 	{

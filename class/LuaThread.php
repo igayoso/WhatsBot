@@ -1,7 +1,7 @@
 <?php
-	require_once dirname(__FILE__) . '/Lib/_Loader.php';
+	require_once __DIR__ . '/Lib/_Loader.php';
 
-	require_once dirname(__FILE__) . '/Thread.php';
+	require_once __DIR__ . '/Thread.php';
 
 	class LuaThread extends WhatsBotThread
 	{
@@ -10,8 +10,8 @@
 
 		protected function _Load()
 		{
-			require_once dirname(__FILE__) . '/LuaWithPHP.php';
-			require_once dirname(__FILE__) . '/LuaFunctions.php';
+			require_once __DIR__ . '/LuaWithPHP.php';
+			require_once __DIR__ . '/LuaFunctions.php';
 
 			return self::LOADED;
 		}

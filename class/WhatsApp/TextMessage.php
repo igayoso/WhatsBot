@@ -1,5 +1,5 @@
 <?php
-	require_once dirname(__FILE__) . '/Message.php';
+	require_once __DIR__ . '/Message.php';
 
 	class TextMessage extends Message
 	{

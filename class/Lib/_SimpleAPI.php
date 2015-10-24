@@ -1,7 +1,7 @@
 <?php
-	require_once dirname(__FILE__) . '/_Loader.php';
+	require_once __DIR__ . '/_Loader.php';
 
-	require_once dirname(__FILE__) . '/_Unirest.php';
+	require_once __DIR__ . '/_Unirest.php';
 
 	abstract class SimpleAPI
 	{

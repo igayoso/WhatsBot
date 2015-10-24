@@ -1,5 +1,5 @@
 <?php
-	require_once dirname(__FILE__) . '/_Loader.php';
+	require_once __DIR__ . '/_Loader.php';
 
 	class FileManager
 	{

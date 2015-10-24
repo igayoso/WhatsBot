@@ -1,15 +1,15 @@
 <?php
-	require_once dirname(__FILE__) . '/Lib/_Loader.php';
+	require_once __DIR__ . '/Lib/_Loader.php';
 
-	require_once dirname(__FILE__) . '/WhatsAPI/whatsprot.class.php';
+	require_once __DIR__ . '/WhatsAPI/whatsprot.class.php';
 
-	require_once dirname(__FILE__) . '/WhatsApp.php';
+	require_once __DIR__ . '/WhatsApp.php';
 
-	require_once dirname(__FILE__) . '/Parser.php';
+	require_once __DIR__ . '/Parser.php';
 
-	require_once dirname(__FILE__) . '/ModuleManager.php';
+	require_once __DIR__ . '/ModuleManager.php';
 
-	require_once dirname(__FILE__) . '/ThreadManager.php';
+	require_once __DIR__ . '/ThreadManager.php';
 
 	class WhatsBot
 	{

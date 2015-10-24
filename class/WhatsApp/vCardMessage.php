@@ -1,7 +1,7 @@
 <?php
-	require_once dirname(__FILE__) . '/../Lib/_Loader.php';
+	require_once __DIR__ . '/../Lib/_Loader.php';
 
-	require_once dirname(__FILE__) . '/MediaMessage.php';
+	require_once __DIR__ . '/MediaMessage.php';
 
 	class vCardMessage extends MediaMessage
 	{

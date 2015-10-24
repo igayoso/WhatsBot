@@ -1,7 +1,7 @@
 <?php
-	require_once dirname(__FILE__) . '/Lib/_Loader.php';
+	require_once __DIR__ . '/Lib/_Loader.php';
 
-	require_once dirname(__FILE__) . '/WhatsAPI/whatsprot.class.php';
+	require_once __DIR__ . '/WhatsAPI/whatsprot.class.php';
 
 	class WhatsApp
 	{
