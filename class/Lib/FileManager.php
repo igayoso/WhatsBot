@@ -45,7 +45,7 @@
 			return $this->IsDirectory(implode(DIRECTORY_SEPARATOR, $Directories));
 		}
 
-		public function Get($Filename, Array $Directories = array())
+		public function Get($Filename, Array $Directories = array(), $ShowWarning = true)
 		{
 			if(!empty($Filename))
 			{
@@ -57,19 +57,19 @@
 					{
 						return file_get_contents($Path);
 					}
-					else
+					elseif($ShowWarning)
 						Std::Out("[Warning] [FileManager :: {$this->Directory}] {$Path} isn't readable");
 				}
-				else
+				elseif($ShowWarning)
 					Std::Out("[Warning] [FileManager :: {$this->Directory}] {$Path} doesn't exist");
 			}
-			else
+			elseif($ShowWarning)
 				Std::Out("[Warning] [FileManager :: {$this->Directory}] You can't use an empty filename");
 			
 			return false;
 		}
 
-		public function Set($Filename, $Data = null, $Append = false, Array $Directories = array())
+		public function Set($Filename, $Data = null, $Append = false, Array $Directories = array(), $ShowWarning = true)
 		{
 			if(!empty($Filename))
 			{
@@ -77,11 +77,11 @@
 
 				if($Append)
 				{
-					$AppendData = $this->Get($Filename, $Directories);
+					$AppendData = $this->Get($Filename, $Directories, $ShowWarning);
 
 					if($AppendData !== false)
 						$Data = $AppendData . $Data;
-					else
+					elseif($ShowWarning)
 						Std::Out("[Warning] [FileManager :: {$this->Directory}] Can't append {$Path} data");
 				}
 
@@ -99,24 +99,24 @@
 					{
 						if($Written === $ToWrite)
 							return true;
-						else
+						elseif($ShowWarning)
 							Std::Out("[Warning] [FileManager :: {$this->Directory}] {$Written}/{$ToWrite} bytes written to {$Path}");
 					}
-					else
+					elseif($ShowWarning)
 						Std::Out("[Warning] [FileManager :: {$this->Directory}] Can't create file {$Path}");
 				}
-				else
+				elseif($ShowWarning)
 					Std::Out("[Warning] [FileManager :: {$this->Directory}] Can't create directory {$this->Directory}/{$Dirname} to save {$Basename}");
 			}
-			else
+			elseif($ShowWarning)
 				Std::Out("[Warning] [FileManager :: {$this->Directory}] You can't use an empty filename");
 
 			return false;
 		}
 
-		public function GetJson($Filename, Array $Directories = array())
+		public function GetJson($Filename, Array $Directories = array(), $ShowWarning = true)
 		{
-			$Data = $this->Get($Filename, $Directories);
+			$Data = $this->Get($Filename, $Directories, $ShowWarning);
 
 			if($Data !== false)
 			{
@@ -124,28 +124,29 @@
 
 				if($Data !== null)
 					return $Data;
-				else
+				elseif($ShowWarning)
 					Std::Out("[Warning] [FileManager :: {$this->Directory}} {$Path} isn't decodable");
 			}
 
 			return false;
 		}
 
-		public function SetJson($Filename, $Data, Array $Directories = array())
+		public function SetJson($Filename, $Data, Array $Directories = array(), $ShowWarning = true)
 		{
 			$Path = $this->GetPath($Filename, $Directories);
 
 			$Data = json_encode($Data);
 
 			if($Data !== false)
-				return $this->Set($Filename, $Data, false, $Directories);
+				return $this->Set($Filename, $Data, false, $Directories, $ShowWarning);
 			else
 			{
 				$LogFilename = time() . '_warning_json';
 
-				$this->Set($LogFilename, sprintf("Can't encode %s: %s", $Filename, var_export($Data, true)), false, array('data', 'log'));
+				$this->Set($LogFilename, sprintf("Can't encode %s: %s", $Filename, var_export($Data, true)), false, array('..', 'data', 'log'), $ShowWarning);
 
-				Std::Out("[Warning] [FileManager :: {$this->Directory}} Can't encode {$Path} (see data/{$LogFilename})");
+				if($ShowWarning)
+					Std::Out("[Warning] [FileManager :: {$this->Directory}} Can't encode {$Path} (see data/{$LogFilename})");
 			}
 
 			return false;

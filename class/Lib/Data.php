@@ -23,9 +23,9 @@
 			$Extension = strtolower($Extension);
 
 			if($Extension === 'json')
-				return self::$FileManager->GetJson($Filename, $Directories);
+				return self::$FileManager->GetJson($Filename, $Directories, $ShowWarning);
 			else
-				return self::$FileManager->Get($Filename, $Directories);
+				return self::$FileManager->Get($Filename, $Directories, $ShowWarning);
 		}
 
 		public static function Set($Filename, $Data = array(), $Json = false, $ShowWarning = true, Array $Directories = array())
@@ -40,8 +40,8 @@
 			$Extension = strtolower($Extension);
 
 			if($Extension === 'json')
-				return self::$FileManager->SetJson($Filename, $Data, $Directories);
+				return self::$FileManager->SetJson($Filename, $Data, $Directories, $ShowWarning);
 			else
-				return self::$FileManager->Set($Filename, $Data, false, $Directories);
+				return self::$FileManager->Set($Filename, $Data, false, $Directories, $ShowWarning);
 		}
 	}
