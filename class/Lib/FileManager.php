@@ -169,16 +169,16 @@
 
 		# PathInfo
 
-		public function GetDirname($Path)
+		public static function GetDirname($Path)
 		{ return pathinfo($Path, PATHINFO_DIRNAME); }
 
-		public function GetBasename($Path)
+		public static function GetBasename($Path)
 		{ return pathinfo($Path, PATHINFO_BASENAME); }
 
-		public function GetFilename($Path)
+		public static function GetFilename($Path)
 		{ return pathinfo($Path, PATHINFO_FILENAME); }
 
-		public function GetExtension($Path)
+		public static function GetExtension($Path)
 		{ return pathinfo($Path, PATHINFO_EXTENSION); }
 
 		# Exists
