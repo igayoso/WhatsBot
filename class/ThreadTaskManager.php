@@ -78,7 +78,7 @@
 
 				$Return = unserialize($this->Return);
 
-				if(isset($Return[$Type][$Name]))
+				if(isset($Return[$Type][$Name])) // WTF, isset returns false if var is null, the function can't return null D:
 				{
 					$Value = $Return[$Type][$Name];
 

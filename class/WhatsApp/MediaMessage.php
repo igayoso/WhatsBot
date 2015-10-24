@@ -16,6 +16,8 @@
 
 		protected $Data = null;
 
+		protected $Preview = null; // We need this to be protected to acces in LoadPreview()
+
 		protected $MediaDirectory = 'media';
 
 		protected $PreviewFilenameSuffix = 'preview';
@@ -37,7 +39,7 @@
 
 		private function LoadData()
 		{
-			if(!empty($this->File) && isset($this->Data))
+			if(!empty($this->File))
 			{
 				$this->Data = Data::Get($this->File, false, false, array($this->MediaDirectory));
 
@@ -64,7 +66,7 @@
 
 		private function LoadPreview()
 		{
-			if(isset($this->Preview))
+			if(method_exists($this, 'GetPreview')) // UGLY, BUT: WHAT THE FUCK, ISSET CHECKS IF VAR IS NOT NULL??!?!?!?!
 			{
 				if(!empty($this->PreviewFilenameSuffix))
 				{
