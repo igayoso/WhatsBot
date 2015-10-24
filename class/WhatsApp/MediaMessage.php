@@ -68,17 +68,12 @@
 		{
 			if(method_exists($this, 'GetPreview')) // UGLY, BUT: WHAT THE FUCK, ISSET CHECKS IF VAR IS NOT NULL??!?!?!?!
 			{
+				$Filename = FileManager::GetFilename($this->File);
+
 				if(!empty($this->PreviewFilenameSuffix))
-				{
-					$Filename = pathinfo($this->File, PATHINFO_FILENAME) . '.' . $this->PreviewFilenameSuffix;
+					$Filename .= '.' . $this->PreviewFilenameSuffix;
 
-					$Extension = pathinfo($this->File, PATHINFO_EXTENSION);
-
-					if(!empty($Extension))
-						$Filename .= '.' . $Extension;
-				}
-				else
-					$Filename = $this->File;
+				$Filename .= '.jpg';
 
 				$Preview = Data::Get($Filename, false, false, array($this->MediaDirectory));
 
