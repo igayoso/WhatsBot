@@ -28,7 +28,7 @@
 			if(!file_exists($Path))
 				return mkdir($Path);
 
-			return false;
+			return true;
 		}
 
 		private function CreateDirectoriesRecursively(Array $Directories)
@@ -86,6 +86,8 @@
 				}
 
 				$Dirname = $this->GetDirname($Path);
+				$Dirname = substr($Dirname, strlen($this->Directory) + 1);
+
 				$Basename = $this->GetBasename($Filename);
 
 				if($this->CreateDirectory($Dirname))
