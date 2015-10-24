@@ -5,7 +5,7 @@
 	{
 		private $Directory = null;
 
-		private $JsonOptions = 0;
+		private $JsonOptions = 0; // JSON_PRETTY_PRINT ?
 
 		public function __construct($Directory)
 		{
@@ -135,7 +135,7 @@
 		{
 			$Path = $this->GetPath($Filename, $Directories);
 
-			$JsonData = json_encode($Data);
+			$JsonData = json_encode($Data, $this->JsonOptions);
 
 			if($JsonData !== false)
 				return $this->Set($Filename, $JsonData, false, $Directories, $ShowWarning);
