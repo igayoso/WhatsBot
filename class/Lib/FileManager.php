@@ -135,10 +135,10 @@
 		{
 			$Path = $this->GetPath($Filename, $Directories);
 
-			$Data = json_encode($Data);
+			$JsonData = json_encode($Data);
 
-			if($Data !== false)
-				return $this->Set($Filename, $Data, false, $Directories, $ShowWarning);
+			if($JsonData !== false)
+				return $this->Set($Filename, $JsonData, false, $Directories, $ShowWarning);
 			else
 			{
 				$LogFilename = time() . '_warning_json';
@@ -146,7 +146,7 @@
 				$this->Set($LogFilename, sprintf("Can't encode %s: %s", $Filename, var_export($Data, true)), false, array('..', 'data', 'log'), $ShowWarning);
 
 				if($ShowWarning)
-					Std::Out("[Warning] [FileManager :: {$this->Directory}} Can't encode {$Path} (see data/{$LogFilename})");
+					Std::Out("[Warning] [FileManager :: {$this->Directory}] Can't encode {$Path} (see data/log/{$LogFilename})");
 			}
 
 			return false;
