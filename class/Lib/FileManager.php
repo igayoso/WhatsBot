@@ -86,11 +86,9 @@
 				}
 
 				$Dirname = $this->GetDirname($Path);
-				$Dirname = substr($Dirname, 7);
-
 				$Basename = $this->GetBasename($Filename);
 
-				if(empty($Dirname) || $this->CreateDirectory($Dirname))
+				if($this->CreateDirectory($Dirname))
 				{
 					$ToWrite = strlen($Data);
 					$Written = file_put_contents($Path, $Data);
@@ -106,7 +104,7 @@
 						Std::Out("[Warning] [FileManager :: {$this->Directory}] Can't create file {$Path}");
 				}
 				else
-					Std::Out("[Warning] [FileManager :: {$this->Directory}] Can't create directory config/{$Dirname} to save {$Basename}");
+					Std::Out("[Warning] [FileManager :: {$this->Directory}] Can't create directory {$this->Directory}/{$Dirname} to save {$Basename}");
 			}
 			else
 				Std::Out("[Warning] [FileManager :: {$this->Directory}] You can't use an empty filename");
