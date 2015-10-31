@@ -8,14 +8,11 @@
 		private $Section = null;
 		private $Data = array();
 
-		public function __construct($Section)
+		public function __construct($Section) // ...$Sections
 		{
 			$this->FileManager = new FileManager('lang');
 
-			if(func_num_args() > 1)
-				$Section = implode('_', func_get_args());
-
-			$this->Section = $Section;
+			$this->Section = implode('_', func_get_args());
 
 			$Data = $this->FileManager->GetJson($this->Section . '.json');
 
@@ -25,7 +22,7 @@
 				Std::Out("[Warning] [Lang] Can't load {$this->Section}");
 		}
 
-		public function Get($Key)
+		public function Get($Key) // $Key, ...$Args
 		{
 			if(isset($this->Data[$Key]))
 			{
@@ -35,7 +32,7 @@
 				{
 					$Args[0] = $this->Data[$Key];
 
-					return call_user_func_array('sprintf', $Args);
+					return call_user_func_array('sprintf', $Args); // sprintf($Key, ...$Args)
 				}
 
 				return $this->Data[$Key];
@@ -46,8 +43,8 @@
 			return false;
 		}
 
-		public function __invoke($Key)
-		{ return call_user_func_array(array($this, 'Get'), func_get_args()); }
+		public function __invoke($Key) // $Key, ...$Args
+		{ return call_user_func_array(array($this, 'Get'), func_get_args()); } // $this->Get($Key, ...$Args)
 
 		// Set()
 	}
