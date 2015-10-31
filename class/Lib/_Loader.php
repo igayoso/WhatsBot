@@ -1,29 +1,39 @@
 <?php
-	$CoreLibs = array
+	$Libs = array
 	(
+		# Core libs
+
 		'Std',
-		'Json',
+		'Json', // Deprecated, will be removed in WhatsBot 2.2
+
+		# Filesystem
+
 		'FileManager',
 		'Config',
 		'Lang',
 		'Data',
 
-		'Regex',
+		# Message utils
 
-		'vCardParser'
+		'vCardParser/vCard',
+
+		# Admin utils
+
+		'Admin',
+
+		# Misc
+
+		'Unirest/Unirest',
+		'SimpleAPI',
+		'Regex'
 	);
 
-	LoadCoreLibs($CoreLibs);
+	foreach($Libs as $Lib)
+		LoadLib($Lib, false);
 	
 	#############
 	# Functions #
 	#############
-
-	function LoadCoreLibs($Libs)
-	{
-		foreach($Libs as $Lib)
-			require_once __DIR__ . "/{$Lib}.php";
-	}
 
 	function LoadLibs()
 	{
@@ -43,25 +53,30 @@
 			Std::Out('[Warning] [Libs] Config file is not an array');
 	}
 
-	function LoadLib($Lib)
+	function LoadLib($Lib, $Test = true, $ShowWarning = true)
 	{
-		$Path = __DIR__ . "/_{$Lib}.php";
-
-		if(basename(dirname(realpath($Path))) === 'Lib')
+		if($Test)
 		{
-			if(is_readable($Path))
+			$Path = __DIR__ . "/{$Lib}.php";
+
+			if(is_file($Path))
 			{
-				// Lint
+				if(is_readable($Path))
+				{
+					// Lint
 
-				require_once $Path;
-
-				return true;
+					return (bool) require_once $Path;
+				}
+				elseif($ShowWarning)
+					Std::Out("[Warning] [Libs] Can't load {$Lib}. File isn't readable");
 			}
-			else
-				Std::Out("[Warning] [Libs] Can't load {$Lib}. It is not readable");
+			elseif(strpos(str_replace('\\', '/', $Lib), '/') === false && LoadLib($Lib . '/' . $Lib, $Test, false))
+				return true;
+			elseif($ShowWarning)
+				Std::Out("[Warning] [Libs] Can't load {$Lib}. File doesn't exist");
+
+			return false;
 		}
 		else
-			Std::Out("[Warning] [Libs] Can't load {$Lib}. It is not in Lib/ folder");
-
-		return false;
+			return (bool) require_once __DIR__ . "/{$Lib}.php";
 	}

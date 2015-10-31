@@ -1,8 +1,6 @@
 <?php
 	require_once __DIR__ . '/_Loader.php';
 
-	require_once __DIR__ . '/_Unirest.php';
-
 	abstract class SimpleAPI
 	{
 		protected $Endpoint = null;
@@ -18,34 +16,9 @@
 			$this->Endpoint = rtrim($this->Endpoint, '/');
 		}
 
-		protected function Connect($Request, Array $Headers = array(), $Parameters = null, Array $SuccessHeaders = array(200, 301, 302))
-		{
-			return $this->Request(Unirest\Method::CONNECT, $Request, $Parameters, $Headers, $SuccessHeaders);
-		}
-
-		protected function Delete($Request, Array $Headers = array(), $Body = null, Array $SuccessHeaders = array(200, 301, 302))
-		{
-			return $this->Request(Unirest\Method::DELETE, $Request, $Body, $Headers, $SuccessHeaders);
-		}
-
 		protected function Get($Request, Array $Parameters = array(), Array $Headers = array(), Array $SuccessHeaders = array(200, 301, 302))
 		{
 			return $this->Request(Unirest\Method::GET, $Request, $Parameters, $Headers, $SuccessHeaders);
-		}
-
-		protected function Head($Request, Array $Headers = array(), $Parameters = null, Array $SuccessHeaders = array(200, 301, 302))
-		{
-			return $this->Request(Unirest\Method::HEAD, $Request, $Parameters, $Headers, $SuccessHeaders);
-		}
-
-		protected function Options($Request, Array $Headers = array(), $Parameters = null, Array $SuccessHeaders = array(200, 301, 302))
-		{
-			return $this->Request(Unirest\Method::OPTIONS, $Request, $Parameters, $Headers, $SuccessHeaders);
-		}
-
-		protected function Patch($Request, Array $Headers = array(), $Body = null, Array $SuccessHeaders = array(200, 301, 302))
-		{
-			return $this->Request(Unirest\Method::PATCH, $Request, $Body, $Headers, $SuccessHeaders);
 		}
 
 		protected function Post($Request, Array $Headers = array(), $Body = null, Array $SuccessHeaders = array(200, 301, 302))
@@ -58,9 +31,14 @@
 			return $this->Request(Unirest\Method::PUT, $Request, $Body, $Headers, $SuccessHeaders);
 		}
 
-		protected function Trace($Request, Array $Headers = array(), $Body = null, Array $SuccessHeaders = array(200, 301, 302))
+		protected function Patch($Request, Array $Headers = array(), $Body = null, Array $SuccessHeaders = array(200, 301, 302))
 		{
-			return $this->Request(Unirest\Method::TRACE, $Request, $Body, $Headers, $SuccessHeaders);
+			return $this->Request(Unirest\Method::PATCH, $Request, $Body, $Headers, $SuccessHeaders);
+		}
+
+		protected function Delete($Request, Array $Headers = array(), $Body = null, Array $SuccessHeaders = array(200, 301, 302))
+		{
+			return $this->Request(Unirest\Method::DELETE, $Request, $Body, $Headers, $SuccessHeaders);
 		}
 
 		protected function Request($Method, $Request, $Body = null, Array $Headers = array(), Array $SuccessHeaders = array(200, 301, 302))
@@ -106,12 +84,12 @@
 		protected function Info($String, $NewLines = 1)
 		{
 			Std::Out();
-			return Std::Out('[Info] [API ' . get_class($this) . '] ' . $String, $NewLines);
+			Std::Out('[Info] [API ' . get_class($this) . '] ' . $String, $NewLines);
 		}
 
 		protected function Warning($String, $NewLines = 1)
 		{
 			Std::Out();
-			return Std::Out('[Warning] [API ' . get_class($this) . '] ' . $String, $NewLines);
+			Std::Out('[Warning] [API ' . get_class($this) . '] ' . $String, $NewLines);
 		}
 	}
