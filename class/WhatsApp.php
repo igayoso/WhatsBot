@@ -71,7 +71,7 @@
 			$Args = func_get_args();
 			array_shift($Args);
 
-			$Message = call_user_func_array(array(new Lang($this->LangSection), 'Get'), $Args);
+			$Message = call_user_func_array(array(new Lang($this->LangSection), 'Get'), $Args); // LangSection => LangSections (... token & new Lang constructor)
 
 			if($Message !== false)
 				return $this->SendRawMessage($To, (is_array($Pre) && !empty($Pre[0]) ? $Pre[0] : null) . $Message);
