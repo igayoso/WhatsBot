@@ -3,9 +3,9 @@
 
 	# Debug
 
-	$Arguments = getopt('d');
+	$Arguments = getopt('d', array('debug'));
 
-	$Debug = isset($Arguments['d']);
+	$Debug = isset($Arguments['d']) || isset($Arguments['debug']);
 
 	# Start
 
