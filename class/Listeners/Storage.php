@@ -6,7 +6,7 @@
 		protected function Load()
 		{ }
 
-		private function Log(Message $Message)
+		private function Log(WhatsApp\Message $Message)
 		{
 			return $Message->Log();
 		}
@@ -19,12 +19,12 @@
 
 		public function onGetMessage($Me, $From, $ID, $Type, $Time, $Name, $Text)
 		{
-			$this->Log(new TextMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $Text));
+			$this->Log(new WhatsApp\TextMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $Text));
 		}
 
 		public function onGetGroupMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text)
 		{
-			$this->Log(new TextMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text));
+			$this->Log(new WhatsApp\TextMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $Text));
 		}
 
 		# Media
@@ -33,41 +33,41 @@
 		{
 			$User = $User == null ? $From : $User;
 
-			$this->Log(new AudioMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Codec));
+			$this->Log(new WhatsApp\AudioMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Codec));
 		}
 
 		public function onGetImage($Me, $From, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
 		{
-			$this->Log(new ImageMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
+			$this->Log(new WhatsApp\ImageMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
 		}
 
 		public function onGetGroupImage($Me, $From, $User, $ID, $Type, $Time, $Name, $Size, $URL, $File, $MIME, $Hash, $Width, $Height, $Preview, $Caption)
 		{
-			$this->Log(new ImageMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
+			$this->Log(new WhatsApp\ImageMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Width, $Height, $Preview, $Caption));
 		}
 
 		public function onGetLocation($Me, $From, $ID, $Type, $Time, $Name, $Author, $Longitude, $Latitude, $URL, $Preview, $User)
 		{
 			$User = $User == null ? $From : $User;
 
-			$this->Log(new LocationMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $Author, $Longitude, $Latitude, $Preview));
+			$this->Log(new WhatsApp\LocationMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $Author, $Longitude, $Latitude, $Preview));
 		}
 
 		public function onGetVideo($Me, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption, $Width, $Height, $FPS, $VBitRate, $ASampleFrequency, $ASampleFormat, $ABitRate)
 		{
-			$this->Log(new VideoMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Preview, $Caption, $Width, $Height, $FPS, $VCodec, $VBitRate, $ACodec, $ABitRate, $ASampleFrequency, $ASampleFormat));
+			$this->Log(new WhatsApp\VideoMessage($Me, $From, $From, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Preview, $Caption, $Width, $Height, $FPS, $VCodec, $VBitRate, $ACodec, $ABitRate, $ASampleFrequency, $ASampleFormat));
 		}
 
 		public function onGetGroupVideo($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $VCodec, $ACodec, $Preview, $Caption, $Width, $Height, $FPS, $VBitRate, $ASampleFrequency, $ASampleFormat, $ABitRate)
 		{
-			$this->Log(new VideoMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Duration, $Preview, $Caption, $Width, $Height, $FPS, $VCodec, $VBitRate, $ACodec, $ABitRate, $ASampleFrequency, $ASampleFormat));
+			$this->Log(new WhatsApp\VideoMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $URL, $File, $Size, $MIME, $Hash, $Duration, $Duration, $Preview, $Caption, $Width, $Height, $FPS, $VCodec, $VBitRate, $ACodec, $ABitRate, $ASampleFrequency, $ASampleFormat));
 		}
 
 		public function onGetvCard($Me, $From, $ID, $Type, $Time, $Name, $vCardName, $vCard, $User)
 		{
 			$User = $User == null ? $From : $User;
 
-			$this->Log(new vCardMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $vCardName, $vCard));
+			$this->Log(new WhatsApp\vCardMessage($Me, $From, $User, $ID, $Type, $Time, $Name, $vCardName, $vCard));
 		}
 
 		/* Events: 

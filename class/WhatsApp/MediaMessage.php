@@ -1,4 +1,6 @@
 <?php
+	namespace WhatsApp;
+
 	require_once __DIR__ . '/../Lib/_Loader.php';
 
 	require_once __DIR__ . '/Message.php';
@@ -41,7 +43,7 @@
 		{
 			if(!empty($this->File))
 			{
-				$this->Data = Data::Get($this->File, false, false, array($this->MediaDirectory));
+				$this->Data = \Data::Get($this->File, false, false, array($this->MediaDirectory));
 
 				if(empty($this->Data))
 				{
@@ -50,7 +52,7 @@
 						$this->Data = file_get_contents($this->URL);
 
 						if(!empty($this->Data))
-							return Data::Set($this->File, $this->Data, false, true, array($this->MediaDirectory));
+							return \Data::Set($this->File, $this->Data, false, true, array($this->MediaDirectory));
 					}
 
 					$this->Data = null;
@@ -75,7 +77,7 @@
 
 				$Filename .= '.jpg';
 
-				$Preview = Data::Get($Filename, false, false, array($this->MediaDirectory));
+				$Preview = \Data::Get($Filename, false, false, array($this->MediaDirectory));
 
 				if(!empty($Preview))
 				{
@@ -85,7 +87,7 @@
 					return true;
 				}
 				elseif(!empty($this->Preview))
-					return Data::Set($Filename, $this->Preview, false, true, array($this->MediaDirectory));
+					return \Data::Set($Filename, $this->Preview, false, true, array($this->MediaDirectory));
 			}
 
 			return false;

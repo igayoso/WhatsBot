@@ -36,7 +36,7 @@
 			}
 		}
 
-		public function Execute(Message $Message, Array $Params = array())
+		public function Execute(WhatsApp\Message $Message, Array $Params = array())
 		{
 			try
 			{

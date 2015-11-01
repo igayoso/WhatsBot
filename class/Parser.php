@@ -22,7 +22,7 @@
 
 		# Text
 
-		public function ParseTextMessage(TextMessage $Message)
+		public function ParseTextMessage(WhatsApp\TextMessage $Message)
 		{
 			if(!empty($Message->Text))
 			{
@@ -50,7 +50,7 @@
 			 */
 		}
 
-		private function ParseCommandMessage(TextMessage $Message)
+		private function ParseCommandMessage(WhatsApp\TextMessage $Message)
 		{
 			$Parsed = explode(' ', substr($Message->Text, 1));
 
@@ -69,7 +69,7 @@
 			return null;
 		}
 
-		private function ParseURLMessage(TextMessage $Message, $URL)
+		private function ParseURLMessage(WhatsApp\TextMessage $Message, $URL)
 		{
 			$Domain = parse_url($URL, PHP_URL_HOST);
 			$Extension = pathinfo(parse_url($URL, PHP_URL_PATH), PATHINFO_EXTENSION);
@@ -108,7 +108,7 @@
 
 		# Media
 
-		public function ParseMediaMessage(MediaMessage $Message)
+		public function ParseMediaMessage(WhatsApp\MediaMessage $Message)
 		{
 			$Module = $this->ModuleManager->GetModule('Media', $Message->GetType(), false);
 
@@ -121,7 +121,7 @@
 			return null;
 		}
 
-		private function SendResponse(Message $Message, $Code)
+		private function SendResponse(WhatsApp\Message $Message, $Code)
 		{
 			if($Code === Module::EXECUTED || $Code === (float) Module::EXECUTED)
 				return $Code;

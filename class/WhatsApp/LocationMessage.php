@@ -1,4 +1,6 @@
 <?php
+	namespace WhatsApp;
+
 	require_once __DIR__ . '/MediaMessage.php';
 
 	class LocationMessage extends MediaMessage

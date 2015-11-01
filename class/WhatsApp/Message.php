@@ -1,4 +1,6 @@
 <?php
+	namespace WhatsApp;
+
 	abstract class Message
 	{
 		public $Me = null;
@@ -26,16 +28,16 @@
 
 		public function Log()
 		{
-			$Filename = sprintf('%s_%s', (new DateTime('now', new DateTimeZone('GMT')))->format('Y-m-d'), $this->GetType());
+			$Filename = sprintf('%s_%s', (new \DateTime('now', new \DateTimeZone('GMT')))->format('Y-m-d'), $this->GetType());
 
-			$Log = Data::Get($Filename, true, false, array($this->LogDirectory));
+			$Log = \Data::Get($Filename, true, false, array($this->LogDirectory));
 
 			if(empty($Log) || !is_array($Log))
 				$Log = array();
 
 			$Log[] = $this;
 
-			return Data::Set($Filename, $Log, true, true, array($this->LogDirectory));
+			return \Data::Set($Filename, $Log, true, true, array($this->LogDirectory));
 		}
 
 		public function GetType()

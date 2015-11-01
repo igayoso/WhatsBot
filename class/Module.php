@@ -130,7 +130,7 @@
 
 		abstract protected function _Load();
 
-		abstract public function Execute(Message $Message, Array $Params = array()); // Events => Use nullable types (PHP7) => ?Message $Message
+		abstract public function Execute(WhatsApp\Message $Message, Array $Params = array()); // Events => Use nullable types (PHP7) => ?Message $Message
 
 		public function IsAlias()
 		{ return $this->Name != $this->AliasOf; }

@@ -1,4 +1,6 @@
 <?php
+	namespace WhatsApp;
+
 	require_once __DIR__ . '/../Lib/_Loader.php';
 
 	require_once __DIR__ . '/MediaMessage.php';
@@ -15,7 +17,7 @@
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $vCardName, $vCard)
 		{
 			$this->vCardName = $vCardName;
-			$this->vCard = new vCard(false, $vCard);
+			$this->vCard = new \vCard(false, $vCard);
 
 			$this->Preview = $vCard;
 
