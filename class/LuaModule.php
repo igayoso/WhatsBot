@@ -42,7 +42,7 @@
 			{
 				if($Message->Time >= $this->WhatsBot->GetStartTime())
 				{
-					if($this->GetEnabled() === self::ENABLED)
+					if($this->IsEnabled() === self::ENABLED)
 					{
 						if(is_readable($this->XPath))
 						{

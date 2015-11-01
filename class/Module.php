@@ -138,7 +138,7 @@
 		public function IsLoaded()
 		{ return $this->Loaded; }
 
-		public function GetEnabled()
+		public function IsEnabled()
 		{ return $this->Enabled; }
 
 		public function Enable()
