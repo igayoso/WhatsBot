@@ -70,7 +70,7 @@
 		{
 			if(method_exists($this, 'GetPreview')) // UGLY, BUT: WHAT THE FUCK, ISSET CHECKS IF VAR IS NOT NULL??!?!?!?!
 			{
-				$Filename = FileManager::GetFilename($this->File);
+				$Filename = \FileManager::GetFilename($this->File);
 
 				if(!empty($this->PreviewFilenameSuffix))
 					$Filename .= '.' . $this->PreviewFilenameSuffix;
