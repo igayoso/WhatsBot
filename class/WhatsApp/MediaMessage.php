@@ -24,6 +24,8 @@
 
 		protected $PreviewFilenameSuffix = 'preview';
 
+		const MAX_SIZE = 16777216;
+
 		public function __construct($Me, $From, $User, $ID, $Type, $Time, $Name, $SubType, $URL, $File, $Size, $MIME, $Hash)
 		{
 			$this->SubType = $SubType;
