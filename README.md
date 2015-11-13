@@ -5,7 +5,8 @@ WhatsBot
 
 A module-based, user-friendly whatsapp bot...
 
-Visit our chat at [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fermino/WhatsBot)
+Visit our chat at
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fermino/WhatsBot)
 
 Visit our [forum](https://whatsbot.org)!
 
